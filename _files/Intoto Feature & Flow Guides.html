@@ -22,6 +22,9 @@
   .fact .ft{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--product); }
   .fact .fd{ font-family:var(--font-display); font-weight:600; font-size:19px; margin-top:8px; line-height:1.2; }
   .fact p{ font-size:14px; color:var(--muted); margin:8px 0 0; line-height:1.45; }
+  .module-link{ display:block; color:var(--ink); transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .module-link:hover{ transform:translateY(-3px); border-color:var(--mktg-line); box-shadow:0 16px 36px -24px rgba(22,28,38,.45); }
+  .module-link .open{ display:inline-block; margin-top:14px; font-family:var(--font-mono); font-size:13px; color:var(--mktg); }
 
   /* Tabs */
   .tabs{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
@@ -129,12 +132,12 @@
     <h2>What Intoto provides to universities</h2>
     <p>Intoto is not sold as a single all-or-nothing license. Each university subscribes to a custom mix of <b>six standalone paid modules</b> — provisioned by Intoto Admin and visible to the University Super Admin on <b>My University → Features</b>.</p>
     <div class="mod-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;">
-      <div class="fact"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p></div>
-      <div class="fact"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p></div>
-      <div class="fact"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p></div>
-      <div class="fact"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p></div>
-      <div class="fact"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p></div>
-      <div class="fact"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p></div>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-ambassador"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-travel"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-community"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-chat"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-events"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-usermgmt"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p><span class="open">Open details →</span></a>
     </div>
     <div class="more" style="margin-top:32px;">
       <div><div class="mt">Paid Features — full product catalog</div><p>Every module explained in detail — what it unlocks, who provisions it, capacity rules, and FAQs for sales and demos.</p></div>

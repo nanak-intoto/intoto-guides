@@ -347,6 +347,30 @@ def patch_hub_for_all_in_one(html: str) -> str:
             '<a class="cta" href="javascript:void(0)" data-guide="features">Open catalog →</a>',
         ),
         (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-ambassador">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-ambassador">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-travel">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-travel">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-community">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-community">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-chat">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-chat">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-events">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-events">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-usermgmt">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-usermgmt">',
+        ),
+        (
             '<a class="role-card" data-group="platform" href="Intoto%20Intoto%20Admin%20Feature%20%26%20Flow%20Guide.html">',
             '<a class="role-card" data-group="platform" href="javascript:void(0)" data-guide="admin">',
         ),
@@ -394,11 +418,126 @@ def patch_hub_for_all_in_one(html: str) -> str:
 
 def patch_inline_guide_links(html: str) -> str:
     """Convert standalone file hrefs to in-page data-guide navigation (nav only)."""
+    html = re.sub(
+        r'href="Intoto%20Paid%20Features%20Guide\.html#([^"]+)"',
+        lambda m: f'href="javascript:void(0)" data-guide="features" data-anchor="pf-{m.group(1)}"',
+        html,
+    )
     html = html.replace(
         'href="Intoto%20Paid%20Features%20Guide.html"',
         'href="javascript:void(0)" data-guide="features"',
     )
     return html
+
+
+def ensure_anchor_navigation(html: str) -> str:
+    """Allow All-in-One tabs, data-guide links, and anchored guide jumps."""
+    if "function applyRoleFilter(filter)" in html:
+        return html
+
+    legacy_script = """<script>
+(function(){
+  function showView(name){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    window.scrollTo(0,0);
+    try{ history.replaceState(null,"", name==="hub" ? location.pathname : "#g="+name); }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)/);
+  if(m){ showView(m[1]); }
+})();
+</script>"""
+
+    anchored_script = """<script>
+(function(){
+  function findAnchor(anchor){
+    if(!anchor){ return null; }
+    var clean = anchor.charAt(0)==="#" ? anchor.slice(1) : anchor;
+    return document.getElementById(clean);
+  }
+  function showView(name, anchor){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    var target = findAnchor(anchor);
+    if(target){ setTimeout(function(){ target.scrollIntoView({block:"start"}); }, 0); }
+    else{ window.scrollTo(0,0); }
+    try{
+      var hash = name==="hub" ? "" : "#g="+name+(anchor ? "&a="+encodeURIComponent(anchor.replace(/^#/,"")) : "");
+      history.replaceState(null,"", name==="hub" ? location.pathname : hash);
+    }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide"), g.getAttribute("data-anchor")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)(?:&a=([^&]+))?/);
+  if(m){ showView(m[1], m[2] ? decodeURIComponent(m[2]) : null); }
+})();
+</script>"""
+
+    new_script = """<script>
+(function(){
+  function findAnchor(anchor){
+    if(!anchor){ return null; }
+    var clean = anchor.charAt(0)==="#" ? anchor.slice(1) : anchor;
+    return document.getElementById(clean);
+  }
+  function applyRoleFilter(filter){
+    var hub = document.querySelector('.guide-view[data-view="hub"]') || document;
+    var tabs = hub.querySelectorAll('.tabs .tab');
+    var cards = hub.querySelectorAll('.roles .role-card');
+    tabs.forEach(function(tab){
+      tab.classList.toggle('active', tab.getAttribute('data-filter') === filter);
+    });
+    cards.forEach(function(card){
+      var show = filter === "all" || card.getAttribute('data-group') === filter;
+      card.classList.toggle('hide', !show);
+    });
+  }
+  function showView(name, anchor){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    var target = findAnchor(anchor);
+    if(target){ setTimeout(function(){ target.scrollIntoView({block:"start"}); }, 0); }
+    else{ window.scrollTo(0,0); }
+    try{
+      var hash = name==="hub" ? "" : "#g="+name+(anchor ? "&a="+encodeURIComponent(anchor.replace(/^#/,"")) : "");
+      history.replaceState(null,"", name==="hub" ? location.pathname : hash);
+    }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var tab = e.target.closest(".tabs .tab");
+    if(tab){ e.preventDefault(); applyRoleFilter(tab.getAttribute("data-filter") || "all"); return; }
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide"), g.getAttribute("data-anchor")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)(?:&a=([^&]+))?/);
+  if(m){ showView(m[1], m[2] ? decodeURIComponent(m[2]) : null); }
+})();
+</script>"""
+    if legacy_script in html:
+        return html.replace(legacy_script, new_script, 1)
+    if anchored_script in html:
+        return html.replace(anchored_script, new_script, 1)
+    if '<script>\n(function(){\n  function findAnchor(anchor){' in html:
+        html = re.sub(
+            r'<script>\n\(function\(\)\{\n  function findAnchor\(anchor\)\{.*?\n\}\)\(\);\n</script>',
+            new_script,
+            html,
+            count=1,
+            flags=re.DOTALL,
+        )
+        if "function applyRoleFilter(filter)" in html:
+            return html
+        raise SystemExit("All-in-One navigation script not found")
+    raise SystemExit("All-in-One navigation script not found")
 
 
 def ensure_features_section(html: str, features_body: str) -> str:
@@ -540,6 +679,7 @@ def update_all_in_one() -> str:
     html = ensure_pf_scoped_css(html)
     html = patch_ambplat_faq(html)
     html = patch_inline_guide_links(html)
+    html = ensure_anchor_navigation(html)
     html = ensure_share_css_link(html)
     ALL_IN_ONE.write_text(html)
     print(f"Updated {ALL_IN_ONE.name}")
@@ -635,6 +775,8 @@ def main() -> None:
     assert html.count('id="usa-legend"') == 1, "duplicate usa-legend sections"
     assert 'data-view="features"' in html, "features guide-view missing"
     assert 'id="admin-features"' in html, "admin features section missing"
+    assert 'data-anchor="pf-feat-community"' in html, "hub feature-card anchors missing"
+    assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
     assert "Profile review" in html or "Profile Review" in html
     assert "topic-based discussions" in html or "Community feature" in html
