@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Third Party Sub Coordinator — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: THIRD PARTY SUB COORDINATOR</div>
+    <h1>The Third Party Sub Coordinator Experience</h1>
+    <p class="sub">How the person on the ground works a list of assigned students, reads each arrival brief, and marks status — attended, not attended with a reason, or completed — and raises unassign or reassign requests, all inside Intoto. Explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Third Party Sub Coordinator</div>
+      <div><b>Scope</b>Students assigned to me (one university)</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>My assigned students</a>
+    <a href="#f3"><span class="toc-num">03</span>Arrival request details</a>
+    <a href="#f4"><span class="toc-num">04</span>Marking arrival status</a>
+    <a href="#f5"><span class="toc-num">05</span>Reasons &amp; notes</a>
+    <a href="#f6"><span class="toc-num">06</span>Unassign &amp; reassign requests</a>
+    <a href="#f7"><span class="toc-num">07</span>Chat &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Sub Coordinator is</h2>
+      <p>The Third Party Sub Coordinator is the field operator on a partner organisation's team — the greeter, driver, or campus host who actually meets arriving students. A Third Party Coordinator assigns them a batch of students with a service window and a work brief; the sub-coordinator works that list one student at a time, marking how each arrival went. They see only the student details the coordinator chose to share, and they don't assign students, manage other users, or touch events and communities.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A sub-coordinator opens their <b>assigned students</b>, reads each <b>Arrival Request Details</b> (brief, dates, and the fields shared with them), then marks status — <b>Attended</b>, <b>Completed</b>, or <b>Not Attended</b> with a reason and notes — and can <b>request unassign</b> or <b>request reassign</b> when they can't take a student.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">List worked: students assigned to me</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Outcomes: attended · not attended · completed</div></div>
+          <div class="stat"><div class="n">5</div><div class="l">Not-attended reasons to choose from</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Requests I can raise: unassign · reassign</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the sub-coordinator's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, validation, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for partners and field teams — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The sub-coordinator's loop is tight and field-first: see who's assigned, read the brief, meet the student, record the outcome.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in &amp; see my list</h4><p>Land on a list of the students currently assigned to me, with status at a glance.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Read the arrival brief</h4><p>Open a student to see the work brief, the service dates, and the contact and arrival fields the coordinator shared.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Meet the student</h4><p>Use the shared details to make contact and complete the pickup or handover on the ground.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Mark the outcome</h4><p>Set the status — Attended, Completed, or Not Attended with a reason and notes — so the coordinator sees it live.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Flag what I can't take</h4><p>If you can't cover a student, raise an unassign or reassign request for the coordinator to action.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available. For this role, Home is a focused work list.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>My assigned students — the list to work, with status, search, and filters.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse communities and posts when permitted — secondary to the work list.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Messages with the coordinator and students — arrival times, flight changes, meeting points.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Own profile, settings, language, logout.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via the partner credentials issued for the university. Multi-role accounts choose Third Party Sub Coordinator, and Home reloads to the assigned-students work list — not a coordinator's pool or an admin surface.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the app and sign in with email/password or SSO.</li>
+          <li>Wait for the profile and role to load.</li>
+          <li>Single role → land on the assigned-students list; multi-role → choose the role at Role Selection.</li>
+          <li>A pending invitation shows an alert at login — <b>Accept</b> or <b>I'll do it later</b> (envelope icon later).</li>
+          <li>The four tabs appear — Home, Community, Chats, Profile.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The role opens straight to the work list because the sub-coordinator's job is operational and time-sensitive — no dashboards to wade through before the first pickup.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on the assigned-students list; multi-role shows Role Selection; switching reloads the work list (no assign or admin tools appear).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Open the app and you're working — your students, today, right there."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>My assigned students</h3></div>
+      <p class="feat-lead">The core screen is the list of students currently assigned to this sub-coordinator — searchable, paginated, and filterable — each row showing the student and their current arrival status.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>assigned students</b> list on Home.</li>
+          <li>Search by name and filter (e.g. by date or status) to find the right student.</li>
+          <li>Read each row's <b>status</b> chip — Assigned, Attended, or Completed.</li>
+          <li>Tap a row to open that student's <b>Arrival Request Details</b>.</li>
+          <li>Pull to refresh to pick up newly assigned students or coordinator changes.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Showing only the students assigned to this person keeps the work list focused and accountable — they own exactly this set, no more.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>The list shows only students assigned to the signed-in sub-coordinator; search and filters re-query; status chips match the latest update; refresh reflects new assignments and removals.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Everyone you're meeting today, in one clear list — no clutter, no guesswork."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Arrival request details</h3></div>
+      <p class="feat-lead">Tapping a student opens Arrival Request Details — the brief for that pickup. It shows the assignment status, who assigned it, the service date range, the work description, and the student fields the coordinator chose to share.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a student from the list to see <b>Arrival Request Details</b>.</li>
+          <li>Read the <b>Assignment Status</b> and the <b>assignment date</b> range.</li>
+          <li>Read the <b>work description</b> — what the coordinator needs you to do.</li>
+          <li>Use the shared <b>contact and arrival fields</b> (only those enabled for you) to make the pickup.</li>
+          <li>See who <b>assigned</b> the student so you know who to coordinate with.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One brief per student — status, dates, instructions, and just the necessary details — gives the field operator everything to act and nothing to wade through.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Only fields the coordinator enabled are visible; hidden fields don't render; status, dates, work description, and assigned-by all populate; the screen is read-only except for the status action.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Everything you need for the pickup, and only what you need — privacy-respecting by design."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Marking arrival status</h3></div>
+      <p class="feat-lead">The one write action of the role: recording how the arrival went. From the student (or a multi-select on the list) the sub-coordinator sets the status, which flows straight back to the coordinator's tracking.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a student (or select several) and tap <b>update status</b> / <b>Take Action</b>.</li>
+          <li>Choose <b>Attended</b> when the student was met and the pickup is underway.</li>
+          <li>Choose <b>Completed</b> when the handover is done.</li>
+          <li>Choose <b>Not Attended</b> when the pickup didn't happen — this prompts for a reason (next section).</li>
+          <li>Submit — the new status appears on the student and updates the coordinator's counts.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>A clear three-state outcome (attended, completed, not attended) keeps reporting honest and lets the coordinator step in the moment a pickup goes sideways.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>A status must be selected before submit; Attended and Completed need no reason; Not Attended requires one; the update applies to all selected students and the new status renders without a refresh.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Two taps to confirm a student is safely met — your coordinator sees it instantly."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Reasons &amp; notes</h3></div>
+      <p class="feat-lead">When a pickup can't be completed, Not Attended captures why. The sub-coordinator picks from a fixed set of reasons and, for the open-ended case, adds a note — so the coordinator understands exactly what happened.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Choose <b>Not Attended</b> on the status action.</li>
+          <li>Pick a reason: <b>Student not answering phone</b>, <b>Flight delayed</b>, <b>Student arrived late</b>, <b>Incorrect arrival details</b>, or <b>Other</b>.</li>
+          <li>If you pick <b>Other</b>, add a note explaining what happened (required for Other).</li>
+          <li>Add optional notes for any reason to give the coordinator context.</li>
+          <li>Submit — the reason and notes attach to the student's arrival record.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>A short, structured reason list keeps failure data consistent and analysable, while the notes field captures the human detail that doesn't fit a category.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>The five reasons render; selecting Other makes the note mandatory and blocks submit when empty; notes are optional for other reasons; the chosen reason and notes appear on the coordinator's Arrival Request Details.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"When a plan slips, say exactly why in a tap — so the right person can step in fast."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Unassign &amp; reassign requests</h3></div>
+      <p class="feat-lead">A sub-coordinator can't always take a student they've been given — a clash, a shift change, the wrong region. Rather than dropping the ball, they raise a request for the coordinator to act on, keeping the student covered.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>On a student you can't take, choose <b>Unassign Request</b> or <b>Reassign Request</b> from the status action.</li>
+          <li>The request is sent to the <b>Third Party Coordinator</b> who assigned the student.</li>
+          <li>The coordinator reviews it in <b>Notifications</b> and Accepts or declines.</li>
+          <li>On accept, the student is removed from your list (unassign) or moved to another sub-coordinator (reassign).</li>
+          <li>Refresh — your list reflects the coordinator's decision.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Requests keep authority with the coordinator while giving the field operator a clean way to hand back work — no student silently falls through the cracks.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Requests reach the assigning coordinator's Notifications; the student stays on your list until the request is accepted; accept removes or reassigns; decline leaves the student with you.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Can't cover a pickup? Hand it back in a tap — your coordinator takes it from there."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Chat &amp; account</h3></div>
+      <p class="feat-lead">Messaging keeps the field operator in sync with the coordinator and students, and notifications surface new assignments and decisions. The Profile tab holds account settings; community access is browse-only.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>Chats</b> tab to message the coordinator and students about arrival times and meeting points.</li>
+          <li>Tap the <b>bell</b> for notifications — new students assigned to you, request decisions, arrivals due soon.</li>
+          <li>Use the <b>envelope</b> for deferred role invitations.</li>
+          <li>Browse the <b>Community</b> tab where permitted (no moderation powers here).</li>
+          <li>Open <b>Profile</b> for account info, FAQs, language, and logout; use <b>Support</b> to escalate.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Notifications are tuned to the field — new assignments and request decisions — so the sub-coordinator always knows what's landed on their list.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load and send; notifications deep-link to the assigned student; no assign or admin controls appear; logout clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A direct line to your coordinator and your students — and a ping the moment work lands."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>View students assigned to me</td><td>Assign students (Third Party Coordinator does)</td></tr>
+          <tr><td>Read each student's Arrival Request Details</td><td>See student fields the coordinator didn't share</td></tr>
+          <tr><td>Mark Attended, Completed, or Not Attended</td><td>Reassign students to another sub-coordinator directly</td></tr>
+          <tr><td>Pick a reason and add notes for Not Attended</td><td>Invite or manage other users</td></tr>
+          <tr><td>Raise unassign and reassign requests</td><td>Create events or moderate communities</td></tr>
+          <tr><td>Chat and use Support</td><td>Manage university governance (USA)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the sub-coordinator gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Assigned Students list</td><td>Home tab after login</td></tr>
+          <tr><td>Arrival Request Details</td><td>Tap a student in the list</td></tr>
+          <tr><td>Update Status</td><td>Take Action on a student or multi-select</td></tr>
+          <tr><td>Reason &amp; Notes</td><td>Choosing Not Attended</td></tr>
+          <tr><td>Unassign / Reassign Request</td><td>Status action on a student</td></tr>
+          <tr><td>Community feed</td><td>Community tab</td></tr>
+          <tr><td>Chats · Notifications · Support</td><td>Chats tab · bell · Support</td></tr>
+          <tr><td>Profile &amp; settings</td><td>Profile tab</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Third Party Sub Coordinator FAQs</h2>
+      <p>The questions field teams, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What is the Sub Coordinator responsible for?</span><span class="pls"></span></summary>
+        <div class="ans">Working the students a coordinator assigns to you — reading each arrival brief, meeting the student, and marking how it went (attended, completed, or not attended with a reason).</div></details>
+
+        <details><summary><span>How do students end up on my list?</span><span class="pls"></span></summary>
+        <div class="ans">A Third Party Coordinator assigns you a batch with a service date range and a work brief; they appear on your assigned-students list and you’re notified.</div></details>
+
+        <details><summary><span>Why can’t I see all of a student’s details?</span><span class="pls"></span></summary>
+        <div class="ans">You see only the fields the coordinator chose to share for that assignment — deliberate data-minimisation, so hidden fields simply don’t appear.</div></details>
+
+        <details><summary><span>What statuses can I set?</span><span class="pls"></span></summary>
+        <div class="ans">Attended (met, pickup underway), Completed (handover done), or Not Attended (didn’t happen, needs a reason). The coordinator sees your status live.</div></details>
+
+        <details><summary><span>What reasons can I give for Not Attended?</span><span class="pls"></span></summary>
+        <div class="ans">Student not answering phone, Flight delayed, Student arrived late, Incorrect arrival details, or Other. Choosing Other requires a note; notes are optional otherwise.</div></details>
+
+        <details><summary><span>Can I mark several students at once?</span><span class="pls"></span></summary>
+        <div class="ans">Yes, where multi-select is provided — handy for a group that arrived together. A status must be chosen before you submit.</div></details>
+
+        <details><summary><span>I can’t take a student I was assigned — what do I do?</span><span class="pls"></span></summary>
+        <div class="ans">Raise an Unassign or Reassign Request; it goes to the coordinator, who Accepts or declines. The student stays on your list until they act.</div></details>
+
+        <details><summary><span>Can I reassign a student myself?</span><span class="pls"></span></summary>
+        <div class="ans">No — only the coordinator can reassign. You can request it, but the move and choosing who it goes to stays with them.</div></details>
+
+        <details><summary><span>Does my status update reach the coordinator immediately?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — it flows into their Arrival Request Details and dashboard counts, so they always see the current picture.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Third Party Sub Coordinator Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="430" y="250" width="340" height="300" rx="18" fill="none" stroke="#6FA4EE" stroke-width="6"/>
+    <line x1="470" y1="320" x2="730" y2="320" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+    <line x1="470" y1="390" x2="690" y2="390" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+    <line x1="470" y1="460" x2="650" y2="460" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="700" cy="510" r="58" fill="#0E1623" stroke="#46B07C" stroke-width="7"/>
+    <path d="M674 510 l16 16 30 -34" fill="none" stroke="#46B07C" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</template>
+</body>
+</html>

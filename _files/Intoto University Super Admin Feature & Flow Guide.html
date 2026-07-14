@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · University Super Admin — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  /* University Super Admin — staff green + web portal teal badge */
+  :root{ --usa:#1F8A5B; --usa-wash:#E7F4EE; --usa-line:#BBE0CD; --web:#0E7C86; }
+  .eyebrow{ color:#86D2AC; } .eyebrow .sq{ background:#86D2AC; }
+  a, .kicker, .stat .n, .feat-num, .faq details[open] summary{ color:var(--usa); }
+  nav.toc a:hover{ border-color:var(--usa); color:var(--ink); }
+  .kicker .sq{ background:var(--usa); }
+  .flow-node{ background:var(--usa-wash); border-color:var(--usa); color:var(--usa); }
+  .ia-card .tag{ color:var(--usa); }
+  .faq summary .pls::before, .faq summary .pls::after{ background:var(--usa); }
+  .badge.b-web{ color:#9CE5F0; border-color:#1F5560; } .badge.b-web .dot{ background:var(--web); }
+  .badge.b-mobile{ color:#86D2AC; border-color:#27543F; } .badge.b-mobile .dot{ background:var(--usa); }
+  .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
+  .plat-note b{ color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: UNIVERSITY SUPER ADMIN</div>
+    <h1>The University Super Admin experience</h1>
+    <p class="sub">How the top administrator of one university runs its people, content, and governance on the <b>web portal</b> and <b>mobile app</b> — managing users, clearing onboarding queues, configuring the tenant, and opening every other role's dashboard read-only for oversight — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+      <span class="badge b-web"><span class="dot"></span>Web · Admin portal</span>
+      <span class="badge b-mobile"><span class="dot"></span>Mobile · App</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>University Super Admin</div>
+      <div><b>Scope</b>One university (all campuses)</div>
+      <div><b>Surfaces</b>INTOTO WebApp browser · mobile app</div>
+      <div><b>Not</b>Intoto Admin (cross-tenant)</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#features"><span class="toc-num">·</span>Features (paid modules)</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>Dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>Manage users</a>
+    <a href="#f4"><span class="toc-num">04</span>Add user &amp; invites</a>
+    <a href="#f5"><span class="toc-num">05</span>Profile review</a>
+    <a href="#f6"><span class="toc-num">06</span>My University &amp; campus</a>
+    <a href="#f7"><span class="toc-num">07</span>Students &amp; share documents</a>
+    <a href="#f8"><span class="toc-num">08</span>Communities &amp; reports</a>
+    <a href="#f9"><span class="toc-num">09</span>Events</a>
+    <a href="#f10"><span class="toc-num">10</span>Travel &amp; ambassadors</a>
+    <a href="#f11"><span class="toc-num">11</span>Chat, mail &amp; outreach</a>
+    <a href="#f12"><span class="toc-num">12</span>Configurations</a>
+    <a href="#f13"><span class="toc-num">13</span>Invite data, ads &amp; support</a>
+    <a href="#crossrole"><span class="toc-num">·</span>Cross-role visibility</a>
+    <a href="#perms"><span class="toc-num">·</span>Boundaries</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the University Super Admin is</h2>
+      <p>The <b>University Super Admin</b> is the highest operational administrator <b>within one university</b>. They manage people — staff, coordinators, students, and ambassadors — configure the tenant, share documents with students, and resolve reports. On the <b>INTOTO WebApp</b> they run bulk operations from a twelve-module sidebar: dashboard metrics, user lifecycle, profile review, university and campus content, communities, travel, ambassadors, events, chat, and the form builder. On the <b>mobile app</b> they use a four-tab layout for the same governance scope plus read-only oversight of every other role's dashboard. They never pick a campus at login on mobile — the app already knows the institution. They do <b>not</b> manage other universities; that is the Intoto Admin.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A University Super Admin signs into the <b>web portal</b> or <b>mobile app</b>, reads live university health from dashboard stat cards, <b>invites and manages users</b>, clears the <b>Profile Review</b> queue on web, keeps <b>My University</b> content current, adjusts <b>Configurations</b>, shares documents with students, and triages <b>reports</b>. On mobile they can also open any other role's dashboard <b>read-only</b> — user by user — without performing that role's operational actions.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">2</div><div class="l">Surfaces — web portal + mobile app</div></div>
+          <div class="stat"><div class="n">12</div><div class="l">Web sidebar modules + Log Out</div></div>
+          <div class="stat"><div class="n">6</div><div class="l">Other-role dashboards visible read-only</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">University in scope — all campuses</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature is followed by three short cards — one per team. Where a flow differs by surface, steps call out <b>web</b> or <b>mobile</b> so you are not documenting the same path twice.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the Super Admin workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, role-specific rules, and the things most likely to break across web and mobile.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for universities — the benefit, in plain language you can lift into copy and decks.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>A typical loop — read the state of the university, act on people and content that need attention, then keep everyone moving. Most heavy operations happen on web; mobile is for pulse checks, chat, and read-only oversight.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in</h4><p><b>Web:</b> open the WebApp URL → <b>Continue</b> on Login or Sign-up → SSO → land on <b>Dashboard</b> with sidebar. <b>Mobile:</b> email/password or SSO → single role lands on <b>Home</b>; multi-role picks <b>University Super Admin</b> first.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Read the pulse</h4><p>Scan dashboard stat cards and analytics widgets — students, communities, travel, events, reports. Tap any number to drill into the list behind it.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Clear onboarding backlog</h4><p>On <b>web</b>, open <b>Profile Review</b> → filter <b>Pending Review</b> → approve or reject student profiles. In <b>Manage User</b>, invite coordinators or approve <b>Invited</b> rows.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Govern content &amp; settings</h4><p>Update <b>My University</b> copy, add a <b>Campus</b> if needed, and adjust <b>Configurations</b> (forms, permissions, feature flags).</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div><div class="flow-line"></div></div><div class="flow-body"><h4>Moderate &amp; oversee</h4><p>On <b>web</b>, approve pending communities and move events through create → published; triage <b>Reports</b>. On <b>mobile</b>, open coordinator dashboards read-only to audit volumes without acting in their tools.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">6</div></div><div class="flow-body"><h4>Stay connected</h4><p>Chat with students and staff; send bulk email from user lists; share documents with one student or a cohort.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>App structure</div>
+      <h2>How it's organised — web &amp; mobile</h2>
+      <p>The same role maps to two layouts. Destinations align; only navigation chrome differs.</p>
+      <div style="display:flex; align-items:center; gap:11px; margin:34px 0 0; font-family:var(--font-display); font-weight:600; font-size:20px; color:var(--ink);"><span style="font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:#E2F2F3; color:#0E7C86; border:1px solid #B6DEE1;">Web</span>Left sidebar &amp; top bar — twelve modules</div>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Zone 01</div><div class="t">Command center</div><p><b>Dashboard</b> — ten stat cards, admission/travel/location charts, community analytics. Every card drills into the live list.</p></div>
+        <div class="ia-card"><div class="tag">Zone 02</div><div class="t">People &amp; onboarding</div><p><b>Manage User</b>, <b>Invite Data</b>, <b>Profile Review</b> — directory, bulk invite tracking, student profile completion queue.</p></div>
+        <div class="ia-card"><div class="tag">Zone 03</div><div class="t">University content</div><p><b>My University</b> (six tabs) and <b>Campus</b> — marketing copy, programs, onboarding setup, multi-campus management.</p></div>
+        <div class="ia-card"><div class="tag">Zone 04</div><div class="t">Programs &amp; governance</div><p><b>Community</b>, <b>Travel Plan</b>, <b>Ambassadors</b>, <b>Events</b>, <b>Chat</b>, <b>Configurations</b>, <b>Manage Ads</b>, <b>Support</b>.</p></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:11px; margin:40px 0 0; font-family:var(--font-display); font-weight:600; font-size:20px; color:var(--ink);"><span style="font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--usa-wash); color:var(--usa); border:1px solid var(--usa-line);">Mobile</span>Bottom tab bar — four tabs</div>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Control panel — university header, Quick Way stat cards, quick actions, banners, upcoming events.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse communities and the coordinator pending queue — read-only oversight on mobile.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Direct messaging with students, ambassadors, coordinators, and staff.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Own profile, settings, language, FAQs, role switching, logout, and account deletion.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="features">
+      <div class="kicker"><span class="sq"></span>Features</div>
+      <h2>Intoto paid features — standalone modules</h2>
+      <p>Intoto is sold as <b>standalone paid features</b>, not as a single all-or-nothing platform license. A university can subscribe to <b>one module, several, or all six</b>, and can <b>add modules at any time</b> as its needs grow — for example User Management and Chat in year one, then Travel Plan and Ambassador Management before the next intake. For the full product catalog with per-module detail, see the <a href="Intoto%20Paid%20Features%20Guide.html">Intoto Paid Features Guide</a>.</p>
+      <p>The University Super Admin sees every subscribed module on the <b>My University → Features</b> tab in the web portal. Each module appears as its own card with a short description, an <b>Active</b> (or inactive) badge, and a contract window (<b>Start Date</b> / <b>End Date</b>). The Super Admin does <b>not</b> turn modules on or off from this screen — Intoto provisions subscriptions during commercial onboarding — but this tab is the source of truth for what the portal and mobile app will expose to students and staff.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Sidebar → <b>My University</b> → <b>Features</b> tab.</li>
+          <li>Review each card — title, description, <b>Active</b> status, and subscription dates.</li>
+          <li>For <b>User Management</b>, also read <b>Total Capacity</b>, <b>Utilization</b>, and domestic vs international seat counts before bulk invites.</li>
+          <li>Confirm related sidebar modules (Community, Chat, Travel Plan, etc.) match the active cards before promising capabilities to stakeholders.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>On every Features card</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td><b>Title &amp; description</b></td><td>Commercial module name and one-line summary (matches the card copy in the web portal).</td></tr>
+          <tr><td><b>Active</b></td><td>Module is currently entitled for this university — related admin tools and student experiences are available.</td></tr>
+          <tr><td><b>Start Date</b> / <b>End Date</b></td><td>Subscription window (example: Jul 13, 2025 – Jul 13, 2026). Outside this range the module is treated as inactive.</td></tr>
+        </tbody>
+      </table>
+
+      <article class="feature" id="feat-ambassador" style="margin-top:40px;">
+        <div class="feat-head"><span class="feat-num">·</span><h3>Ambassador Management</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Connect students with ambassadors.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Lets the university run a structured ambassador program — pairing prospective or new students with peer mentors and, where purchased, external partners. When this module is <b>Active</b>, the Super Admin can invite and manage <b>internal ambassadors</b> (in-app mentors) and <b>external ambassadors</b> (partner leads on the Ambassador Platform), open ambassador detail views, and see ambassador counts on the dashboard. Students discover ambassadors through the mobile app carousel and can start conversations when Chat is also active.</p>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Dashboard <b>Ambassadors</b> and <b>External Ambassadors</b> stat cards · Sidebar ambassador directories · Ambassador profile detail (overview, communication, documents, activity for external leads) · Invite ambassador roles from Manage User</td><td>Ambassador sidebar entries and dashboard cards are hidden · No ambassador invites · Students do not see the ambassadors discovery experience</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="feature" id="feat-travel">
+        <div class="feat-head"><span class="feat-num">·</span><h3>Travel Plan</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Manage student travel arrangements.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Covers the full travel lifecycle for incoming students — flight details, arrival dates, transit status, and on-campus arrival. Coordinators and the Super Admin use it to see who is arriving, in transit, or already on campus. Campus detail includes a <b>Travel Plans</b> tab scoped to that location.</p>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Dashboard <b>Travel Plans</b> card · Sidebar <b>Travel Plan</b> module · Open travel detail by status · Campus → <b>Travel Plans</b> tab · Mobile read-only travel oversight from the Super Admin home</td><td>Travel sidebar module and dashboard card hidden · No travel lists or arrival analytics · Campus travel tab unavailable</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="feature" id="feat-community">
+        <div class="feat-head"><span class="feat-num">·</span><h3>Community</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Student connections &amp; groups.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Topic-based communities for create/join, posts, and discussion. Feeds show the <b>latest post</b>. Members can like, comment, and share; chat and profile views sit alongside (when Chat is Active). Full detail: <a href="Intoto%20Paid%20Features%20Guide.html#feat-community">Paid Features → Community</a>.</p>
+        <table>
+          <thead><tr><th>Role</th><th>Permissions</th></tr></thead>
+          <tbody>
+            <tr><td><b>Community Coordinator</b></td><td>Create communities instantly · approve/reject requests · moderate &amp; remove content · delete/archive · handle requests &amp; reports · like/comment/share · chat &amp; view profiles · team of any size</td></tr>
+            <tr><td><b>Student</b></td><td>Submit creation request (pending approval) · join approved communities · post · view feed (latest post) · like/comment/share · chat &amp; view profiles</td></tr>
+            <tr><td><b>Third-Party Coordinator</b></td><td>Submit creation request (pending) · join · receive join suggestions · post · like/comment/share · chat &amp; view profiles</td></tr>
+            <tr><td><b>University Super Admin</b></td><td>Create instantly on web · clear pending queue · moderate from web Community module</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>Workflow</th><th>Steps</th></tr></thead>
+          <tbody>
+            <tr><td><b>Coordinator / Super Admin create</b></td><td>Create on a topic → publishes <b>instantly</b> → visible to Students, Third-Party Coordinators, and relevant staff</td></tr>
+            <tr><td><b>Student / TPC request</b></td><td>Submit request → pending queue → <b>Approved</b> (live + notify) or <b>Rejected</b> (notify with reason; not live)</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>Engagement</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><b>Joining</b></td><td>Browse and join approved communities; Third-Party Coordinators may get join suggestions by interest/role</td></tr>
+            <tr><td><b>Posting</b></td><td>Members post and comment; feeds show latest post; coordinators/Super Admins moderate inappropriate content</td></tr>
+            <tr><td><b>Notifications</b></td><td>New community available · post in a joined community · creation request approved/rejected</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Sidebar <b>Community</b> (pending, active, reports) · Dashboard community analytics · Mobile Community tab · Approve or deny creation requests · Create official communities instantly</td><td>Community sidebar and mobile tab hidden · Students cannot create or join communities · Report triage unavailable</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="feature" id="feat-chat">
+        <div class="feat-head"><span class="feat-num">·</span><h3>Chat</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Direct messaging between users.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Secure messaging between students, ambassadors, coordinators, and university staff — one-to-one threads and group chats. On web the Super Admin can create groups and message any user; on mobile the <b>Chats</b> tab is the primary messaging surface. Chat often pairs with Ambassador Management and User Management but is sold as its own module.</p>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Sidebar <b>Chat</b> · Create group chat on web · Mobile <b>Chats</b> tab · Message students, staff, and ambassadors · Bulk outreach where mail integration is enabled</td><td>Chat sidebar and mobile Chats tab hidden · No direct messaging between users in the product</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="feature" id="feat-events">
+        <div class="feat-head"><span class="feat-num">·</span><h3>Event Management</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Create and manage campus events.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Full event lifecycle — draft, submit for approval, publish, registration, attendance, and feedback. The Super Admin can create and approve events on web; Event Coordinators run events day-to-day. Students browse and register on mobile when the module is active.</p>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Dashboard <b>Events</b> card · Sidebar events module · Create / pending / published flows · Mark attendance and collect feedback · Mobile upcoming-events carousel (view)</td><td>Events sidebar and dashboard card hidden · No event creation or registration in the product</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="feature" id="feat-usermgmt">
+        <div class="feat-head"><span class="feat-num">·</span><h3>User Management</h3></div>
+        <p class="feat-lead"><b>Card copy:</b> Control user limits &amp; invitations.</p>
+        <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">The foundation module for operating a tenant — licensed seats cap how many users can be invited across all roles. The Features card shows live consumption so the Super Admin knows how much capacity remains before the next intake. This module also gates <b>Profile Review</b>, bulk invite tracking, and the Manage User directory.</p>
+        <table>
+          <thead><tr><th>User Management card field</th><th>Meaning (example from portal)</th></tr></thead>
+          <tbody>
+            <tr><td><b>Total Capacity</b></td><td>Maximum licensed users for the tenant — e.g. <b>5,000</b>.</td></tr>
+            <tr><td><b>Utilization</b></td><td>Percentage and count of seats used — e.g. <b>20%</b> · <b>1,000 Invited</b>.</td></tr>
+            <tr><td><b>Domestic users</b></td><td>Domestic seats consumed vs domestic limit — e.g. <b>501</b> of <b>4,001</b> limit.</td></tr>
+            <tr><td><b>International users</b></td><td>International seats consumed vs international limit — e.g. <b>499</b> of <b>4,001</b> limit.</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>When active — admin can</th><th>When inactive</th></tr></thead>
+          <tbody>
+            <tr><td>Sidebar <b>Manage User</b> · <b>Invite Data</b> · <b>Profile Review</b> · <b>Add User</b> / bulk invite (within remaining capacity) · Dashboard people stat cards</td><td>User invitation and directory tools unavailable · Cannot onboard new students or staff through Intoto</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <p class="plat-note"><b>Modular subscriptions:</b> Universities mix and match — one feature today, more later. Each new module appears on the Features tab with its own dates once Intoto provisions it. Sales and Intoto Admin own subscription changes; the Super Admin uses this section and the <b>My University → Features</b> tab to verify what is live before inviting users or committing to stakeholders.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>À-la-carte packaging lets institutions start small and expand; the Features tab makes entitlements transparent so admins never promise a module the tenant has not bought.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Each Features card matches backend entitlement; Active modules show correct sidebar entries; inactive modules hide related UI; User Management capacity figures match invite limits; dates outside contract window treat module as inactive.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Pay only for what you need — add Ambassador Management, Travel Plan, Community, Chat, Events, or User Management when you're ready, with every subscription visible in one place."</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in uses university credentials (Auth0 / SSO). Multi-role accounts choose <b>University Super Admin</b> at role selection. There is no campus picker — the app already knows the institution.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Web:</b> open the INTOTO WebApp URL → on <b>Login or Sign-up</b> tap <b>Continue</b> → complete SSO on the identity provider.</li>
+          <li><b>Mobile:</b> open the Intoto app → enter email/password or use configured SSO.</li>
+          <li>Single role → land on <b>Dashboard</b> (web) or <b>Home</b> (mobile).</li>
+          <li>Multi-role → <b>Role Selection</b> appears; choose <b>University Super Admin</b> (or switch later from profile / dashboard role change on web).</li>
+          <li><b>Web:</b> sidebar loads with university logo; header shows date, greeting, language, notifications, and role badge.</li>
+          <li><b>Mobile:</b> four bottom tabs appear (Home, Community, Chats, Profile).</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One role, two surfaces — SSO on both, conditional role selection only for multi-hat accounts, and no campus picker because the Super Admin operates above campus level.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on admin dashboard (not student home); multi-role shows Role Selection; web sidebar highlights active module; mobile tab set loads after login and after role switch.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"One secure sign-in opens your university's command center — in the browser or on your phone."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Dashboard</h3></div>
+      <p class="feat-lead">The dashboard — <b>Dashboard</b> on web, <b>Home</b> on mobile — is the control panel: branded university header, live stat cards, quick actions, analytics widgets, and promotional banners. Role cards on the Quick Way grid open each role's people list; tap a person to see their own dashboard read-only (see <a href="#crossrole">Cross-role visibility</a>).</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on the dashboard after login.</li>
+          <li><b>Web:</b> scan two rows of ten <b>Dashboard Overview</b> cards — communities, travel, events, ambassadors, students, coordinators — plus <b>Student Admission</b>, <b>Student Travel Plan</b>, and <b>Student's Location</b> widgets. Use the date filter (<b>All</b> or <b>Custom</b>) to refresh ranges.</li>
+          <li><b>Mobile:</b> scan <b>Quick Way</b> stat cards and use quick actions (Manage User, Add User, Events, Support, Travel Plan).</li>
+          <li>Tap any stat card → open the full list or screen behind that number.</li>
+          <li>Pull to refresh counts after changes elsewhere.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Representative stat card</th><th>Opens</th></tr></thead>
+        <tbody>
+          <tr><td>Total Students</td><td>Searchable student directory → Student Profile Hub</td></tr>
+          <tr><td>Pending Communities</td><td>Approval queue (action on web; view on mobile)</td></tr>
+          <tr><td>Total Reports</td><td>Moderation cases with status workflow</td></tr>
+          <tr><td>Total Travel Plans</td><td>Student travel submissions</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Counts are live server metrics configured for the admin role — the dashboard is the starting point for state, not a blank menu.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>All web stat cards present with counts; card click routes correctly on both surfaces; custom date range refreshes widgets; header adapts when logo is missing.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See the health of your whole university at a glance — students, communities, events, and open issues, live, on one screen."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Manage users</h3></div>
+      <p class="feat-lead">The account-control hub for everyone in the university — filterable by status, with actions that depend on where each person sits in the invitation lifecycle. On web this is a full data table; on mobile, status chips and row actions serve the same lifecycle.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Manage User</b> from the sidebar (web) or a quick action / stat card (mobile).</li>
+          <li>Filter by status — <b>All</b>, <b>Invited</b>, <b>Accepted</b>, <b>Withdrawn</b>, <b>Rejected</b>, <b>Suspended</b> — or use <b>Filter</b> → Campus and/or Role → <b>Apply</b>.</li>
+          <li>Search by name or email.</li>
+          <li>Tap a row for per-person actions, or enter selection mode for bulk email.</li>
+          <li><b>Web:</b> use row ⋮ → <b>Approve</b>, <b>Reject</b>, or <b>Download</b>; paginate with <b>Showing 1–10</b> controls.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Their status</th><th>What the Super Admin can do</th></tr></thead>
+        <tbody>
+          <tr><td>Invited (not yet accepted)</td><td>Withdraw invite · Resend invite · Send email</td></tr>
+          <tr><td>Accepted (active)</td><td>Suspend account · Send email</td></tr>
+          <tr><td>Suspended</td><td>Re-initiate account · Send email</td></tr>
+          <tr><td>Withdrawn / Rejected</td><td>Resend invite · Send email</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>State-aware actions keep a powerful surface from becoming error-prone — the admin only sees moves valid for that account.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Each status chip filters correctly; action set matches status; bulk selection → Take Action → email works; filter shows Campus and Role only (no University filter).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Full control of every account — invite, resend, suspend, or restore — from web or mobile."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Add user &amp; invites</h3></div>
+      <p class="feat-lead">A single invite form sends platform invitations by email. Fields adapt to the role; campus is required for operational roles but skipped when inviting a peer Super Admin. On web, <b>Add Users</b> in Manage User and <b>Invite Data</b> track bulk imports alongside single invites.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Add User</b> / <b>Add Users</b> from the dashboard quick action or Manage User toolbar.</li>
+          <li>Select the <b>role</b> (Student, Ambassador, External Ambassador, coordinators, University Super Admin, etc.).</li>
+          <li>Enter one <b>email</b>, or import a file for bulk invites (<b>Invite Data</b> on web tracks upload status).</li>
+          <li>Select <b>campus</b> — required for most roles; skipped for University Super Admin.</li>
+          <li>Set role-specific fields: <b>Ambassador Type</b>, <b>profile visibility</b>, <b>invite type</b> (students).</li>
+          <li>Pick an <b>expiry date</b> → <b>Submit</b> → row appears as <b>Invited</b> in Manage User.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>I want to…</th><th>Role</th><th>Campus?</th></tr></thead>
+        <tbody>
+          <tr><td>Invite an event coordinator</td><td>Event Coordinator</td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Invite another super admin</td><td>University Super Admin</td><td><span class="no">No</span></td></tr>
+          <tr><td>Invite a student</td><td>Student</td><td><span class="yes">Yes</span> + invite type</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One form serves every role; the campus rule encodes the org model — operational roles belong to a campus, admins sit above them.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Fields appear/disappear per role; campus required except Super Admin; bulk import works; submit creates Invited row.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Onboard your whole team in minutes — one invite for any role, one for many, with expiry control built in."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Profile review</h3></div>
+      <p class="feat-lead"><b>Web only.</b> The queue for reviewing student profile completion before full platform access. Summary cards show backlog at a glance; clicking a card filters the list below.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Sidebar → <b>Profile Review</b>.</li>
+          <li>Scan summary cards: <b>Total Students</b>, <b>Complete</b>, <b>Incomplete</b>, <b>Action Required</b>, <b>Pending Review</b>, <b>Reject</b>.</li>
+          <li>Click <b>Pending Review</b> to filter the list.</li>
+          <li>Open a student row → review profile fields → approve or reject.</li>
+          <li>Verify counts update after each decision.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Students cannot fully onboard until profiles pass review — the card row makes today's backlog visible without opening every row.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Six summary cards visible; card click filters list; approve moves count from Pending to Complete; reject increments Reject card.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See exactly how many student profiles need attention today — and clear the queue before admissions week."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>My University &amp; campus</h3></div>
+      <p class="feat-lead"><b>Web only.</b> <b>My University</b> holds marketing and onboarding content students read — six tabs for overview, programs, admissions, onboarding setup, role management, and <b>Features</b> (paid modules the university has subscribed to). <b>Campus</b> manages each physical location with its own detail tabs. Content editing lives here; form schema lives in Configurations.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Sidebar → <b>My University</b> → on <b>Overview</b> edit <b>About</b>, <b>Contact Details</b>, <b>Social Media</b>, <b>Address</b>, <b>Ranking</b>, <b>Accreditation</b>, <b>Interface Design</b> → save.</li>
+          <li>Switch tabs for <b>Programs &amp; Services</b>, <b>Admission Information</b>, <b>Onboarding Setup</b>, <b>Role Management</b>, and <b>Features</b> — see <a href="#features">Features (paid modules)</a> for full detail on each Intoto subscription.</li>
+          <li>Sidebar → <b>Campus</b> → <b>Add New Campus</b> or open a row → detail tabs: Overview, Students, Courses/Programs, Faculty, Travel Plans.</li>
+          <li>Delete a campus with confirmation when retiring a location.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Editable university content in the admin portal means student-facing copy can track real program changes without a release cycle; campus as a first-class entity scopes users and travel per site. Paid module entitlements are documented in the dedicated <a href="#features">Features</a> section.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>All six My University tabs load; edits persist after save; campus add/delete flows work; each campus detail tab loads scoped data.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Your admissions team updates university content and campuses themselves — no developer required."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Students &amp; share documents</h3></div>
+      <p class="feat-lead">Find any student in the university, open a deep read-only profile, and share documents — one at a time from a profile or in bulk from a list. Every shared file lands in the student's <b>Shared by University</b> section. Assigning students to sub-coordinators is <b>not</b> this role's flow (Third Party Coordinator).</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>All Students</b> / <b>Total Students</b> from a stat card or Manage User filters.</li>
+          <li>Search (3+ characters on web lists) or filter by campus, program, country, etc.</li>
+          <li>Tap a row → <b>Student Profile Hub</b> — sections and travel data, read-only.</li>
+          <li><b>One student:</b> profile → <b>Share Document</b> → upload → <b>Send</b>.</li>
+          <li><b>Many students:</b> list → selection mode → <b>Take Action → Share Document</b>.</li>
+          <li>Confirm the file appears under <b>Shared by University</b> on both admin and student views.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Read-and-support, not delegation — one sharing model with two entry points, both writing to the same predictable section on the student profile.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Directory and profile open read-only; no Assign / sub-coordinator wizard; single- and bulk-share post to correct recipients; Third-Party Sub Coordinators unreachable.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find any student in seconds and get the right documents into their hands — to one or a whole intake."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f8">
+      <div class="feat-head"><span class="feat-num">08</span><h3>Communities &amp; reports</h3></div>
+      <p class="feat-lead">Communities and reports share a moderation mindset but differ by surface. On <b>web</b>, the Super Admin approves pending community requests and triages reports. On <b>mobile</b>, the same role opens coordinator dashboards and queues <b>read-only</b> — approvals happen on web or stay with the Community Coordinator when acting through mobile oversight views.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Web:</b> Sidebar → <b>Community</b> → <b>Pending Requests</b> → approve or deny each request.</li>
+          <li><b>Web:</b> switch to <b>Active Communities</b> → open feed → <b>Create post</b> or triage <b>Reports</b> by status.</li>
+          <li><b>Mobile:</b> Community tab or stat card → view communities and pending queue without Approve/Reject controls.</li>
+          <li>For reports: tap <b>Total Reports</b> → move cases through <b>Assigned → Under Review → Escalated → Resolved</b>.</li>
+        </ol>
+      </div>
+      <p class="plat-note"><b>Surface note:</b> Report resolution is owned by the University Super Admin on both web and mobile. Community <i>approval</i> is actionable on the web portal; on mobile the Super Admin monitors volumes and escalates to the Community Coordinator when action is needed.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Separation of duties on mobile keeps coordinator domains intact; web gives the Super Admin direct gates where bulk operational throughput matters.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Web approve/deny updates Active list; mobile has no community status mutations; report transitions persist; My vs Assigned report views scope correctly.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep student groups safe — approve communities on web, resolve reports everywhere, and see the full picture on mobile."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f9">
+      <div class="feat-head"><span class="feat-num">09</span><h3>Events</h3></div>
+      <p class="feat-lead">On <b>web</b>, the Super Admin runs the full event lifecycle — create, approve, publish, register, attend, and collect feedback. On <b>mobile</b>, events open read-only through the Event Coordinator's catalog and pending queue; creating and approving stays on web or with the Event Coordinator.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Web:</b> Dashboard → <b>Events</b> → <b>Create Event</b> → submit or save <b>Draft</b> → <b>Assign Co-ordinator</b> if required → approve → <b>Published Event Detail</b>.</li>
+          <li>Review <b>Registration list</b> / <b>Attendees</b> → on event day <b>Mark Present</b> → collect <b>Feedback</b>.</li>
+          <li><b>Mobile:</b> Events quick action or carousel → browse catalog and <b>Pending Events</b> read-only.</li>
+        </ol>
+      </div>
+      <p class="plat-note"><b>Surface note:</b> Event creation and approval on web; mobile is oversight and analytics, not the primary publishing surface.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The pending → published gate on web keeps off-policy events off the student calendar until an admin approves them; mobile visibility supports audit without duplicating the coordinator's publish tools.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Web create → pending → published path persists; mobile has no Approve/Reject/Create; Mark Present and feedback captured post-event.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Events move from draft to published to attended — with registration, check-in, and feedback built in on web."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f10">
+      <div class="feat-head"><span class="feat-num">10</span><h3>Travel &amp; ambassadors</h3></div>
+      <p class="feat-lead"><b>Travel Plan</b> and <b>Ambassadors</b> modules give university-level visibility into arrivals and mentor operations. Web provides full list and detail screens; mobile surfaces the same data through stat cards and quick actions read-only.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Travel:</b> Dashboard <b>Travel Plans</b> card or sidebar module → filter by <b>Upcoming</b>, <b>Ongoing</b>, <b>Completed</b>, <b>Cancelled</b> → open row detail.</li>
+          <li><b>Ambassadors:</b> Dashboard <b>Ambassadors</b> / <b>External Ambassadors</b> cards → internal or external list → <b>Ambassador Detail</b>.</li>
+          <li>For external leads on web, switch tabs: <b>Overview</b>, <b>Communication</b>, <b>Document</b>, <b>Activity Log</b>.</li>
+          <li>Cross-check totals against dashboard widgets after bulk changes.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One roster for internal mentors and external recruitment matches how admissions teams think about ambassador operations — one module, two pipelines.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Travel status detail matches list row; internal/external ambassador lists are distinct; dashboard counts align with list totals.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Know who's arriving and who's representing your university — mentors and partners in one operational view."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f11">
+      <div class="feat-head"><span class="feat-num">11</span><h3>Chat, mail &amp; outreach</h3></div>
+      <p class="feat-lead">Reach anyone on the platform: <b>Chat</b> on web (including named group chats) and mobile (Chats tab), <b>Mail</b> on web sidebar, and bulk email or notifications from user/student selections via <b>Take Action</b>.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Web chat:</b> Sidebar → <b>Chat</b> → <b>Create Group</b> → pick members → name the group.</li>
+          <li><b>Mobile chat:</b> <b>Chats</b> tab → open a thread or start a new conversation.</li>
+          <li><b>Web mail:</b> Sidebar → <b>Mail</b> → compose to users; bulk outreach starts from a people-list selection.</li>
+          <li>From Manage Users or All Students: select rows → <b>Take Action</b> → send email or notification.</li>
+          <li>Tap the <b>bell</b> for alerts; the <b>envelope</b> holds deferred role invitations.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Communication starts where the people lists already are — bulk outreach is part of managing accounts, not a separate compose tool.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Chat send works; web group creation completes; bulk email composes from multi-select; logout clears session; role switch reloads features.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Reach one student or thousands — message, email, and notify your community without leaving Intoto."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f12">
+      <div class="feat-head"><span class="feat-num">12</span><h3>Configurations</h3></div>
+      <p class="feat-lead">Tailor how Intoto behaves for the university. On <b>web</b>, <b>Configurations</b> is a four-tab form-and-permissions builder (University, Campus, Travel Plan, User Profile). On <b>mobile</b>, open <b>Profile → Configuration</b> for university-level settings (branding, forms, notifications, language) with staged edits and <b>Save</b> when values differ from the server.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Web:</b> Sidebar → <b>Configurations</b> → pick top tab → select <b>Section</b> → select <b>field</b> → edit <b>Field Configuration</b> panel → <b>Save Configuration</b> or <b>Reset to Default</b>.</li>
+          <li>Set <b>Field Properties</b> — label, placeholder, min/max length, regex — and per-role <b>Permissions</b> including <b>Required Field</b> toggles.</li>
+          <li><b>Mobile:</b> Profile → Configuration → edit values → <b>Save</b> when the bar appears.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Web top tab</th><th>What it controls</th></tr></thead>
+        <tbody>
+          <tr><td><b>University Configuration</b></td><td>Basic info, contact, social, academic, programs, admissions, onboarding, roles, features</td></tr>
+          <tr><td><b>Campus Configuration</b></td><td>Campus sections, facilities, transport, accreditations</td></tr>
+          <tr><td><b>Travel Plan Configuration</b></td><td>Program info, travel details, documents, signatures</td></tr>
+          <tr><td><b>User Profile Configuration</b></td><td>Basic info, preferences, address, education, documents, Ambassador Info</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>My University vs Configurations:</b> <b>My University</b> is the content students read today. <b>Configurations</b> is the schema — which sections and fields exist, how they validate, and which roles must complete them.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Splitting schema from content lets IT tune forms and permissions without touching marketing copy — staged-then-saved on both surfaces.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Web four tabs load; section → field → panel navigation works; permissions persist on Save; mobile Save appears only when values differ. Design reference: <span class="mono">Intoto-wireframe</span> node <span class="mono">5106:1829</span>.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Define exactly what every role sees and fills in — branding, forms, and preferences configured by your own team."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f13">
+      <div class="feat-head"><span class="feat-num">13</span><h3>Invite data, ads &amp; support</h3></div>
+      <p class="feat-lead"><b>Web only.</b> Supporting modules: bulk invitation tracking (<b>Invite Data</b>), promotional banners (<b>Manage Ads</b>), help desk tickets (<b>Support</b>), and account management including logout.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Invite Data</b> — track bulk invitation imports alongside single <b>Add Users</b> invites.</li>
+          <li><b>Manage Ads</b> — configure promotional banners shown in the product.</li>
+          <li><b>Support</b> — open and triage help desk tickets.</li>
+          <li>Header profile block → profile, FAQ, settings shortcuts.</li>
+          <li>Sidebar → <b>Log Out</b> → confirm → return to Login screen.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Bulk invite tracking, ads, and support stay in the same portal so operational staff don't context-switch for routine outreach and help requests.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Support ticket list loads; Logout clears session; Invite Data reflects bulk upload status; Manage Ads changes appear in the product.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Bulk invites, promotional banners, and support tickets — all managed from the same web command center."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="crossrole">
+      <div class="kicker"><span class="sq"></span>Oversight model</div>
+      <h2>Cross-role visibility</h2>
+      <p>From a role's Quick Way card the Super Admin opens that role's people list, taps a name, and that person's own role dashboard opens — <b>with their name</b> — read-only. Their own powers (account management, reports, document sharing, configuration) stay separate.</p>
+      <table>
+        <thead><tr><th>Role card on the dashboard</th><th>Tap a person → their own dashboard shows</th></tr></thead>
+        <tbody>
+          <tr><td>Students</td><td>That student's onboarding, profile, and travel progress</td></tr>
+          <tr><td>Ambassadors</td><td>That ambassador's profile, activity, and conversation counts</td></tr>
+          <tr><td>External Ambassadors</td><td>That external ambassador's profile and activity</td></tr>
+          <tr><td>Community Coordinators</td><td>The communities and pending items that coordinator handles</td></tr>
+          <tr><td>Event Coordinators</td><td>The events that coordinator runs and their analytics</td></tr>
+          <tr><td>Third-Party Coordinators</td><td>What that coordinator has done with their assigned student pool</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Out of scope:</b> Third-Party <b>Sub</b> Coordinators are not accessible. Student-to-sub-coordinator assignment belongs to the Third Party Coordinator, not this role.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One administrator gets a complete, auditable picture without inheriting every role's job — visibility is broad; authority is scoped.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>From a role card, tap a user and confirm their dashboard opens read-only with their name; action controls absent or disabled; no Super-Admin interaction mutates another user's records.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Total oversight, zero overreach — see how every part of your university is running, with each job kept in the right hands."</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Run one university on web and mobile — dashboard, users, configuration</td><td>Manage other universities or see cross-tenant data (Intoto Admin)</td></tr>
+          <tr><td>Invite, suspend, resend, withdraw, and re-initiate any university role</td><td>Assign students to sub-coordinators (Third Party Coordinator flow)</td></tr>
+          <tr><td>Clear Profile Review backlog and edit My University / campus content (web)</td><td>Access Third-Party Sub Coordinators or their data</td></tr>
+          <tr><td>Approve communities and run event lifecycle on web; resolve reports on both surfaces</td><td>Onboard new universities on the platform</td></tr>
+          <tr><td>Share documents with students — one-by-one or in bulk</td><td>Configure The Ambassador Platform public web portal</td></tr>
+          <tr><td>Open any user's role dashboard read-only (mobile oversight; web stat cards)</td><td>Perform another role's operational actions inside their tools</td></tr>
+          <tr><td>Configure forms, permissions, branding, and feature flags</td><td>Act as a student, ambassador, or coordinator inside their own mobile tools</td></tr>
+          <tr><td>Chat, email, mail, and notify users</td><td>Switch university context to another tenant</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the Super Admin gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Login / Sign-up</td><td>WebApp URL or mobile app → SSO</td></tr>
+          <tr><td>Dashboard / Home</td><td>Web: sidebar <b>Dashboard</b> · Mobile: <b>Home</b> tab</td></tr>
+          <tr><td>Manage Users</td><td>Web sidebar · Mobile quick action or stat card</td></tr>
+          <tr><td>Add User / Invite Data</td><td>Quick action · Web sidebar <b>Invite Data</b></td></tr>
+          <tr><td>Profile Review</td><td>Web sidebar only</td></tr>
+          <tr><td>My University (6 tabs) · Campus</td><td>Web sidebar → <b>My University</b> or <b>Campus</b></td></tr>
+          <tr><td>My University — Features (paid modules)</td><td>Sidebar → <b>My University</b> → <b>Features</b> tab</td></tr>
+          <tr><td>All Students &amp; Profile Hub</td><td>Students stat card → row</td></tr>
+          <tr><td>Share Document (single / bulk)</td><td>Student profile · Students list → Take Action</td></tr>
+          <tr><td>Community — pending &amp; active · Reports</td><td>Web sidebar <b>Community</b> · Mobile Community tab (view)</td></tr>
+          <tr><td>Events — create through feedback</td><td>Web <b>Events</b> module · Mobile carousel (view)</td></tr>
+          <tr><td>Travel Plan · Ambassadors</td><td>Dashboard cards or sidebar modules</td></tr>
+          <tr><td>Chat · Mail</td><td>Web sidebar · Mobile <b>Chats</b> tab</td></tr>
+          <tr><td>Configurations</td><td>Web sidebar · Mobile Profile → Configuration</td></tr>
+          <tr><td>Manage Ads · Support</td><td>Web sidebar</td></tr>
+          <tr><td>Any user's role dashboard (read-only)</td><td>Role card → people list → tap a person</td></tr>
+          <tr><td>Profile &amp; logout</td><td>Web header / sidebar · Mobile Profile tab</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>University Super Admin FAQs</h2>
+      <div class="faq">
+
+        <details><summary><span>What can the University Super Admin do?</span><span class="pls"></span></summary>
+        <div class="ans">Run one university on the <b>web portal</b> and <b>mobile app</b> — manage users, clear profile review, edit university and campus content, configure forms and permissions, share documents, resolve reports, and oversee travel, ambassadors, and events. On mobile you can also open every other role's dashboard read-only for oversight.</div></details>
+
+        <details><summary><span>How is University Super Admin different from Intoto Admin?</span><span class="pls"></span></summary>
+        <div class="ans"><b>Scope.</b> The University Super Admin runs <b>one university</b>. The Intoto Admin operates <b>across all universities</b>, onboards tenants, and can switch university context. Only the Intoto Admin can add, suspend, or activate a university.</div></details>
+
+        <details><summary><span>Do I use web, mobile, or both?</span><span class="pls"></span></summary>
+        <div class="ans">Both are the same role. Use the <b>web portal</b> for bulk operations — user tables, profile review, campus CRUD, My University content, the form builder, and event publishing. Use the <b>mobile app</b> for pulse checks, chat, read-only coordinator oversight, and on-the-go account actions.</div></details>
+
+        <details><summary><span>Who can invite or suspend users?</span><span class="pls"></span></summary>
+        <div class="ans">The University Super Admin. Coordinators have focused tools but inviting and suspending users sits with the Super Admin.</div></details>
+
+        <details><summary><span>How do I invite a new user?</span><span class="pls"></span></summary>
+        <div class="ans">Use <b>Add User</b> / <b>Add Users</b>, choose the role, fill required fields (campus except for Super Admin invites), and submit. For bulk invites on web, use file import and track progress in <b>Invite Data</b>.</div></details>
+
+        <details><summary><span>Why can't students fully onboard?</span><span class="pls"></span></summary>
+        <div class="ans">Their profile may be in <b>Profile Review</b> (web). Filter <b>Pending Review</b>, approve or reject each student, and counts update as you work through the backlog.</div></details>
+
+        <details><summary><span>What is the difference between My University and Configurations?</span><span class="pls"></span></summary>
+        <div class="ans"><b>My University</b> is the content students read — about text, programs, admissions copy — and the <b>Features</b> tab shows which paid modules are active for the tenant. <b>Configurations</b> is the schema — which sections and fields exist, validation rules, and per-role permissions.</div></details>
+
+        <details><summary><span>How do paid features work — can we buy only some modules?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Intoto modules are <b>standalone subscriptions</b> — a university can take one feature, several, or all six (Ambassador Management, Travel Plan, Community, Chat, Event Management, User Management) and add more at any time. The <b>My University → Features</b> tab lists each module with <b>Active</b> status and contract dates; <b>User Management</b> also shows total capacity, utilisation, and domestic vs international seat counts. Provisioning is done by Intoto Admin; the Super Admin uses this tab to see what is enabled. See also the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a>.</div></details>
+
+        <details><summary><span>Who turns features on for our university?</span><span class="pls"></span></summary>
+        <div class="ans"><b>Intoto Admin</b> provisions modules when your institution is onboarded or when your account team requests a change. You see the result on <b>My University → Features</b> — you cannot enable or disable modules from this screen.</div></details>
+
+        <details><summary><span>What happens if a feature is not Active?</span><span class="pls"></span></summary>
+        <div class="ans">That module's admin tools and student experiences are <b>hidden</b>. For example, without Community active there is no Community sidebar or student group creation; without Chat, the mobile Chats tab does not appear.</div></details>
+
+        <details><summary><span>What does the User Management capacity on the Features tab mean?</span><span class="pls"></span></summary>
+        <div class="ans"><b>Total Capacity</b> is your licensed seat pool. <b>Utilization</b> shows how many seats are used (percentage and count). <b>Domestic</b> and <b>International</b> rows show split limits if your contract defines them. You cannot invite beyond remaining capacity until Intoto increases the limit.</div></details>
+
+        <details><summary><span>Can we add Travel Plan or Events later?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Universities often start with User Management and Chat, then add Travel Plan before intake or Event Management when programming scales. Each new module appears on the Features tab with its own dates once Intoto provisions it.</div></details>
+
+        <details><summary><span>Can I send documents to students?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. <b>Share Document</b> on a student profile for one recipient, or select several students → <b>Take Action → Share Document</b> for bulk. Files appear under <b>Shared by University</b> on both views.</div></details>
+
+        <details><summary><span>Can I see what other roles are doing?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — user by user. From a role's Quick Way card open the people list, tap a name, and their own dashboard opens read-only. Third-Party <b>Sub</b> Coordinators are not accessible.</div></details>
+
+        <details><summary><span>Do I approve communities and events on every surface?</span><span class="pls"></span></summary>
+        <div class="ans">On <b>web</b>, yes — pending communities and the event lifecycle are actionable here. On <b>mobile</b>, you view coordinator dashboards and queues read-only; use web for approvals or coordinate with the Community / Event Coordinator.</div></details>
+
+        <details><summary><span>Do I assign students to sub-coordinators?</span><span class="pls"></span></summary>
+        <div class="ans">No. That flow belongs to the <b>Third Party Coordinator</b>. The University Super Admin has no access to Third-Party Sub Coordinators.</div></details>
+
+        <details><summary><span>What does the dashboard show?</span><span class="pls"></span></summary>
+        <div class="ans">On web, ten <b>Dashboard Overview</b> stat cards plus admission, travel, location, and community analytics. On mobile, governance-oriented Quick Way cards and quick actions in backend-defined order.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · University Super Admin Feature &amp; Flow Guide · v2.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="120" y="180" width="56" height="440" rx="8" fill="#1F8A5B" opacity="0.35"/>
+    <rect x="200" y="180" width="880" height="80" rx="10" fill="#39414E"/>
+    <rect x="200" y="290" width="180" height="90" rx="12" fill="none" stroke="#46B07C" stroke-width="3"/>
+    <rect x="400" y="290" width="180" height="90" rx="12" fill="none" stroke="#46B07C" stroke-width="3"/>
+    <rect x="600" y="290" width="180" height="90" rx="12" fill="none" stroke="#0E7C86" stroke-width="3"/>
+    <rect x="360" y="430" width="150" height="46" rx="23" fill="none" stroke="#46B07C" stroke-width="3"/>
+    <rect x="525" y="430" width="110" height="46" rx="23" fill="none" stroke="#1F8A5B" stroke-width="3"/>
+    <rect x="650" y="430" width="190" height="46" rx="23" fill="none" stroke="#6A4FD8" stroke-width="3"/>
+  </svg>
+</template>
+</body>
+</html>

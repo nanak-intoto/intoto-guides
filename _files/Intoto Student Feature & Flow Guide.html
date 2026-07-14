@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Student — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFBFC;
+    --bg-dark: #0E1623;
+    --ink: #161C26;
+    --ink-soft: #39414E;
+    --muted: #6B7480;
+    --faint: #9AA3AE;
+    --line: #E3E8EE;
+    --line-soft: #EDF0F4;
+    --surface: #FFFFFF;
+    --surface-2: #F2F5F9;
+
+    --product: #2A6FDB;   --product-wash:#EAF1FC; --product-line:#C6DAF6;
+    --qa: #1F8A5B;        --qa-wash:#E7F4EE;      --qa-line:#BBE0CD;
+    --mktg: #6A4FD8;      --mktg-wash:#EFEBFB;    --mktg-line:#D4C9F4;
+
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'IBM Plex Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:30px; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:18px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--product); text-decoration:none; }
+  .mono{ font-family:var(--font-mono); }
+
+  /* ---------- HERO ---------- */
+  .hero{ background:var(--bg-dark); color:#EAF0F7; padding:84px 48px 72px; }
+  .hero-inner{ max-width:1180px; margin:0 auto; }
+  .eyebrow{ font-family:var(--font-mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#6FA4EE; display:flex; gap:12px; align-items:center; }
+  .eyebrow .sq{ width:9px; height:9px; background:#6FA4EE; border-radius:2px; }
+  .hero h1{ font-family:var(--font-display); font-weight:600; font-size:58px; line-height:1.04; letter-spacing:-0.02em; margin:24px 0 0; color:#F6F9FD; max-width:920px; text-wrap:balance; }
+  .hero .sub{ font-size:22px; color:#AEBBCB; margin:22px 0 0; max-width:780px; line-height:1.5; }
+  .hero-meta{ display:flex; flex-wrap:wrap; gap:32px; margin-top:40px; font-family:var(--font-mono); font-size:14px; color:#7E8B9C; }
+  .hero-meta b{ color:#C7D3E2; font-weight:500; display:block; letter-spacing:.04em; text-transform:uppercase; font-size:12px; margin-bottom:5px; }
+  .badges{ display:flex; gap:12px; flex-wrap:wrap; margin-top:34px; }
+  .badge{ font-family:var(--font-mono); font-size:14px; letter-spacing:.04em; padding:9px 16px; border-radius:999px; border:1px solid; display:flex; align-items:center; gap:9px; }
+  .badge .dot{ width:9px; height:9px; border-radius:50%; }
+  .badge.b-product{ color:#9CC2F2; border-color:#2E456B; } .badge.b-product .dot{ background:#5C95E8; }
+  .badge.b-qa{ color:#86D2AC; border-color:#27543F; } .badge.b-qa .dot{ background:#46B07C; }
+  .badge.b-mktg{ color:#BCA9F0; border-color:#3B3261; } .badge.b-mktg .dot{ background:#8E76E6; }
+
+  /* ---------- LAYOUT ---------- */
+  .shell{ max-width:1180px; margin:0 auto; padding:0 48px; display:grid; grid-template-columns:240px 1fr; gap:56px; align-items:start; }
+  nav.toc{ position:sticky; top:30px; padding-top:56px; font-size:15px; }
+  nav.toc .toc-h{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-bottom:16px; }
+  nav.toc a{ display:block; color:var(--muted); padding:7px 0 7px 16px; border-left:2px solid var(--line); transition:.15s; }
+  nav.toc a:hover{ color:var(--ink); border-color:var(--product); }
+  nav.toc .toc-num{ font-family:var(--font-mono); font-size:12px; color:var(--faint); margin-right:8px; }
+
+  main{ padding-top:56px; padding-bottom:120px; min-width:0; max-width:860px; }
+
+  /* ---------- SECTIONS ---------- */
+  .sec{ margin-top:72px; scroll-margin-top:30px; }
+  .sec:first-child{ margin-top:0; }
+  .kicker{ font-family:var(--font-mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--product); display:flex; align-items:center; gap:10px; }
+  .kicker .sq{ width:8px; height:8px; background:var(--product); border-radius:2px; }
+  h2{ font-family:var(--font-display); font-weight:600; font-size:38px; line-height:1.1; letter-spacing:-0.015em; margin:16px 0 0; text-wrap:balance; }
+  h2 + p, .sec-lead{ font-size:20px; color:var(--ink-soft); margin:18px 0 0; line-height:1.55; }
+  p{ color:var(--ink-soft); }
+
+  .tldr{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:34px 38px; margin-top:32px; }
+  .tldr h3{ font-family:var(--font-display); font-size:24px; margin:0 0 14px; font-weight:600; }
+  .tldr .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:28px; border-top:1px solid var(--line-soft); padding-top:28px; }
+  .stat .n{ font-family:var(--font-display); font-weight:600; font-size:34px; color:var(--product); line-height:1; }
+  .stat .l{ font-size:15px; color:var(--muted); margin-top:10px; line-height:1.35; }
+
+  .legend{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:30px; }
+  .leg{ border:1px solid var(--line); border-radius:14px; padding:22px 22px 20px; background:var(--surface); }
+  .leg .lh{ font-family:var(--font-mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; display:flex; align-items:center; gap:9px; }
+  .leg .dot{ width:11px; height:11px; border-radius:50%; }
+  .leg p{ font-size:15px; margin:13px 0 0; color:var(--muted); line-height:1.45; }
+  .leg.product .lh{ color:var(--product); } .leg.product .dot{ background:var(--product); }
+  .leg.qa .lh{ color:var(--qa); } .leg.qa .dot{ background:var(--qa); }
+  .leg.mktg .lh{ color:var(--mktg); } .leg.mktg .dot{ background:var(--mktg); }
+
+  .flow{ margin-top:34px; display:flex; flex-direction:column; gap:0; }
+  .flow-step{ display:flex; gap:22px; align-items:flex-start; }
+  .flow-rail{ display:flex; flex-direction:column; align-items:center; }
+  .flow-node{ width:42px; height:42px; border-radius:50%; background:var(--product-wash); border:2px solid var(--product); color:var(--product); font-family:var(--font-mono); font-weight:600; font-size:16px; display:flex; align-items:center; justify-content:center; flex:none; }
+  .flow-line{ width:2px; flex:1; min-height:34px; background:var(--line); }
+  .flow-step:last-child .flow-line{ display:none; }
+  .flow-body{ padding-bottom:30px; }
+  .flow-body h4{ font-family:var(--font-display); font-size:21px; margin:6px 0 0; font-weight:600; }
+  .flow-body p{ font-size:16px; color:var(--muted); margin:7px 0 0; line-height:1.45; }
+
+  .ia{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:30px; }
+  .ia-card{ border:1px solid var(--line); border-radius:14px; padding:24px 26px; background:var(--surface); }
+  .ia-card .t{ font-family:var(--font-display); font-weight:600; font-size:22px; }
+  .ia-card .tag{ font-family:var(--font-mono); font-size:12px; color:var(--product); letter-spacing:.08em; text-transform:uppercase; }
+  .ia-card p{ font-size:15px; color:var(--muted); margin:10px 0 0; line-height:1.45; }
+
+  .feature{ margin-top:60px; padding-top:56px; border-top:1px solid var(--line); scroll-margin-top:30px; }
+  .feat-head{ display:flex; align-items:baseline; gap:18px; }
+  .feat-num{ font-family:var(--font-mono); font-size:18px; color:var(--product); font-weight:500; }
+  .feature h3{ font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin:0; letter-spacing:-0.01em; }
+  .feat-lead{ font-size:19px; color:var(--ink-soft); margin:16px 0 0; line-height:1.55; }
+
+  .how{ margin-top:26px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:8px 30px; }
+  ol.steps{ margin:14px 0 18px; padding:0; list-style:none; counter-reset:s; }
+  ol.steps li{ counter-increment:s; position:relative; padding:11px 0 11px 44px; border-bottom:1px solid var(--line-soft); font-size:16px; color:var(--ink-soft); }
+  ol.steps li:last-child{ border-bottom:none; }
+  ol.steps li::before{ content:counter(s); position:absolute; left:0; top:9px; width:26px; height:26px; background:var(--surface-2); border-radius:7px; font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--muted); display:flex; align-items:center; justify-content:center; }
+
+  .lens-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px; }
+  .lens{ border-radius:13px; padding:20px 20px 18px; border:1px solid; }
+  .lens .lt{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; margin-bottom:11px; display:flex; align-items:center; gap:8px; }
+  .lens .lt .d{ width:9px; height:9px; border-radius:50%; }
+  .lens p{ font-size:15px; line-height:1.5; margin:0; color:var(--ink-soft); }
+  .lens.product{ background:var(--product-wash); border-color:var(--product-line); } .lens.product .lt{ color:var(--product); } .lens.product .lt .d{ background:var(--product); }
+  .lens.qa{ background:var(--qa-wash); border-color:var(--qa-line); } .lens.qa .lt{ color:var(--qa); } .lens.qa .lt .d{ background:var(--qa); }
+  .lens.mktg{ background:var(--mktg-wash); border-color:var(--mktg-line); } .lens.mktg .lt{ color:var(--mktg); } .lens.mktg .lt .d{ background:var(--mktg); }
+
+  table{ width:100%; border-collapse:collapse; margin-top:26px; font-size:16px; }
+  th,td{ text-align:left; padding:13px 16px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+  td{ color:var(--ink-soft); }
+  td .mono{ font-size:14px; }
+  .yes{ color:var(--qa); font-weight:600; } .no{ color:#B23B3B; font-weight:600; }
+
+  /* FAQ */
+  .faq{ margin-top:30px; border-top:1px solid var(--line); }
+  .faq details{ border-bottom:1px solid var(--line); }
+  .faq summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:28px; align-items:flex-start; padding:22px 4px; font-family:var(--font-display); font-weight:600; font-size:21px; color:var(--ink); line-height:1.32; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary .pls{ flex:none; width:22px; height:22px; position:relative; margin-top:5px; }
+  .faq summary .pls::before, .faq summary .pls::after{ content:''; position:absolute; background:var(--product); border-radius:2px; transition:transform .2s ease; }
+  .faq summary .pls::before{ left:0; right:0; top:10px; height:2px; }
+  .faq summary .pls::after{ top:0; bottom:0; left:10px; width:2px; }
+  .faq details[open] summary .pls::after{ transform:scaleY(0); }
+  .faq details[open] summary{ color:var(--product); }
+  .faq .ans{ padding:0 50px 26px 4px; font-size:16px; color:var(--ink-soft); line-height:1.62; }
+  .faq .ans .mono{ font-size:14px; }
+
+  footer{ border-top:1px solid var(--line); margin-top:90px; padding:40px 0 0; font-family:var(--font-mono); font-size:13px; color:var(--faint); letter-spacing:.04em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+
+  @media (max-width:980px){
+    .shell{ grid-template-columns:1fr; gap:0; padding:0 28px; }
+    nav.toc{ display:none; }
+    main{ padding-top:40px; max-width:100%; }
+    .hero{ padding:60px 28px 52px; } .hero h1{ font-size:42px; }
+    .tldr .stat-row, .legend, .lens-row, .ia{ grid-template-columns:1fr 1fr; }
+  }
+  @media print{
+    nav.toc{ display:none; } .shell{ display:block; padding:0 24px; } main{ max-width:100%; }
+    .hero{ background:#0E1623 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .lens,.leg,.how,.tldr,.ia-card{ break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .feature{ break-inside:avoid-page; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: STUDENT</div>
+    <h1>The Intoto Student Experience</h1>
+    <p class="sub">How an incoming student onboards, discovers their campus, and connects with peers inside Intoto — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Student (end user)</div>
+      <div><b>Scope</b>One university &amp; campus</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>The journey</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>Home dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>My Profile</a>
+    <a href="#f4"><span class="toc-num">04</span>Travel Plan</a>
+    <a href="#f5"><span class="toc-num">05</span>Social discovery</a>
+    <a href="#f6"><span class="toc-num">06</span>Events</a>
+    <a href="#f7"><span class="toc-num">07</span>Community</a>
+    <a href="#f8"><span class="toc-num">08</span>Chat &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <!-- OVERVIEW -->
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Student is</h2>
+      <p>The Student is Intoto's primary end-user — an incoming or current university student preparing for campus life. They complete a profile and travel plan, discover events and communities, connect with classmates and travel buddies, and chat with ambassadors and staff. They are scoped to a single university and campus (assigned at invitation), and they do not manage other users, approve communities, or see admin statistics.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A student logs in, is gently nudged to <b>finish their profile and travel plan</b>, then uses a content-focused home to <b>discover events, ambassadors, and peers</b> — registering for events, finding roommates and travel buddies, joining communities, and chatting — all configured per university by the backend.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">4</div><div class="l">Primary tabs: Home, Community, Chats, Profile</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Onboarding tracks: Profile &amp; Travel Plan</div></div>
+          <div class="stat"><div class="n">9</div><div class="l">Quick actions route from the dashboard</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Ways to find peers: classmates, roommates, travel buddies</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEGEND -->
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the student's journey — the intent and the decisions behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, validation, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for students and universities — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>End to end</div>
+      <h2>The student journey</h2>
+      <p>From the first login to active campus life, the path is built around one idea: remove friction before arrival, then open up engagement.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in &amp; set up</h4><p>Log in with university credentials, pick a role if more than one, and complete a one-time profile setup with an optional photo.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Land on Home</h4><p>A content-focused dashboard greets the student — with a completion alert if profile or travel data is still missing.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Complete onboarding</h4><p>Guided, section-by-section completion of the Profile and the Travel Plan, with progress tracked and the alert clearing when done.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Discover &amp; connect</h4><p>Find classmates, roommates, and travel buddies; browse events and ambassadors; explore communities — all scoped to the campus.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Engage &amp; stay connected</h4><p>Register for events, join and create communities, and chat with peers, ambassadors, and staff — entirely in-platform.</p></div></div>
+      </div>
+    </section>
+
+    <!-- IA -->
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available from the bottom bar. Everything a student does lives under one of them.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>The dashboard — completion alerts, banners, quick-action shortcuts, events, activities, and featured ambassadors.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse, join, and post in university communities — and request to create new ones (subject to approval).</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Direct and group messaging with classmates, ambassadors, and coordinators, with live unread counts.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Entry to My Profile sections, plus settings, FAQs, language, about, logout, and account deletion.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURE 01 ===== -->
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via university credentials (Auth0). A first-time student may pass through a one-time profile setup before the main app, and multi-role accounts choose a role first. Students always land on the content dashboard — never the admin overview.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the Intoto app and enter email/password, or use configured SSO.</li>
+          <li>Wait for profile and role to load.</li>
+          <li>Multiple roles → a <b>Role Selection</b> screen appears; choose <b>Student</b>.</li>
+          <li>First-time user → complete a one-time <b>Profile Setup</b> (basic details + optional photo) → <b>Continue</b>.</li>
+          <li>Land on <b>Home</b>; the four tabs appear — Home, Community, Chats, Profile.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Profile setup is intentionally minimal — just enough to enter the app — with the deeper profile prompted later by dashboard alerts, so first impression isn't a long form.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role students land on the student dashboard (not admin overview); multi-role shows Role Selection; first-time setup gates the tab bar; an incomplete account shows a completion alert on Home.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Sign in once with your university account and you're in — your whole campus, ready before you arrive."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 02 ===== -->
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Home dashboard</h3></div>
+      <p class="feat-lead">The student home is content- and action-oriented — not admin stat cards. It opens with a completion alert when onboarding is unfinished, then surfaces banners, quick-action shortcuts, events, activities, and featured ambassadors. Every section is configured by the backend, in API order.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on Home after login; the university logo and name sit in the header.</li>
+          <li>If profile or travel data is incomplete, read the <b>completion alert</b> at the top — with a progress ring for profile.</li>
+          <li>Tap the alert to jump straight to <b>My Profile</b> or the <b>Travel Plan</b> hub.</li>
+          <li>Swipe banners, tap <b>quick actions</b>, browse upcoming events and ambassadors.</li>
+          <li>Pull down to refresh counts, events, and alerts from the server.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Alert type</th><th>Means</th><th>Tap opens</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">INCOMPLETE_PROFILE_DATA</span></td><td>Profile sections unfinished</td><td>My Profile hub</td></tr>
+          <tr><td><span class="mono">INCOMPLETE_TRAVEL_DATA</span></td><td>Travel plan unfinished</td><td>Travel Plan hub</td></tr>
+          <tr><td><span class="mono">NO_ROLE</span></td><td>No active role assigned</td><td>Informational (no navigation)</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Students get a content dashboard, not admin metrics, by design — the alert turns onboarding into a guided nudge rather than a wall of forms, and backend ordering keeps each university's home relevant.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>No admin Quick Way stat cards render; sections appear only when the API sends them and in API order; the alert routes to the right hub and clears when complete; pull-to-refresh updates.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Your campus home — events, people, and what to do next, all in one feed that knows exactly where you left off."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 03 ===== -->
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>My Profile</h3></div>
+      <p class="feat-lead">My Profile is the student's own data hub: a list of sections with completion status, driven by the <span class="mono">studentForm</span> config. A guided Save → Next flow walks through sections in order, and finishing them clears the dashboard alert and makes the student visible to peers and coordinators. A <b>Shared by University</b> section here holds documents the university has sent the student — one-to-one or as part of a group — to view and download.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open from the profile alert, the <b>Profile tab → My Profile</b>, or a related flow.</li>
+          <li>Tap a section row (each shows complete/incomplete status).</li>
+          <li>Fill the API-configured fields, then tap <b>Save</b>.</li>
+          <li>Tap <b>Next</b> to move through sections in order (or <b>Previous</b> to go back).</li>
+          <li>Leaving with unsaved edits prompts to <b>Save</b> or <b>Discard</b>.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Typical section</th><th>What it captures</th></tr></thead>
+        <tbody>
+          <tr><td>Basic Details · Picture</td><td>Identity, photo for discovery lists</td></tr>
+          <tr><td>Preferences</td><td>Interests &amp; social prefs — powers peer matching</td></tr>
+          <tr><td>Contact &amp; Emergency</td><td>Phone, addresses, up to 3 emergency contacts</td></tr>
+          <tr><td>Education · Program Details</td><td>Academic history, campus, program, term</td></tr>
+          <tr><td>Personal Documents</td><td>Your own uploads, each with review status</td></tr>
+          <tr><td>Shared by University</td><td>Documents the University Super Admin shared with you — view &amp; download (read-only)</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Sections and order come from university config, not hardcoding — so the same hub serves every institution. Completion is the unlock for visibility and matching, which is why it's nudged so prominently.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Sections load with status from the API; Save persists and updates status; Next/Previous follow API order; unsaved-changes prompt fires; photo view/change/remove works; document upload shows review status.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A profile that builds itself one step at a time — finish it and your university and future classmates can find you."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 04 ===== -->
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Travel Plan</h3></div>
+      <p class="feat-lead">The Travel Plan captures how and when the student arrives — transport, documents, and a signed consent — so coordinators can support arrival. It runs on the <span class="mono">travelForm</span> config, and completing it unlocks connecting with other travellers.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open from the <b>Travel Plan</b> quick action or the travel completion alert.</li>
+          <li>Fill <b>Travel Details</b> — arrival date/time, transport mode, flight/train, destination → <b>Save</b>.</li>
+          <li>Upload required <b>Travel Documents</b> (tickets, visa, accommodation proofs).</li>
+          <li>In <b>Signature Documents</b>, check the consent box, then draw or upload a signature → <b>Submit</b>.</li>
+          <li>When complete, tap <b>Connect with Other Travellers</b> to open the travel-buddy list.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Consent is gated before submission so legal acknowledgement is never skipped, and the social reward (travel buddies) is deliberately placed after completion to motivate finishing the plan.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Signature submit is blocked until consent is checked; sections save and mark complete; the travel hub's Connect button is blocked until the plan is complete (shows a message); Program Details is edited from My Profile, not here.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Tell us how you're arriving once — and meet students travelling the same way before you land."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 05 ===== -->
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Social discovery</h3></div>
+      <p class="feat-lead">Three discovery lists help students build a social graph before arrival — classmates, roommates, and travel buddies. All share the same search-and-filter pattern and lead to a visibility-controlled peer profile with a path to chat.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Connect with Classmates</b>, <b>Find Roommate</b>, or <b>Travel Buddy</b> from Home.</li>
+          <li><b>Search</b> (3+ characters, debounced) or tap <b>Filter</b>.</li>
+          <li>Pick a category in the sidebar, select options (multi-select), then <b>Apply</b> — or use a date range for Visit Schedule.</li>
+          <li>Tap a row to open the <b>peer profile</b> (only the sections the peer chose to share).</li>
+          <li>Start a <b>Chat</b> or contact action where available.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One shared list pattern across three intents keeps the experience learnable, and peer-profile visibility rules protect students while still enabling connection.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search debounces at 3+ chars; filter apply/cancel/clear-all work; multi-select and date filters behave; peer profiles show only allowed sections and no admin actions; chat opens from a profile.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find your roommate, your classmates, and your travel crew before day one — friendships start before you arrive."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 06 ===== -->
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Events</h3></div>
+      <p class="feat-lead">Students discover university events from Home, register in a tap (answering any extra questions), see their registrations under My Events, and may be prompted for feedback after attending.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Find events via <b>Upcoming Events</b> on Home, the <b>Events</b> quick action, or <b>View All</b>.</li>
+          <li>Open an event → read title, date, location, description, capacity.</li>
+          <li>Tap <b>Register Now</b>; if the event has questions, answer them and submit.</li>
+          <li>See a success confirmation; the event appears under <b>My Events</b> on Home.</li>
+          <li>After attending, a feedback popup may appear — <b>Give Feedback</b> or <b>No Thanks</b>.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Registration and feedback live in the same app as onboarding, so engagement is continuous — and custom questions let organisers collect what they need at the point of intent.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Register succeeds and reflects on My Events; required questions block submit until answered; success confirms with event name and date; the feedback popup's Give Feedback and No Thanks both work without crashing.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"From orientation to club nights — discover what's on and reserve your spot in seconds."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 07 ===== -->
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Community</h3></div>
+      <p class="feat-lead">Students browse and join communities organised by interest, program, or culture, read and create posts as members, and can request to create new communities — which go through admin approval rather than going live instantly.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>Community</b> tab and explore feed, my communities, or discover.</li>
+          <li>Tap a community → profile, members, and posts; <b>Join</b> if not a member.</li>
+          <li>In a joined community, read the feed, open a post, or <b>Create post</b>.</li>
+          <li>To start one: <b>Create Community</b> → name, description, images → <b>Submit</b>.</li>
+          <li>See the approval message — the community goes live only after admin approval.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Student-created communities are gated for safety: same create flow as admins, but the outcome is "submitted for approval" rather than instant publish — moderation without blocking participation.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Join updates membership; member-only post creation is enforced; create shows "submitted for approval" (not instant live) and the community is not public until approved.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find your people — join communities by interest, program, or home country, or start your own."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 08 ===== -->
+    <article class="feature" id="f8">
+      <div class="feat-head"><span class="feat-num">08</span><h3>Chat &amp; account</h3></div>
+      <p class="feat-lead">Rounding out the experience: in-platform messaging with peers, ambassadors, and staff; notifications and pending role invitations; and the Profile tab for settings, language, support, and account control.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Chat:</b> open the <b>Chats</b> tab, pick a thread, read history, and send — with live unread counts.</li>
+          <li>Message someone new from their profile in any discovery or ambassador list via <b>Chat</b>.</li>
+          <li><b>Notifications:</b> tap the <b>bell</b> on Home for approvals, reminders, and chat alerts.</li>
+          <li><b>Invitations:</b> accept an additional role from the alert, or later via the <b>envelope</b> icon.</li>
+          <li><b>Account:</b> Profile tab holds My Profile, FAQs, Settings, language, About, logout, and delete account.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Messaging is peer-to-peer and support-oriented — students reach ambassadors and classmates directly from the profiles they discover, keeping every interaction inside the platform.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load and send works with live unread counts; chat starts from a profile; bell opens notifications and deep-links where supported; envelope shows pending invites; logout clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Real help from real people — message ambassadors and classmates the moment you need them, all in one app."</p></div>
+      </div>
+    </article>
+
+    <!-- PERMISSIONS -->
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Complete own profile and travel plan</td><td>Manage other users</td></tr>
+          <tr><td>Browse and join communities; create (pending approval)</td><td>Approve communities instantly</td></tr>
+          <tr><td>Register for events</td><td>Approve or reject events</td></tr>
+          <tr><td>Find classmates, roommates, and travel buddies</td><td>Assign students to coordinators</td></tr>
+          <tr><td>Chat with peers and ambassadors</td><td>Access admin Quick Way stat cards</td></tr>
+          <tr><td>View campus and support content</td><td>See cross-university or admin views</td></tr>
+          <tr><td>Accept additional role invitations</td><td>Bulk-email the entire student body</td></tr>
+          <tr><td>Use AI search (when enabled)</td><td>Suspend or invite users</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SCREEN MAP -->
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the student gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Student Home dashboard</td><td>Home tab after login</td></tr>
+          <tr><td>My Profile (section hub)</td><td>Profile alert · Profile tab → My Profile</td></tr>
+          <tr><td>Shared by University (documents)</td><td>My Profile → Shared by University section</td></tr>
+          <tr><td>Profile / Travel section editors</td><td>Tap a section row in the hub</td></tr>
+          <tr><td>Travel Plan hub</td><td>Travel quick action or travel alert</td></tr>
+          <tr><td>Campus Details</td><td>My Campus quick action</td></tr>
+          <tr><td>All Events · Event Details · Registration</td><td>Events action or upcoming carousel</td></tr>
+          <tr><td>Classmates · Roommate · Travel Buddy</td><td>Quick actions (Travel Buddy also from travel hub)</td></tr>
+          <tr><td>Peer / Ambassador profile</td><td>Tap a row in any discovery list</td></tr>
+          <tr><td>Community feed &amp; create</td><td>Community tab</td></tr>
+          <tr><td>Chats · Notifications · Pending invitations</td><td>Chats tab · bell · envelope</td></tr>
+          <tr><td>Support · AI Search</td><td>Support / Ask AI quick actions</td></tr>
+          <tr><td>Settings · FAQs · Logout</td><td>Profile tab</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FAQ -->
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Student FAQs</h2>
+      <p>The questions students, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What can I do as a student in Intoto?</span><span class="pls"></span></summary>
+        <div class="ans">Onboard, complete your travel and arrival details, discover your campus, join communities, register for events, and message ambassadors — all from one app.</div></details>
+
+        <details><summary><span>How do I get started?</span><span class="pls"></span></summary>
+        <div class="ans">Sign in with the credentials from your invitation, then work through onboarding and your profile. Forms save as you go, so you can stop and resume without losing progress.</div></details>
+
+        <details><summary><span>What travel and arrival information do I provide?</span><span class="pls"></span></summary>
+        <div class="ans">The travel and arrival forms collect your trip and document details, and where required you add a signature. This is shared with the university to help coordinate your arrival.</div></details>
+
+        <details><summary><span>Why does completing my profile matter?</span><span class="pls"></span></summary>
+        <div class="ans">A complete profile unlocks the full experience and ensures the people helping you — ambassadors and staff — have what they need. The app nudges you to finish any incomplete sections.</div></details>
+
+        <details><summary><span>How do I find and message an ambassador?</span><span class="pls"></span></summary>
+        <div class="ans">On your Home dashboard, scroll to the Ambassadors carousel, tap a mentor’s card to open their profile, then tap Chat. The conversation opens in your Chats tab.</div></details>
+
+        <details><summary><span>How do I join a community?</span><span class="pls"></span></summary>
+        <div class="ans">Open the Community tab, browse the available communities, and tap Join. You can then read the feed, open posts, and post yourself.</div></details>
+
+        <details><summary><span>How do I register for an event?</span><span class="pls"></span></summary>
+        <div class="ans">Find it on the Upcoming Events carousel or the events list, open it, and tap Register while the registration window is open. It then appears under your events.</div></details>
+
+        <details><summary><span>Is my personal data safe?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — sign-in is via Auth0, your data is stored encrypted on device, and uploaded documents are checked for tampering.</div></details>
+
+        <details><summary><span>Where do I get help?</span><span class="pls"></span></summary>
+        <div class="ans">Use the Support option for official help, or message an ambassador for friendly, peer guidance on day-to-day questions.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Student Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="360" y="250" width="300" height="40" rx="8" fill="#6FA4EE"/>
+    <rect x="360" y="320" width="480" height="22" rx="6" fill="#39414E"/>
+    <rect x="360" y="360" width="420" height="22" rx="6" fill="#39414E"/>
+    <rect x="360" y="430" width="150" height="46" rx="23" fill="none" stroke="#2A6FDB" stroke-width="3"/>
+    <rect x="525" y="430" width="110" height="46" rx="23" fill="none" stroke="#1F8A5B" stroke-width="3"/>
+    <rect x="650" y="430" width="190" height="46" rx="23" fill="none" stroke="#6A4FD8" stroke-width="3"/>
+  </svg>
+</template>
+</body>
+</html>

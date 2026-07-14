@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto iOS — System Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Type scale (1920×1080) */
+    --type-display: 92px;
+    --type-title: 60px;
+    --type-subtitle: 38px;
+    --type-body: 29px;
+    --type-small: 24px;
+    --type-mono: 24px;
+
+    /* Spacing */
+    --pad-x: 110px;
+    --pad-y: 92px;
+    --gap-title: 44px;
+    --gap-item: 26px;
+
+    /* Color system — cool neutral, blue accent */
+    --bg: #FAFBFC;
+    --bg-dark: #0E1623;
+    --ink: #161C26;
+    --ink-soft: #3A4250;
+    --muted: #6B7480;
+    --line: #E3E8EE;
+    --line-soft: #EDF0F4;
+    --surface: #FFFFFF;
+    --surface-2: #F1F4F8;
+    --accent: #2A6FDB;
+    --accent-deep: #1E54AC;
+    --accent-wash: #EAF1FC;
+    --accent-line: #C6DAF6;
+    --green: #1F8A5B;
+    --amber: #B5760E;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:#0a0d12; }
+  deck-stage:not(:defined){ visibility:hidden; }
+
+  section.slide{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+  .wrap{
+    width:100%; height:100%;
+    padding: var(--pad-y) var(--pad-x);
+    display:flex; flex-direction:column;
+  }
+
+  /* ---- Shared header ---- */
+  .kicker{
+    display:flex; align-items:center; gap:14px;
+    font-family: var(--font-mono);
+    font-size: var(--type-mono);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .kicker .num{ color: var(--muted); }
+  .kicker .dot{ width:11px; height:11px; background:var(--accent); border-radius:2px; display:inline-block; }
+  h2.title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--type-title);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    margin: var(--gap-title) 0 0 0;
+    color: var(--ink);
+    max-width: 1400px;
+    text-wrap: balance;
+  }
+  .lead{
+    font-size: var(--type-subtitle);
+    line-height: 1.3;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin: 28px 0 0 0;
+    max-width: 1280px;
+    text-wrap: pretty;
+  }
+  .body{ font-size: var(--type-body); line-height: 1.42; color: var(--ink-soft); }
+  .mono{ font-family: var(--font-mono); }
+
+  /* ---- Cards / grids ---- */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 34px 34px 32px;
+    display:flex; flex-direction:column;
+  }
+  .card .ct{ font-family: var(--font-display); font-weight:600; font-size: 32px; color: var(--ink); letter-spacing:-.01em; }
+  .card .cs{ font-size: var(--type-small); color: var(--muted); margin-top:14px; line-height:1.4; }
+  .card .clabel{ font-family:var(--font-mono); font-size:24px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+
+  /* layer block */
+  .layer{
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:12px;
+    padding:24px 30px;
+    display:flex; align-items:center; gap:28px;
+  }
+  .layer .lname{ font-family:var(--font-display); font-weight:600; font-size:30px; min-width:300px; }
+  .layer .ldesc{ font-size:var(--type-small); color:var(--muted); line-height:1.38; }
+  .layer .lmono{ font-family:var(--font-mono); font-size:24px; color:var(--accent); letter-spacing:.04em; }
+  .arrowcol{ display:flex; align-items:center; justify-content:center; color:var(--accent-line); font-size:30px; height:18px; }
+
+  .tag{
+    font-family:var(--font-mono); font-size:24px; letter-spacing:.03em;
+    color:var(--accent-deep); background:var(--accent-wash);
+    border:1px solid var(--accent-line); border-radius:8px;
+    padding:8px 14px; white-space:nowrap;
+  }
+
+  .footer{
+    position:absolute; left:var(--pad-x); right:var(--pad-x); bottom:42px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--font-mono); font-size:24px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+    border-top:1px solid var(--line-soft); padding-top:18px;
+  }
+
+  /* ---- Dark slides ---- */
+  section.slide.dark{ background: var(--bg-dark); color:#EAF0F7; }
+  .dark h2.title, .dark .ct{ color:#F4F8FD; }
+  .dark .lead{ color:#AEBBCB; }
+  .dark .kicker{ color:#6FA4EE; }
+  .dark .kicker .dot{ background:#6FA4EE; }
+  .dark .kicker .num{ color:#7A8699; }
+  .dark .card{ background:#161F2E; border-color:#27303F; }
+  .dark .card .cs{ color:#9AA7B6; }
+  .dark .footer{ color:#6B7686; border-color:#222B39; }
+
+  /* entrance */
+  @media (prefers-reduced-motion: no-preference){
+    [data-deck-active] .anim{ animation: rise .55s cubic-bezier(.2,.7,.3,1) both; }
+    [data-deck-active] .anim:nth-child(2){ animation-delay:.05s; }
+    [data-deck-active] .anim:nth-child(3){ animation-delay:.1s; }
+    [data-deck-active] .anim:nth-child(4){ animation-delay:.15s; }
+    @keyframes rise{ from{ transform:translateY(18px);} to{ transform:none;} }
+  }
+
+  /* helpers */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  .fill{ flex:1; }
+  .spread{ display:flex; gap:60px; }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+  <!-- 1 · COVER -->
+  <section class="slide dark" data-label="Cover">
+    <div class="wrap" style="justify-content:space-between;">
+      <div class="kicker anim"><span class="dot"></span>SYSTEM DESIGN DOCUMENT<span class="num">· v1.0 · JUN 2026</span></div>
+      <div>
+        <h1 class="anim" style="font-family:var(--font-display); font-weight:600; font-size:var(--type-display); line-height:0.98; letter-spacing:-0.02em; margin:0; color:#F6F9FD;">Intoto iOS</h1>
+        <p class="anim" style="font-family:var(--font-display); font-weight:400; font-size:var(--type-display); line-height:0.98; letter-spacing:-0.02em; margin:6px 0 0 0; color:#6FA4EE;">System Design</p>
+        <p class="lead anim" style="margin-top:38px; max-width:1080px;">A backend-driven, offline-first, multi-tenant university engagement platform — built in Swift &amp; UIKit on an MVVM architecture.</p>
+      </div>
+      <div class="anim" style="display:flex; gap:14px; flex-wrap:wrap;">
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">Swift · UIKit</span>
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">MVVM</span>
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">Realm · Offline-first</span>
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">Auth0</span>
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">Socket.IO</span>
+        <span class="tag" style="background:#16243A; border-color:#28425F; color:#9CC2F2;">6 roles · multi-campus</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · SYSTEM OVERVIEW -->
+  <section class="slide" data-label="Overview">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>OVERVIEW<span class="num">· 02</span></div>
+      <h2 class="title">What Intoto is</h2>
+      <p class="lead">A single iOS app that carries an incoming student from invitation through arrival and campus life — and gives universities the roles to run it. The same binary serves six roles across many institutions, configured entirely by the backend.</p>
+      <div class="grid4 fill anim" style="margin-top:56px; align-items:stretch;">
+        <div class="card">
+          <div class="ct" style="color:var(--accent);">6</div>
+          <div class="cs">User roles in one app — from Student to University Super Admin</div>
+        </div>
+        <div class="card">
+          <div class="ct" style="color:var(--accent);">N</div>
+          <div class="cs">Universities &amp; campuses, each with its own forms, branding, and feature set</div>
+        </div>
+        <div class="card">
+          <div class="ct" style="color:var(--accent);">7</div>
+          <div class="cs">Localized languages, from English to Bengali, Hindi, French &amp; Urdu</div>
+        </div>
+        <div class="card">
+          <div class="ct" style="color:var(--accent);">100%</div>
+          <div class="cs">Dashboards &amp; forms driven by server config — no app release to change them</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · DESIGN GOALS -->
+  <section class="slide" data-label="Goals">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>PRINCIPLES<span class="num">· 03</span></div>
+      <h2 class="title">Design goals &amp; constraints</h2>
+      <div class="grid2 fill anim" style="margin-top:52px; align-items:stretch;">
+        <div class="card">
+          <div class="clabel">Goal 01</div>
+          <div class="ct">Configure, don't ship</div>
+          <div class="cs">University requirements differ and change often. Forms, dashboard sections, and available features are described by the server so the client adapts without an App Store release.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Goal 02</div>
+          <div class="ct">Work without signal</div>
+          <div class="cs">Students fill long forms on the move. Edits persist locally on every step and sync in the background — connectivity is never a blocker.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Goal 03</div>
+          <div class="ct">One app, many tenants</div>
+          <div class="cs">Six roles and many institutions share one codebase. Identity, scope, and permissions decide what each session can see and do.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Goal 04</div>
+          <div class="ct">Modular by feature</div>
+          <div class="cs">Each capability is a self-contained MVVM module, so teams build and test in parallel against shared common services.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · TECH STACK -->
+  <section class="slide" data-label="Stack">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>FOUNDATIONS<span class="num">· 04</span></div>
+      <h2 class="title">Technology stack</h2>
+      <div class="grid3 fill anim" style="margin-top:52px; align-items:stretch;">
+        <div class="card">
+          <div class="clabel">Language &amp; UI</div>
+          <div class="ct" style="font-size:28px;">Swift · UIKit</div>
+          <div class="cs">Objective-C only where a library demands it. Programmatic + storyboard views, MVVM throughout.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Architecture</div>
+          <div class="ct" style="font-size:28px;">MVVM + patterns</div>
+          <div class="cs">Factory, Builder, Singleton for construction; Observer for view-model binding.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Dependencies</div>
+          <div class="ct" style="font-size:28px;">Swift Package Manager</div>
+          <div class="cs">Alamofire networking, Realm, Auth0, Socket.IO, Firebase, Mixpanel, Google Places.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Persistence</div>
+          <div class="ct" style="font-size:28px;">Realm + UserDefaults</div>
+          <div class="cs">Realm for heavy structured data; UserDefaults for lightweight session flags.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Identity</div>
+          <div class="ct" style="font-size:28px;">Auth0</div>
+          <div class="cs">Token issuance &amp; silent refresh, with SSO per institution where configured.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Insight &amp; QA</div>
+          <div class="ct" style="font-size:28px;">Firebase · Mixpanel · XCTest</div>
+          <div class="cs">Analytics + Crashlytics + product events; unit &amp; UI test suites per module.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · ARCHITECTURE AT A GLANCE -->
+  <section class="slide" data-label="Architecture">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>ARCHITECTURE<span class="num">· 05</span></div>
+      <h2 class="title">Architecture at a glance</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">Four layers, top to bottom. Views stay dumb; view-models hold state and logic; services own data access and talk to the network and database.</p>
+      <div class="fill anim" style="display:flex; flex-direction:column; gap:0; margin-top:42px; justify-content:center;">
+        <div class="layer">
+          <div class="lname">View</div>
+          <div class="ldesc fill">View controllers, cells &amp; designable components — render state, forward user intent. No business logic.</div>
+          <div class="lmono">UIKit</div>
+        </div>
+        <div class="arrowcol">↑ binds&nbsp;&nbsp;↓ events</div>
+        <div class="layer">
+          <div class="lname">ViewModel</div>
+          <div class="ldesc fill">Presentation state, validation, formatting. Exposes observable outputs the view subscribes to.</div>
+          <div class="lmono">Observer</div>
+        </div>
+        <div class="arrowcol">↑ data&nbsp;&nbsp;↓ requests</div>
+        <div class="layer">
+          <div class="lname">Service / Repository</div>
+          <div class="ldesc fill">Orchestrates a feature's data: chooses cache vs. network, builds requests, maps responses to models.</div>
+          <div class="lmono">Factory · Builder</div>
+        </div>
+        <div class="arrowcol">↓</div>
+        <div class="layer" style="border-color:var(--accent-line); background:var(--accent-wash);">
+          <div class="lname" style="color:var(--accent-deep);">Common Infrastructure</div>
+          <div class="ldesc fill" style="color:var(--accent-deep);">Networking · Realm · Auth0 · Socket.IO · Theme · Localization — shared singletons used by every module.</div>
+          <div class="lmono">Singletons</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · FEATURE MODULE ANATOMY -->
+  <section class="slide" data-label="Module">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>ARCHITECTURE<span class="num">· 06</span></div>
+      <h2 class="title">Anatomy of a feature module</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">Every feature folder repeats the same shape, so any engineer can navigate an unfamiliar module on sight. Profile, Events, Community and Dashboard all follow it.</p>
+      <div class="grid4 fill anim" style="margin-top:50px; align-items:stretch;">
+        <div class="card">
+          <div class="clabel">/View</div>
+          <div class="cs" style="margin-top:0; color:var(--ink-soft); font-size:26px;">Controllers, cells &amp; XIBs that present the module and capture input.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">/ViewModel</div>
+          <div class="cs" style="margin-top:0; color:var(--ink-soft); font-size:26px;">State, validation and the bindings the view observes.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">/Model</div>
+          <div class="cs" style="margin-top:0; color:var(--ink-soft); font-size:26px;">Codable response &amp; domain types — one per concern (e.g. <span class="mono" style="font-size:24px;">BasicDetailsModel</span>).</div>
+        </div>
+        <div class="card">
+          <div class="clabel">/Service</div>
+          <div class="cs" style="margin-top:0; color:var(--ink-soft); font-size:26px;">API client &amp; data access for the feature, on top of shared networking.</div>
+        </div>
+      </div>
+      <p class="body anim" style="margin-top:34px; font-size:26px; color:var(--muted);">Larger modules add helpers — <span class="mono" style="font-size:24px; color:var(--accent-deep);">RequestBuilder</span>, <span class="mono" style="font-size:24px; color:var(--accent-deep);">Validator</span>, <span class="mono" style="font-size:24px; color:var(--accent-deep);">DataAssembler</span>, <span class="mono" style="font-size:24px; color:var(--accent-deep);">Routing</span> — without breaking the convention.</p>
+    </div>
+  </section>
+
+  <!-- 7 · MULTI-TENANT MULTI-ROLE -->
+  <section class="slide" data-label="Tenancy">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>DOMAIN MODEL<span class="num">· 07</span></div>
+      <h2 class="title">Multi-tenant, multi-role</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">Identity is layered: a person can hold several roles, each scoped to one university and campus. The active role decides the dashboard, tabs and permissions loaded.</p>
+      <div class="spread fill anim" style="margin-top:48px; align-items:stretch;">
+        <div class="card" style="flex:1.1;">
+          <div class="clabel">Scope chain</div>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:6px;">
+            <div class="layer" style="padding:18px 24px;"><div class="lname" style="min-width:0; font-size:26px;">Account</div><div class="ldesc fill">One person · Auth0 identity</div></div>
+            <div class="arrowcol" style="justify-content:flex-start; padding-left:30px;">↓</div>
+            <div class="layer" style="padding:18px 24px;"><div class="lname" style="min-width:0; font-size:26px;">Role</div><div class="ldesc fill">One of six · switchable</div></div>
+            <div class="arrowcol" style="justify-content:flex-start; padding-left:30px;">↓</div>
+            <div class="layer" style="padding:18px 24px; border-color:var(--accent-line); background:var(--accent-wash);"><div class="lname" style="min-width:0; font-size:26px; color:var(--accent-deep);">University · Campus</div><div class="ldesc fill" style="color:var(--accent-deep);">Tenant scope for all data</div></div>
+          </div>
+        </div>
+        <div class="card" style="flex:1;">
+          <div class="clabel">The six roles</div>
+          <div style="display:flex; flex-direction:column; gap:0;">
+            <div style="display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); font-size:27px;"><span>Student</span><span class="mono" style="color:var(--muted); font-size:24px;">end user</span></div>
+            <div style="display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); font-size:27px;"><span>Ambassador</span><span class="mono" style="color:var(--muted); font-size:24px;">peer support</span></div>
+            <div style="display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); font-size:27px;"><span>Event Coordinator</span><span class="mono" style="color:var(--muted); font-size:24px;">events</span></div>
+            <div style="display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); font-size:27px;"><span>Community Coordinator</span><span class="mono" style="color:var(--muted); font-size:24px;">groups</span></div>
+            <div style="display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); font-size:27px;"><span>Third-Party Coordinator</span><span class="mono" style="color:var(--muted); font-size:24px;">partner</span></div>
+            <div style="display:flex; justify-content:space-between; padding:16px 0; font-size:27px;"><span>University Super Admin</span><span class="mono" style="color:var(--accent); font-size:24px;">full admin</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · BACKEND-DRIVEN CONFIG -->
+  <section class="slide" data-label="Config">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>CONFIGURATION<span class="num">· 08</span></div>
+      <h2 class="title">Backend-driven configuration</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">The server describes the UI; the client renders it. Dashboards, forms and shortcuts arrive as data — so a university's onboarding can change without touching the app.</p>
+      <div class="grid3 fill anim" style="margin-top:48px; align-items:stretch;">
+        <div class="card">
+          <div class="clabel">Dashboard</div>
+          <div class="ct" style="font-size:28px;">Sections in API order</div>
+          <div class="cs">Banner, Quick Actions, Events, Activities and Ambassadors render only when, and in the order, the server returns them.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Forms</div>
+          <div class="ct" style="font-size:28px;">formId → sections</div>
+          <div class="cs"><span class="mono" style="font-size:24px; color:var(--accent-deep);">studentForm</span> and <span class="mono" style="font-size:24px; color:var(--accent-deep);">travelForm</span> resolve to a section &amp; field list — each field marked required, visible, editable.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Shortcuts</div>
+          <div class="ct" style="font-size:28px;">actionId routing</div>
+          <div class="cs">Quick-action tiles carry an <span class="mono" style="font-size:24px; color:var(--accent-deep);">actionId</span> the client maps to a destination screen — config decides which appear.</div>
+        </div>
+      </div>
+      <p class="body anim" style="margin-top:34px; font-size:26px; color:var(--muted);">Licensed features gate capabilities per tenant, so the same build exposes different surface area to different universities.</p>
+    </div>
+  </section>
+
+  <!-- 9 · NETWORKING -->
+  <section class="slide" data-label="Networking">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>INFRASTRUCTURE<span class="num">· 09</span></div>
+      <h2 class="title">The networking layer</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">A single async client over Alamofire: every request checks reachability, attaches a fresh Auth0 token, and maps the response through one parser before it reaches a service.</p>
+      <div class="fill anim" style="display:flex; align-items:center; gap:18px; margin-top:54px; flex-wrap:wrap;">
+        <div class="card" style="flex:1; min-width:0;"><div class="clabel">Endpoint</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Typed route, method &amp; params — URL built consistently per environment.</div></div>
+        <div class="arrowcol" style="font-size:34px;">→</div>
+        <div class="card" style="flex:1.1; min-width:0;"><div class="clabel">AsyncNetworkClient</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">async/await over Alamofire. Reachability gate, token attach, silent refresh on 401.</div></div>
+        <div class="arrowcol" style="font-size:34px;">→</div>
+        <div class="card" style="flex:1; min-width:0;"><div class="clabel">ResponseParser</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Decodes into Codable models, normalizes errors to a typed Result.</div></div>
+      </div>
+      <div class="anim" style="display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;">
+        <span class="tag">noNetwork</span>
+        <span class="tag">unauthorized → refresh</span>
+        <span class="tag">refreshTokenExpired → logout</span>
+        <span class="tag">serverError(message)</span>
+        <span class="tag">image cache</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · OFFLINE-FIRST -->
+  <section class="slide" data-label="Offline">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>DATA<span class="num">· 10</span></div>
+      <h2 class="title">Offline-first storage &amp; sync</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">Form progress is written to Realm the moment a student taps Next, then pushed to the server by a background process. A dropped connection never stops the flow.</p>
+      <div class="fill anim" style="display:flex; flex-direction:column; justify-content:center; gap:22px; margin-top:46px;">
+        <div style="display:flex; align-items:stretch; gap:18px;">
+          <div class="card" style="flex:1;"><div class="clabel">1 · Capture</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">User completes a section and taps Next.</div></div>
+          <div class="arrowcol" style="font-size:32px;">→</div>
+          <div class="card" style="flex:1; border-color:var(--accent-line); background:var(--accent-wash);"><div class="clabel">2 · Persist local</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--accent-deep);">Written to Realm immediately — source of truth offline.</div></div>
+          <div class="arrowcol" style="font-size:32px;">→</div>
+          <div class="card" style="flex:1;"><div class="clabel">3 · Sync background</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Pushed to server when reachable; UI never blocks.</div></div>
+        </div>
+        <div class="grid3" style="margin-top:14px;">
+          <div class="card"><div class="ct" style="font-size:26px;">Realm</div><div class="cs">Heavy structured data — profiles, cached university &amp; dashboard responses, migrations managed.</div></div>
+          <div class="card"><div class="ct" style="font-size:26px;">UserDefaults</div><div class="cs">Lightweight session state — tokens flags, selected role, language preference.</div></div>
+          <div class="card"><div class="ct" style="font-size:26px;">Read-through cache</div><div class="cs">University &amp; student data cached on first fetch to avoid frequent re-calls.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · AUTH & SECURITY -->
+  <section class="slide" data-label="Security">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>SECURITY<span class="num">· 11</span></div>
+      <h2 class="title">Authentication &amp; document security</h2>
+      <div class="grid2 fill anim" style="margin-top:50px; align-items:stretch;">
+        <div class="card">
+          <div class="clabel">Identity · Auth0</div>
+          <div class="ct">Tokens &amp; silent refresh</div>
+          <div class="cs">Credentials are obtained through Auth0's manager; the network client refreshes access tokens transparently and forces logout when a refresh token expires.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">At rest</div>
+          <div class="ct">Encryption service</div>
+          <div class="cs">A dedicated encryption layer protects sensitive locally-stored values, separate from plain Realm records.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Document integrity</div>
+          <div class="ct">PDF tamper detection</div>
+          <div class="cs">Uploaded proofs and signed documents are checked for tampering before they're trusted in compliance flows.</div>
+        </div>
+        <div class="card">
+          <div class="clabel">Consent</div>
+          <div class="ct">Signature &amp; terms</div>
+          <div class="cs">Travel sign-off captures a drawn or uploaded signature plus explicit Terms &amp; Conditions consent before submission.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · REAL-TIME CHAT -->
+  <section class="slide" data-label="Chat">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>REAL-TIME<span class="num">· 12</span></div>
+      <h2 class="title">Real-time chat</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">Messaging runs over a persistent Socket.IO connection — one-to-one and group threads, live unread counts, and presence — bridged to CallKit for voice.</p>
+      <div class="grid4 fill anim" style="margin-top:50px; align-items:stretch;">
+        <div class="card"><div class="clabel">ChatList</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Inbox of threads with live unread counts.</div></div>
+        <div class="card"><div class="clabel">ChatRoom</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">A conversation — history, send, real-time receive.</div></div>
+        <div class="card"><div class="clabel">ChatGroup</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Group threads tied to communities &amp; cohorts.</div></div>
+        <div class="card"><div class="clabel">UserList</div><div class="cs" style="margin-top:0; font-size:25px; color:var(--ink-soft);">Start a chat from any discovery list profile.</div></div>
+      </div>
+      <p class="body anim" style="margin-top:34px; font-size:26px; color:var(--muted);">Socket events update threads in real time; CallKit integration surfaces voice calls through the native iOS call UI.</p>
+    </div>
+  </section>
+
+  <!-- 13 · DATA FLOW SEQUENCE -->
+  <section class="slide dark" data-label="Flow">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>END-TO-END<span class="num">· 13</span></div>
+      <h2 class="title">Data flow — completing a profile section</h2>
+      <div class="fill anim" style="display:flex; flex-direction:column; justify-content:center; gap:0; margin-top:30px;">
+        <div class="layer" style="background:#161F2E; border-color:#27303F;"><div class="lname" style="color:#9CC2F2; min-width:340px;">1 · View</div><div class="ldesc fill" style="color:#9AA7B6;">Student edits a section; tap Next emits intent to the ViewModel.</div></div>
+        <div class="arrowcol" style="color:#3C5170;">↓</div>
+        <div class="layer" style="background:#161F2E; border-color:#27303F;"><div class="lname" style="color:#9CC2F2; min-width:340px;">2 · ViewModel</div><div class="ldesc fill" style="color:#9AA7B6;">Validates fields against config, builds the request, asks the Service to save.</div></div>
+        <div class="arrowcol" style="color:#3C5170;">↓</div>
+        <div class="layer" style="background:#162A3E; border-color:#2A4A5F;"><div class="lname" style="color:#7FD3A6; min-width:340px;">3 · Realm (local)</div><div class="ldesc fill" style="color:#9AA7B6;">Writes immediately — completion status updates, dashboard alert recalculates.</div></div>
+        <div class="arrowcol" style="color:#3C5170;">↓</div>
+        <div class="layer" style="background:#161F2E; border-color:#27303F;"><div class="lname" style="color:#9CC2F2; min-width:340px;">4 · Service → Network</div><div class="ldesc fill" style="color:#9AA7B6;">Background sync pushes to the server when reachable; retries on reconnect.</div></div>
+        <div class="arrowcol" style="color:#3C5170;">↓</div>
+        <div class="layer" style="background:#161F2E; border-color:#27303F;"><div class="lname" style="color:#9CC2F2; min-width:340px;">5 · Server ack</div><div class="ldesc fill" style="color:#9AA7B6;">Confirmation updates the cached record; the completion alert clears on Home.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · LOCALIZATION & THEMING -->
+  <section class="slide" data-label="L10n">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>EXPERIENCE<span class="num">· 14</span></div>
+      <h2 class="title">Localization &amp; theming</h2>
+      <p class="lead" style="font-size:30px; margin-top:22px;">The app ships in seven languages and themes per institution, so each university's students see their own language and brand from the splash screen on.</p>
+      <div class="anim" style="display:flex; gap:16px; margin-top:50px; flex-wrap:wrap;">
+        <span class="tag" style="font-size:24px; padding:14px 22px;">English</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">Bengali</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">French</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">Hindi</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">Portuguese</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">Russian</span>
+        <span class="tag" style="font-size:24px; padding:14px 22px;">Urdu</span>
+      </div>
+      <div class="grid2 fill anim" style="margin-top:44px; align-items:stretch;">
+        <div class="card"><div class="clabel">Localization</div><div class="ct" style="font-size:28px;">Per-language bundles</div><div class="cs">Strings and launch screens localized across all seven locales; language is a stored preference applied app-wide.</div></div>
+        <div class="card"><div class="clabel">ThemeManager</div><div class="ct" style="font-size:28px;">Institution branding</div><div class="cs">Centralized colors, fonts and assets, with university logo &amp; name surfaced through the navigation chrome.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 · OBSERVABILITY -->
+  <section class="slide" data-label="Observability">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>OPERATIONS<span class="num">· 15</span></div>
+      <h2 class="title">Observability &amp; quality</h2>
+      <div class="grid3 fill anim" style="margin-top:52px; align-items:stretch;">
+        <div class="card"><div class="clabel">Analytics</div><div class="ct" style="font-size:28px;">Firebase + Mixpanel</div><div class="cs">Screen &amp; event tracking measures onboarding completion and engagement across roles.</div></div>
+        <div class="card"><div class="clabel">Stability</div><div class="ct" style="font-size:28px;">Crashlytics</div><div class="cs">Crash reporting with symbolicated stacks, triaged per release and environment.</div></div>
+        <div class="card"><div class="clabel">Testing</div><div class="ct" style="font-size:28px;">XCTest suites</div><div class="cs">Unit tests for login, profile, filters &amp; admin flows; UI tests cover the login journey.</div></div>
+      </div>
+      <p class="body anim" style="margin-top:34px; font-size:26px; color:var(--muted);">Three build environments — dev, stage and production — keep configuration, entitlements and endpoints isolated.</p>
+    </div>
+  </section>
+
+  <!-- 16 · CLOSE -->
+  <section class="slide dark" data-label="Close">
+    <div class="wrap" style="justify-content:space-between;">
+      <div class="kicker anim"><span class="dot"></span>SUMMARY<span class="num">· 16</span></div>
+      <div>
+        <h2 class="title anim" style="font-size:72px; max-width:1500px;">One codebase, configured for every campus</h2>
+        <p class="lead anim" style="margin-top:34px; max-width:1240px;">Intoto's iOS architecture trades hard-coded screens for a server-described, offline-first, multi-tenant system — so new universities, forms and features land without a release.</p>
+      </div>
+      <div class="grid3 anim" style="gap:24px;">
+        <div class="card"><div class="clabel">Watch next</div><div class="cs" style="margin-top:0; font-size:25px; color:#9AA7B6;">Define a sync conflict-resolution policy as offline edits scale.</div></div>
+        <div class="card"><div class="clabel">Watch next</div><div class="cs" style="margin-top:0; font-size:25px; color:#9AA7B6;">Document the config schema as a shared contract with backend.</div></div>
+        <div class="card"><div class="clabel">Watch next</div><div class="cs" style="margin-top:0; font-size:25px; color:#9AA7B6;">Grow test coverage on coordinator &amp; admin flows.</div></div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+<script src="deck-stage.js"></script>
+</body>
+</html>

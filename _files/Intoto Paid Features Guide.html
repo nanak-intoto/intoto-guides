@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Paid Features — Product Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  :root{ --feat:#6A4FD8; --feat-wash:#EFEBFB; --feat-line:#D4C9F4; }
+  .eyebrow{ color:#BCA9F0; } .eyebrow .sq{ background:#BCA9F0; }
+  a, .kicker, .stat .n, .feat-num, .faq details[open] summary{ color:var(--feat); }
+  nav.toc a:hover{ border-color:var(--feat); color:var(--ink); }
+  .kicker .sq{ background:var(--feat); }
+  .flow-node{ background:var(--feat-wash); border-color:var(--feat); color:var(--feat); }
+  .ia-card .tag{ color:var(--feat); }
+  .faq summary .pls::before, .faq summary .pls::after{ background:var(--feat); }
+  .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
+  .plat-note b{ color:var(--ink-soft); }
+  .mod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; }
+  .mod-card{ border:1px solid var(--line); border-radius:14px; padding:22px 24px; background:var(--surface); }
+  .mod-card h4{ font-family:var(--font-display); font-size:20px; margin:0; font-weight:600; }
+  .mod-card .tagline{ font-size:15px; color:var(--muted); margin:8px 0 0; line-height:1.45; }
+  .mod-card a{ font-family:var(--font-mono); font-size:13px; margin-top:14px; display:inline-block; }
+  @media (max-width:980px){ .mod-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .mod-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PRODUCT CATALOG · INTOTO PAID FEATURES</div>
+    <h1>What Intoto provides to universities</h1>
+    <p class="sub">Intoto is sold as <b>six standalone paid modules</b> — not an all-or-nothing platform license. This catalog explains each module, what it unlocks for students and staff, and how Intoto Admin and University Super Admin interact with subscriptions. Written for Product, Sales, QA, and client demos.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Modules</b>6 standalone paid features</div>
+      <div><b>Model</b>À la carte — one, several, or all</div>
+      <div><b>Provisioned by</b>Intoto Admin</div>
+      <div><b>Visible to university</b>My University → Features tab</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#model"><span class="toc-num">·</span>How subscriptions work</a>
+    <a href="#catalog"><span class="toc-num">·</span>All six modules</a>
+    <a href="#feat-ambassador"><span class="toc-num">01</span>Ambassador Management</a>
+    <a href="#feat-travel"><span class="toc-num">02</span>Travel Plan</a>
+    <a href="#feat-community"><span class="toc-num">03</span>Community</a>
+    <a href="#feat-chat"><span class="toc-num">04</span>Chat</a>
+    <a href="#feat-events"><span class="toc-num">05</span>Event Management</a>
+    <a href="#feat-usermgmt"><span class="toc-num">06</span>User Management</a>
+    <a href="#roles"><span class="toc-num">·</span>Who does what</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>The Intoto product catalog for universities</h2>
+      <p>Every university on Intoto subscribes to a custom mix of paid modules. A institution can start with a single feature — often <b>User Management</b> — and add <b>Chat</b>, <b>Travel Plan</b>, or others at any time. Each module is independent: its own contract dates, its own Active/inactive state, and its own set of admin tools and student experiences.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;"><b>Intoto Admin</b> provisions modules when onboarding or updating a tenant. The <b>University Super Admin</b> sees what is live on <b>My University → Features</b> — read-only cards with Active status, Start/End dates, and (for User Management) seat capacity. When a module is Active, its sidebar entries and student-facing surfaces appear; when inactive, that functionality is hidden entirely.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">6</div><div class="l">Standalone paid modules</div></div>
+          <div class="stat"><div class="n">1+</div><div class="l">Minimum modules per university</div></div>
+          <div class="stat"><div class="n">Any time</div><div class="l">Add modules as needs grow</div></div>
+          <div class="stat"><div class="n">1 tab</div><div class="l">University view — My University → Features</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="model">
+      <div class="kicker"><span class="sq"></span>Commercial model</div>
+      <h2>How subscriptions work</h2>
+      <p>Intoto does <b>not</b> require universities to buy the full platform. Sales and onboarding agree on which modules the tenant needs; Intoto Admin enables them on the backend. The university admin sees the result on the <b>Features</b> tab — they cannot toggle modules themselves.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Sales / onboarding</b> agrees module list, seat counts, and contract dates with the university.</li>
+          <li><b>Intoto Admin</b> provisions modules when creating the tenant or updating an existing university.</li>
+          <li><b>University Super Admin</b> opens <b>My University → Features</b> to confirm what is Active before inviting users or promising capabilities.</li>
+          <li>When a new module is added mid-contract, it appears on the Features tab with its own Start/End dates; related sidebar tools unlock automatically.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>On every Features card (university portal)</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><b>Title &amp; description</b></td><td>Commercial module name and one-line summary shown in the web portal.</td></tr>
+          <tr><td><b>Active</b></td><td>Module is currently entitled — admin tools and student experiences are available.</td></tr>
+          <tr><td><b>Start Date</b> / <b>End Date</b></td><td>Subscription window (example: Jul 13, 2025 – Jul 13, 2026). Outside this range the module is inactive.</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Example mix:</b> Year one — <b>User Management</b> + <b>Chat</b> only. Before next intake — add <b>Travel Plan</b> and <b>Ambassador Management</b>. Each module bills and renews independently.</p>
+    </section>
+
+    <section class="sec" id="catalog">
+      <div class="kicker"><span class="sq"></span>Quick reference</div>
+      <h2>All six paid modules</h2>
+      <p>Tap a module below to jump to its full description, or scroll through sections 01–06.</p>
+      <div class="mod-grid">
+        <div class="mod-card"><h4>Ambassador Management</h4><p class="tagline">Connect students with ambassadors.</p><a href="#feat-ambassador">Read more →</a></div>
+        <div class="mod-card"><h4>Travel Plan</h4><p class="tagline">Manage student travel arrangements.</p><a href="#feat-travel">Read more →</a></div>
+        <div class="mod-card"><h4>Community</h4><p class="tagline">Student connections &amp; groups.</p><a href="#feat-community">Read more →</a></div>
+        <div class="mod-card"><h4>Chat</h4><p class="tagline">Direct messaging between users.</p><a href="#feat-chat">Read more →</a></div>
+        <div class="mod-card"><h4>Event Management</h4><p class="tagline">Create and manage campus events.</p><a href="#feat-events">Read more →</a></div>
+        <div class="mod-card"><h4>User Management</h4><p class="tagline">Control user limits &amp; invitations.</p><a href="#feat-usermgmt">Read more →</a></div>
+      </div>
+      <table>
+        <thead><tr><th>Module</th><th>Primary audience</th><th>Key surfaces when Active</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ambassador Management</b></td><td>Prospective &amp; new students · peer &amp; external mentors</td><td>Ambassador directories · mobile carousel · Ambassador Platform</td></tr>
+          <tr><td><b>Travel Plan</b></td><td>Incoming students · arrival coordinators</td><td>Travel lists · arrival status · campus travel tab</td></tr>
+          <tr><td><b>Community</b></td><td>All students · community coordinators</td><td>Groups · feeds · pending requests · reports</td></tr>
+          <tr><td><b>Chat</b></td><td>Students · ambassadors · staff</td><td>1:1 &amp; group messaging · mobile Chats tab</td></tr>
+          <tr><td><b>Event Management</b></td><td>Students · event coordinators</td><td>Event lifecycle · registration · attendance · feedback</td></tr>
+          <tr><td><b>User Management</b></td><td>University Super Admin · all roles</td><td>Manage User · Invite Data · Profile Review · seat limits</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <article class="feature" id="feat-ambassador">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Ambassador Management</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Connect students with ambassadors.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Structured ambassador program for peer mentors (in-app) and external partners (web portal + Ambassador Platform). Universities run discovery, invitation, and oversight of ambassador rosters. Students find mentors via the mobile Ambassadors carousel; prospects use The Ambassador Platform directory when External Ambassadors are enabled.</p>
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Dashboard Ambassadors / External Ambassadors cards · Sidebar ambassador lists · Ambassador detail views · Invite ambassador roles · Student discovery carousel</td><td>No ambassador sidebar or dashboard cards · No ambassador invites · No student ambassador discovery</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Bridges pre-enrollment (Ambassador Platform) and enrolled student support (in-app mentors) under one commercial module.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Active card → ambassador tools visible; inactive → hidden; external + internal paths both gated by same entitlement.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Give every incoming student a peer mentor — on mobile and on the web."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="feat-travel">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Travel Plan</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Manage student travel arrangements.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">End-to-end travel and arrival tracking — flight details, transit status, and on-campus arrival. Super Admins and coordinators see who is arriving, in transit, or already on campus. Scoped per campus on the Campus → Travel Plans tab.</p>
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Dashboard Travel Plans card · Sidebar Travel Plan module · Travel detail by status · Campus Travel Plans tab · Mobile oversight</td><td>Travel sidebar and dashboard hidden · No travel lists · No campus travel tab</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Critical for international intake — visibility into arrival pipeline without spreadsheets.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Student travel forms save; admin lists filter by status; inactive module hides all travel UI.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Know who is in the air, on the ground, or on campus — before they knock on your door."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="feat-community">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Community</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Student connections &amp; groups.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">The <b>Community</b> paid feature lets people at a university discover, join, create, and engage with topic-based groups. It provides a social feed experience where members share posts, interact with content, and participate in discussions inside approved communities. Coordinators (and University Super Admins on web) create official communities and govern requests; students and Third-Party Coordinators propose new communities, join approved ones, and take part in discussions. When Active, sidebar Community tools, the mobile Community tab, feed/explore/my-community sections, posting, engagement, and report triage unlock. When inactive, those surfaces are hidden.</p>
+      <div class="tldr" style="margin-top:24px;">
+        <h3>What Community unlocks</h3>
+        <p style="margin:0; font-size:18px;">Feed for joined-community posts → Explore for discovery and joining → My Community for created/admin communities → request approval before a user-created community goes live → active community profiles with posts, members, rules, and engagement. Members can like, comment, reply, share, report, open profiles, and share posts or events into chat/community contexts.</p>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Core sections</h4>
+      <table>
+        <thead><tr><th>Section</th><th>Purpose</th><th>Key behaviours</th></tr></thead>
+        <tbody>
+          <tr><td><b>Feed</b></td><td>Primary engagement screen for content from communities the user has joined.</td><td>Shows a mixed feed sorted by relevance or time · only joined-community content appears · supports search across feed posts (currently by post creator name).</td></tr>
+          <tr><td><b>Explore</b></td><td>Discovery surface for available approved communities.</td><td>Users browse the community list, open community details, and join communities of interest.</td></tr>
+          <tr><td><b>My Community</b></td><td>Ownership/admin area for communities the user created or administers.</td><td>Create a new community · manage existing communities · view communities in pending/active states depending on permissions.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Roles &amp; permissions</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">A university can staff any number of Community Coordinators as a team. Approvals and official creation also sit with the University Super Admin on the web portal.</p>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">1. Community Coordinator</h4>
+      <p style="font-size:16px; color:var(--muted); margin:10px 0 0; line-height:1.55;">Operational owner of groups and safety for one university (also known informally as social-media coordinator).</p>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Create communities on various topics — published instantly (no student approval wait)</td></tr>
+          <tr><td>Review and approve or reject community creation requests from students or other roles</td></tr>
+          <tr><td>Moderate discussions and remove inappropriate content</td></tr>
+          <tr><td>Delete or archive communities when needed</td></tr>
+          <tr><td>See community feeds with the latest post surfaced</td></tr>
+          <tr><td>Like, comment, and share posts</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+          <tr><td>Handle pending creation requests and community reports</td></tr>
+          <tr><td>Work as part of a team — any number of Community Coordinators can share the queue</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">2. Student</h4>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Submit a community creation request — goes for approval (not live until approved)</td></tr>
+          <tr><td>Join approved communities and participate in discussions</td></tr>
+          <tr><td>Post content in communities they have joined</td></tr>
+          <tr><td>View posts in joined communities; feeds show the latest post</td></tr>
+          <tr><td>Like, comment, and share posts</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">3. Third-Party Coordinator</h4>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Submit a community creation request — goes for approval like a student request</td></tr>
+          <tr><td>Join approved communities and participate in discussions</td></tr>
+          <tr><td>Receive suggestions for joining communities relevant to their interests or role</td></tr>
+          <tr><td>Post content in communities they have joined</td></tr>
+          <tr><td>See feeds with the latest post; like, comment, and share</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>University Super Admin (web):</b> Can create communities instantly and clear the pending request queue (approve/reject), plus moderate from the web Community module — same governance outcomes as the Community Coordinator, for university-wide oversight.</p>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Community creation workflow</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">The Community module separates trusted staff creation from user-submitted creation requests. A community is only discoverable and joinable after it becomes <b>Active</b>.</p>
+      <h4 style="font-family:var(--font-display); font-size:18px; margin:20px 0 0; font-weight:600;">Coordinator / Super Admin creation</h4>
+      <div class="how">
+        <ol class="steps">
+          <li>Community Coordinator (or University Super Admin on web) creates a community on a topic.</li>
+          <li>The community publishes <b>instantly</b> — no pending approval step.</li>
+          <li>It becomes visible to relevant roles (Students, Third-Party Coordinators, and staff who can browse communities).</li>
+        </ol>
+      </div>
+      <h4 style="font-family:var(--font-display); font-size:18px; margin:20px 0 0; font-weight:600;">Student or Third-Party Coordinator request</h4>
+      <div class="how">
+        <ol class="steps">
+          <li>Student or Third-Party Coordinator submits a request to create a community.</li>
+          <li>The request lands in the <b>pending</b> queue for Community Coordinator / University Super Admin.</li>
+          <li>Until approval, the community remains in <b>Pending</b> state: only the creator and approving coordinator/admin can see it; other users cannot search, view, or join it.</li>
+          <li><b>Approved</b> — community is created and visible to relevant users; requester is notified.</li>
+          <li><b>Rejected</b> — community does not go live; requester receives a notification with the rejection reason.</li>
+        </ol>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Community profile &amp; navigation</h4>
+      <table>
+        <thead><tr><th>Tap / entry point</th><th>Destination / behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>Community name</b></td><td>Opens the Community Profile page with community name, description, rules, follower/member count, member list, and community posts.</td></tr>
+          <tr><td><b>Followers / members count</b></td><td>Opens the list of users following or participating in the community; each user is tappable and opens the User Profile page.</td></tr>
+          <tr><td><b>Post creator name or profile image</b></td><td>Opens the creator's User Profile page.</td></tr>
+          <tr><td><b>Search result creator name</b></td><td>Opens the matching user's profile from feed search results.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Participation &amp; engagement</h4>
+      <table>
+        <thead><tr><th>Area</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><b>Joining</b></td><td>Students and Third-Party Coordinators browse and join approved communities. Third-Party Coordinators may also get <b>join suggestions</b> based on interests or role.</td></tr>
+          <tr><td><b>Posting &amp; interaction</b></td><td>Members post discussions and updates inside approved communities only. Feeds show the <b>latest post</b>. Members can like, comment, and share. Coordinators and Super Admins moderate and remove inappropriate content.</td></tr>
+          <tr><td><b>Chat &amp; profiles</b></td><td>From community context, users can initiate chat with others and view profiles (subject to Chat module and privacy rules).</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Post creation, post types &amp; sharing</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Posts are created from the <b>Community Profile</b> page using <b>Create Post</b>. Post creation is allowed only in approved/active communities; it is not allowed while a community is pending.</p>
+      <table>
+        <thead><tr><th>Post type / option</th><th>What users can publish or share</th></tr></thead>
+        <tbody>
+          <tr><td><b>Text</b></td><td>Plain discussion or announcement post.</td></tr>
+          <tr><td><b>Photo</b></td><td>Single image post.</td></tr>
+          <tr><td><b>Multiple photos</b></td><td>Gallery-style post with more than one image.</td></tr>
+          <tr><td><b>Video</b></td><td>Video content inside the community feed.</td></tr>
+          <tr><td><b>Document</b></td><td>Document attachment such as PDF or DOC.</td></tr>
+          <tr><td><b>Event shared as post</b></td><td>Event can appear in a community as a shareable event card.</td></tr>
+          <tr><td><b>Sharing</b></td><td>Share a post within a community or share to direct/group chat.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Post actions, comments &amp; reporting</h4>
+      <table>
+        <thead><tr><th>Interaction</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>Like count</b></td><td>Tapping a post's like count opens the list of users who liked it; each user opens their profile.</td></tr>
+          <tr><td><b>Comments</b></td><td>Users can comment on posts, like a comment, reply to a comment, like a reply, and share images within comments.</td></tr>
+          <tr><td><b>Share</b></td><td>Posts can be shared onward where sharing is available.</td></tr>
+          <tr><td><b>Report</b></td><td>Every post has a three-dot menu for reporting content that violates community rules, supporting moderation and a healthy discussion environment.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Search</h4>
+      <table>
+        <thead><tr><th>Search area</th><th>Current behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>Feed search</b></td><td>Search is supported from the Feed section. Current scope: <b>post creator name</b>. Enter a creator name → matching posts created by that user are displayed → tap the creator name to open User Profile.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Visibility &amp; notifications</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Once a community is created by a coordinator/Super Admin or approved from a request, it is visible to relevant users. Users are notified when:</p>
+      <table>
+        <thead><tr><th>Event</th><th>Who typically hears about it</th></tr></thead>
+        <tbody>
+          <tr><td>A new community becomes available</td><td>Relevant students and staff in discovery / suggestions</td></tr>
+          <tr><td>A post is made in a joined community</td><td>Members of that community</td></tr>
+          <tr><td>Their creation request is approved or rejected</td><td>The student or Third-Party Coordinator who submitted it (rejection includes reason)</td></tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Sidebar Community (pending, active, reports) · Dashboard analytics · Mobile Community tab · Feed / Explore / My Community · creation / join / post engagement · search · moderation/reporting · notifications for new communities, posts, and request outcomes</td><td>Community module hidden · Students cannot create or join groups · Feed/Explore/My Community unavailable · No community posting or report triage</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Role guide:</b> Day-to-day coordinator screens and QA steps are in the <a href="Intoto%20Community%20Coordinator%20Feature%20%26%20Flow%20Guide.html#feature">Community Coordinator Feature &amp; Flow Guide</a>.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One paid module serves three participation models — trusted publish for staff, gated requests for students and partners, and shared engagement once live.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Module Active → coordinator create live immediately; student/TPC request pending until approve/reject; reject notifies with reason; join, latest-post feed, like/comment/share, reports, TPC suggestions when configured. Inactive → all community UI hidden.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Topic communities with a clear approval path — students propose, coordinators publish, everyone engages safely."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="feat-chat">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Chat</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Direct messaging between users.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Secure 1:1 and group messaging between students, ambassadors, coordinators, and staff. Often purchased alongside Ambassador Management and User Management but sold independently. Web: create groups and message any user. Mobile: Chats tab.</p>
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Sidebar Chat · Group creation on web · Mobile Chats tab · Bulk outreach where mail enabled</td><td>Chat sidebar and mobile tab hidden · No in-product messaging</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Real-time connection layer — separate SKU so light deployments can skip messaging cost.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Send/receive works when Active; compose and inbox absent when inactive.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"One secure inbox for students, mentors, and staff — no personal numbers required."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="feat-events">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Event Management</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Create and manage campus events.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">The <b>Event Management</b> paid feature enables users to create, manage, discover, register for, attend, and review events within the application. It supports the full lifecycle from event creation and approval to registration questions, QR-based attendance, community sharing, completion, ratings, and post-event feedback.</p>
+      <div class="tldr" style="margin-top:24px;">
+        <h3>What Event Management unlocks</h3>
+        <p style="margin:0; font-size:18px;">Dashboard Event card → Event Dashboard sections → create event with details, coordinators, and optional registration questions → save as draft or submit for approval → approved event appears in Upcoming → users register and receive QR code → coordinator scans attendance → completed event collects ratings and feedback.</p>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Roles</h4>
+      <table>
+        <thead><tr><th>Role</th><th>Event permissions / responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><b>Regular user</b></td><td>View and explore events · register · attend using QR code · submit feedback after completion.</td></tr>
+          <tr><td><b>Event Creator</b></td><td>Create and manage events · add event coordinators · view registrations and event status.</td></tr>
+          <tr><td><b>University Event Coordinator</b></td><td>Review and approve created events · manage on-ground execution · scan QR codes for attendance.</td></tr>
+          <tr><td><b>University Super Admin</b></td><td>Oversight and approval on web where configured; can use event lifecycle tools for university-wide governance.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Entry point &amp; Event Dashboard</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Users enter through the <b>Event</b> card under dashboard quick actions. Tapping it opens the Event Dashboard, organized by event status and user relevance.</p>
+      <table>
+        <thead><tr><th>Dashboard section</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><b>My Events</b></td><td>Events created by the logged-in user; View All opens the My Events list.</td></tr>
+          <tr><td><b>Registered Events</b></td><td>Events the user has registered for.</td></tr>
+          <tr><td><b>Completed Events</b></td><td>Events whose end time has passed.</td></tr>
+          <tr><td><b>Assigned Events</b></td><td>Events assigned to the user as coordinator or volunteer.</td></tr>
+          <tr><td><b>Upcoming Events</b></td><td>Approved future events available for discovery and registration.</td></tr>
+          <tr><td><b>Pending Events</b></td><td>Events awaiting approval or action.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">My Events list, search &amp; filters</h4>
+      <table>
+        <thead><tr><th>Tool</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>My Events list</b></td><td>Displays all events created by the user.</td></tr>
+          <tr><td><b>Search</b></td><td>Search events by event name.</td></tr>
+          <tr><td><b>Status filter</b></td><td>Draft · Pending Approval · Approved · Completed.</td></tr>
+          <tr><td><b>Category filter</b></td><td>Filter by event categories.</td></tr>
+          <tr><td><b>Event type filter</b></td><td>Physical · Virtual · Hybrid.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Create Event flow</h4>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Create Event</b> from the My Events list top-right action.</li>
+          <li>Enter required basic details: event name, description, date/time, location or virtual link, category, event type (Physical / Virtual / Hybrid), maximum participants, and event image.</li>
+          <li>Add one or more <b>Event Coordinators</b> to support execution and attendance handling.</li>
+          <li>Continue to optional <b>Registration Questions</b> — creators can add custom attendee questions such as expectations, preferences, or consent questions.</li>
+          <li>Choose <b>Save as Draft</b> or <b>Create Event</b>.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Creation option</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><b>Save as Draft</b></td><td>Event is saved but not submitted; visible only to creator, inactive, and editable later.</td></tr>
+          <tr><td><b>Create Event</b></td><td>Submits the event for approval; a request is sent to the University Event Coordinator.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Approval &amp; visibility</h4>
+      <table>
+        <thead><tr><th>Step</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>Review</b></td><td>University Event Coordinator reviews event details.</td></tr>
+          <tr><td><b>Approve</b></td><td>Event becomes Active and appears in Upcoming Events and the Event Dashboard.</td></tr>
+          <tr><td><b>Reject / request changes</b></td><td>Event is sent back to the creator and does not appear as an approved upcoming event.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Discovery, registration &amp; community sharing</h4>
+      <table>
+        <thead><tr><th>Area</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><b>Upcoming Events</b></td><td>Users browse approved upcoming events and view event details, date, time, location, and coordinators.</td></tr>
+          <tr><td><b>Registration</b></td><td>Interested users register and answer any mandatory questions set by the creator.</td></tr>
+          <tr><td><b>Share Event</b></td><td>From Event Detail, three-dot menu → Share Event → select eligible communities → event is posted into the selected community as a shareable event card.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Creator insights, attendance &amp; feedback</h4>
+      <table>
+        <thead><tr><th>Feature</th><th>What it shows / does</th></tr></thead>
+        <tbody>
+          <tr><td><b>Total Registrations card</b></td><td>Shown on Event Details for creator; shows total registered users and total attendees after attendance is marked.</td></tr>
+          <tr><td><b>Registrations &amp; Attendees list</b></td><td>Opens from Total Registrations; lists attendee name, registration status (Registered / Attended / Not Attended), and QR scan status.</td></tr>
+          <tr><td><b>QR code</b></td><td>Generated after successful registration and visible on Event Details for the registered user.</td></tr>
+          <tr><td><b>QR attendance</b></td><td>On event day, user shows QR at entry; Event Coordinator scans it; successful scan marks the user as Attended.</td></tr>
+          <tr><td><b>Completion</b></td><td>When event end time is reached, the event is marked Completed.</td></tr>
+          <tr><td><b>Ratings &amp; reviews</b></td><td>After completion, View Ratings appears for creator and opens ratings/reviews: star rating, written comments, attendee name (per privacy settings), and submission date.</td></tr>
+          <tr><td><b>Feedback popup</b></td><td>After attending a completed event, users can rate the event and submit comments or suggestions.</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Dashboard Event card · Event Dashboard sections · My Events list · Create / draft / approval flows · registration questions · community event sharing · QR attendance · registrations &amp; attendees list · ratings and feedback</td><td>Events sidebar/dashboard hidden · no event creation, approval, discovery, registration, QR attendance, or feedback flow</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One module covers the whole event loop: creation, approval, discovery, registration, QR attendance, and quality feedback.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Draft is creator-only; submitted event waits for approval; approved event appears in Upcoming; mandatory questions block registration until answered; QR scan marks attendance; ratings visible only after completion.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"From welcome week to career fairs — publish events, register students, scan attendance, and learn from feedback in one flow."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="feat-usermgmt">
+      <div class="feat-head"><span class="feat-num">06</span><h3>User Management</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Control user limits &amp; invitations.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">Foundation module — licensed seats cap how many users can be invited across all roles, with optional domestic vs international split. Gates Manage User, Invite Data, Profile Review, and bulk invite. The Features card shows live consumption so admins know remaining capacity before the next intake.</p>
+      <table>
+        <thead><tr><th>User Management card field</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><b>Total Capacity</b></td><td>5,000 licensed users</td></tr>
+          <tr><td><b>Utilization</b></td><td>20% · 1,000 Invited</td></tr>
+          <tr><td><b>Domestic users</b></td><td>501 of 4,001 limit</td></tr>
+          <tr><td><b>International users</b></td><td>499 of 4,001 limit</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Manage User · Invite Data · Profile Review · Add User / bulk invite (within capacity) · Dashboard people counts</td><td>No user invitation or directory tools · Cannot onboard through Intoto</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Seat-based licensing with transparent utilization — prevents over-inviting and supports domestic/international pricing tiers.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Invite blocked at capacity; utilization figures match Manage User counts; domestic/intl split enforced if configured.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Invite exactly as many students and staff as you've licensed — with live utilization on every admin screen."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="roles">
+      <div class="kicker"><span class="sq"></span>Roles &amp; responsibilities</div>
+      <h2>Who provisions vs who views</h2>
+      <table>
+        <thead><tr><th>Role</th><th>What they do with paid features</th></tr></thead>
+        <tbody>
+          <tr><td><b>Intoto Admin</b> (platform)</td><td>Provisions modules when onboarding or updating a university · Sets contract dates, seat capacity, and Active state · Works with sales/onboarding — see <a href="Intoto%20Intoto%20Admin%20Feature%20%26%20Flow%20Guide.html#admin-features">Intoto Admin guide → Features for universities</a></td></tr>
+          <tr><td><b>University Super Admin</b> (tenant)</td><td>Read-only view on <b>My University → Features</b> · Confirms entitlements before operations · Cannot enable/disable modules — see <a href="Intoto%20University%20Super%20Admin%20Feature%20%26%20Flow%20Guide.html#features">University Super Admin guide → Features</a></td></tr>
+          <tr><td><b>Sales / account team</b></td><td>Agrees module mix and contract terms with the university · Requests Intoto Admin to provision changes</td></tr>
+          <tr><td><b>Students &amp; staff</b></td><td>Experience only the modules their university has purchased — inactive modules are invisible in the app and portal</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Paid features FAQs</h2>
+      <div class="faq">
+
+        <details><summary><span>What paid features does Intoto offer universities?</span><span class="pls"></span></summary>
+        <div class="ans">Six standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, and <b>User Management</b>. Each can be purchased independently with its own contract dates and Active state.</div></details>
+
+        <details><summary><span>Can a university buy only one or two features?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Intoto is <b>à la carte</b> — a university can subscribe to one module, several, or all six, and add more at any time. There is no requirement to buy the full platform.</div></details>
+
+        <details><summary><span>Who turns features on for a university?</span><span class="pls"></span></summary>
+        <div class="ans"><b>Intoto Admin</b> provisions modules during tenant onboarding or when sales requests a change. The University Super Admin sees the result on <b>My University → Features</b> but cannot toggle modules themselves.</div></details>
+
+        <details><summary><span>Where does the university admin see subscribed features?</span><span class="pls"></span></summary>
+        <div class="ans">INTOTO WebApp → sidebar <b>My University</b> → <b>Features</b> tab. Each card shows the module name, description, <b>Active</b> badge, Start/End dates, and (for User Management) capacity and utilization figures.</div></details>
+
+        <details><summary><span>What happens when a module is not Active?</span><span class="pls"></span></summary>
+        <div class="ans">Related admin sidebar entries, dashboard cards, and student experiences are <b>hidden</b>. For example, without Community active, students cannot create or join groups; without Chat, the Chats tab does not appear.</div></details>
+
+        <details><summary><span>Can features be added mid-contract?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. When Intoto provisions a new module, it appears on the Features tab with its own dates. Sidebar tools and student surfaces unlock automatically once Active.</div></details>
+
+        <details><summary><span>What is User Management capacity?</span><span class="pls"></span></summary>
+        <div class="ans">Licensed seat pool for the tenant — <b>Total Capacity</b>, <b>Utilization</b> (percentage and count invited), and optional <b>Domestic</b> vs <b>International</b> splits. Invites are blocked when capacity is exhausted until Intoto Admin increases the limit.</div></details>
+
+        <details><summary><span>Do students see which features are paid?</span><span class="pls"></span></summary>
+        <div class="ans">No. Students simply see the experiences their university has purchased — ambassadors, chat, communities, events, travel forms — without any subscription UI. Missing modules mean those areas of the app are not available.</div></details>
+
+        <details><summary><span>Which module should a university buy first?</span><span class="pls"></span></summary>
+        <div class="ans">Most tenants start with <b>User Management</b> (required to invite anyone) and often add <b>Chat</b> early. <b>Travel Plan</b> and <b>Ambassador Management</b> are common before intake season; <b>Community</b> and <b>Event Management</b> follow as engagement programs grow. The mix is entirely up to the institution.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Paid Features Product Catalog · v1.0</span>
+    <span>For Product, QA, Sales &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="200" y="220" width="240" height="140" rx="14" fill="none" stroke="#8E76E6" stroke-width="5"/>
+    <rect x="480" y="220" width="240" height="140" rx="14" fill="none" stroke="#8E76E6" stroke-width="5"/>
+    <rect x="760" y="220" width="240" height="140" rx="14" fill="none" stroke="#8E76E6" stroke-width="5"/>
+    <rect x="200" y="400" width="240" height="140" rx="14" fill="none" stroke="#BCA9F0" stroke-width="5"/>
+    <rect x="480" y="400" width="240" height="140" rx="14" fill="none" stroke="#BCA9F0" stroke-width="5"/>
+    <rect x="760" y="400" width="240" height="140" rx="14" fill="none" stroke="#BCA9F0" stroke-width="5"/>
+  </svg>
+</template>
+</body>
+</html>

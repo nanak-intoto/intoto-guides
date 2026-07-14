@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Intoto Admin — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFBFC;
+    --bg-dark: #0E1623;
+    --ink: #161C26;
+    --ink-soft: #39414E;
+    --muted: #6B7480;
+    --faint: #9AA3AE;
+    --line: #E3E8EE;
+    --line-soft: #EDF0F4;
+    --surface: #FFFFFF;
+    --surface-2: #F2F5F9;
+
+    --product: #2A6FDB;   --product-wash:#EAF1FC; --product-line:#C6DAF6;
+    --qa: #1F8A5B;        --qa-wash:#E7F4EE;      --qa-line:#BBE0CD;
+    --mktg: #6A4FD8;      --mktg-wash:#EFEBFB;    --mktg-line:#D4C9F4;
+    --plat: #0E7C86;      --plat-wash:#E2F2F3;    --plat-line:#B6DEE1;
+
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'IBM Plex Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:30px; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:18px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--plat); text-decoration:none; }
+  .mono{ font-family:var(--font-mono); }
+
+  /* ---------- HERO ---------- */
+  .hero{ background:var(--bg-dark); color:#EAF0F7; padding:84px 48px 72px; }
+  .hero-inner{ max-width:1180px; margin:0 auto; }
+  .eyebrow{ font-family:var(--font-mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#4FD0D8; display:flex; gap:12px; align-items:center; }
+  .eyebrow .sq{ width:9px; height:9px; background:#4FD0D8; border-radius:2px; }
+  .hero h1{ font-family:var(--font-display); font-weight:600; font-size:58px; line-height:1.04; letter-spacing:-0.02em; margin:24px 0 0; color:#F6F9FD; max-width:920px; text-wrap:balance; }
+  .hero .sub{ font-size:22px; color:#AEBBCB; margin:22px 0 0; max-width:800px; line-height:1.5; }
+  .hero-meta{ display:flex; flex-wrap:wrap; gap:32px; margin-top:40px; font-family:var(--font-mono); font-size:14px; color:#7E8B9C; }
+  .hero-meta b{ color:#C7D3E2; font-weight:500; display:block; letter-spacing:.04em; text-transform:uppercase; font-size:12px; margin-bottom:5px; }
+  .badges{ display:flex; gap:12px; flex-wrap:wrap; margin-top:34px; }
+  .badge{ font-family:var(--font-mono); font-size:14px; letter-spacing:.04em; padding:9px 16px; border-radius:999px; border:1px solid; display:flex; align-items:center; gap:9px; }
+  .badge .dot{ width:9px; height:9px; border-radius:50%; }
+  .badge.b-product{ color:#9CC2F2; border-color:#2E456B; } .badge.b-product .dot{ background:#5C95E8; }
+  .badge.b-qa{ color:#86D2AC; border-color:#27543F; } .badge.b-qa .dot{ background:#46B07C; }
+  .badge.b-mktg{ color:#BCA9F0; border-color:#3B3261; } .badge.b-mktg .dot{ background:#8E76E6; }
+
+  /* ---------- LAYOUT ---------- */
+  .shell{ max-width:1180px; margin:0 auto; padding:0 48px; display:grid; grid-template-columns:240px 1fr; gap:56px; align-items:start; }
+  nav.toc{ position:sticky; top:30px; padding-top:56px; font-size:15px; }
+  nav.toc .toc-h{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-bottom:16px; }
+  nav.toc a{ display:block; color:var(--muted); padding:7px 0 7px 16px; border-left:2px solid var(--line); transition:.15s; }
+  nav.toc a:hover{ color:var(--ink); border-color:var(--plat); }
+  nav.toc .toc-num{ font-family:var(--font-mono); font-size:12px; color:var(--faint); margin-right:8px; }
+
+  main{ padding-top:56px; padding-bottom:120px; min-width:0; max-width:860px; }
+
+  /* ---------- SECTIONS ---------- */
+  .sec{ margin-top:72px; scroll-margin-top:30px; }
+  .sec:first-child{ margin-top:0; }
+  .kicker{ font-family:var(--font-mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--plat); display:flex; align-items:center; gap:10px; }
+  .kicker .sq{ width:8px; height:8px; background:var(--plat); border-radius:2px; }
+  h2{ font-family:var(--font-display); font-weight:600; font-size:38px; line-height:1.1; letter-spacing:-0.015em; margin:16px 0 0; text-wrap:balance; }
+  h2 + p, .sec-lead{ font-size:20px; color:var(--ink-soft); margin:18px 0 0; line-height:1.55; }
+  p{ color:var(--ink-soft); }
+
+  .tldr{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:34px 38px; margin-top:32px; }
+  .tldr h3{ font-family:var(--font-display); font-size:24px; margin:0 0 14px; font-weight:600; }
+  .tldr .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:28px; border-top:1px solid var(--line-soft); padding-top:28px; }
+  .stat .n{ font-family:var(--font-display); font-weight:600; font-size:34px; color:var(--plat); line-height:1; }
+  .stat .l{ font-size:15px; color:var(--muted); margin-top:10px; line-height:1.35; }
+
+  .legend{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:30px; }
+  .leg{ border:1px solid var(--line); border-radius:14px; padding:22px 22px 20px; background:var(--surface); }
+  .leg .lh{ font-family:var(--font-mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; display:flex; align-items:center; gap:9px; }
+  .leg .dot{ width:11px; height:11px; border-radius:50%; }
+  .leg p{ font-size:15px; margin:13px 0 0; color:var(--muted); line-height:1.45; }
+  .leg.product .lh{ color:var(--product); } .leg.product .dot{ background:var(--product); }
+  .leg.qa .lh{ color:var(--qa); } .leg.qa .dot{ background:var(--qa); }
+  .leg.mktg .lh{ color:var(--mktg); } .leg.mktg .dot{ background:var(--mktg); }
+
+  .flow{ margin-top:34px; display:flex; flex-direction:column; gap:0; }
+  .flow-step{ display:flex; gap:22px; align-items:flex-start; }
+  .flow-rail{ display:flex; flex-direction:column; align-items:center; }
+  .flow-node{ width:42px; height:42px; border-radius:50%; background:var(--plat-wash); border:2px solid var(--plat); color:var(--plat); font-family:var(--font-mono); font-weight:600; font-size:16px; display:flex; align-items:center; justify-content:center; flex:none; }
+  .flow-line{ width:2px; flex:1; min-height:34px; background:var(--line); }
+  .flow-step:last-child .flow-line{ display:none; }
+  .flow-body{ padding-bottom:30px; }
+  .flow-body h4{ font-family:var(--font-display); font-size:21px; margin:6px 0 0; font-weight:600; }
+  .flow-body p{ font-size:16px; color:var(--muted); margin:7px 0 0; line-height:1.45; }
+
+  .ia{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:30px; }
+  .ia-card{ border:1px solid var(--line); border-radius:14px; padding:24px 26px; background:var(--surface); }
+  .ia-card .t{ font-family:var(--font-display); font-weight:600; font-size:22px; }
+  .ia-card .tag{ font-family:var(--font-mono); font-size:12px; color:var(--plat); letter-spacing:.08em; text-transform:uppercase; }
+  .ia-card p{ font-size:15px; color:var(--muted); margin:10px 0 0; line-height:1.45; }
+
+  .feature{ margin-top:60px; padding-top:56px; border-top:1px solid var(--line); scroll-margin-top:30px; }
+  .feat-head{ display:flex; align-items:baseline; gap:18px; }
+  .feat-num{ font-family:var(--font-mono); font-size:18px; color:var(--plat); font-weight:500; }
+  .feature h3{ font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin:0; letter-spacing:-0.01em; }
+  .feat-lead{ font-size:19px; color:var(--ink-soft); margin:16px 0 0; line-height:1.55; }
+
+  .how{ margin-top:26px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:8px 30px; }
+  ol.steps{ margin:14px 0 18px; padding:0; list-style:none; counter-reset:s; }
+  ol.steps li{ counter-increment:s; position:relative; padding:11px 0 11px 44px; border-bottom:1px solid var(--line-soft); font-size:16px; color:var(--ink-soft); }
+  ol.steps li:last-child{ border-bottom:none; }
+  ol.steps li::before{ content:counter(s); position:absolute; left:0; top:9px; width:26px; height:26px; background:var(--surface-2); border-radius:7px; font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--muted); display:flex; align-items:center; justify-content:center; }
+
+  .lens-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px; }
+  .lens{ border-radius:13px; padding:20px 20px 18px; border:1px solid; }
+  .lens .lt{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; margin-bottom:11px; display:flex; align-items:center; gap:8px; }
+  .lens .lt .d{ width:9px; height:9px; border-radius:50%; }
+  .lens p{ font-size:15px; line-height:1.5; margin:0; color:var(--ink-soft); }
+  .lens.product{ background:var(--product-wash); border-color:var(--product-line); } .lens.product .lt{ color:var(--product); } .lens.product .lt .d{ background:var(--product); }
+  .lens.qa{ background:var(--qa-wash); border-color:var(--qa-line); } .lens.qa .lt{ color:var(--qa); } .lens.qa .lt .d{ background:var(--qa); }
+  .lens.mktg{ background:var(--mktg-wash); border-color:var(--mktg-line); } .lens.mktg .lt{ color:var(--mktg); } .lens.mktg .lt .d{ background:var(--mktg); }
+
+  table{ width:100%; border-collapse:collapse; margin-top:26px; font-size:16px; }
+  th,td{ text-align:left; padding:13px 16px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+  td{ color:var(--ink-soft); }
+  td .mono{ font-size:14px; }
+  .yes{ color:var(--qa); font-weight:600; } .no{ color:#B23B3B; font-weight:600; }
+
+  /* FAQ */
+  .faq{ margin-top:30px; border-top:1px solid var(--line); }
+  .faq details{ border-bottom:1px solid var(--line); }
+  .faq summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:28px; align-items:flex-start; padding:22px 4px; font-family:var(--font-display); font-weight:600; font-size:21px; color:var(--ink); line-height:1.32; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary .pls{ flex:none; width:22px; height:22px; position:relative; margin-top:5px; }
+  .faq summary .pls::before, .faq summary .pls::after{ content:''; position:absolute; background:var(--plat); border-radius:2px; transition:transform .2s ease; }
+  .faq summary .pls::before{ left:0; right:0; top:10px; height:2px; }
+  .faq summary .pls::after{ top:0; bottom:0; left:10px; width:2px; }
+  .faq details[open] summary .pls::after{ transform:scaleY(0); }
+  .faq details[open] summary{ color:var(--plat); }
+  .faq .ans{ padding:0 50px 26px 4px; font-size:16px; color:var(--ink-soft); line-height:1.62; }
+  .faq .ans .mono{ font-size:14px; }
+
+  footer{ border-top:1px solid var(--line); margin-top:90px; padding:40px 0 0; font-family:var(--font-mono); font-size:13px; color:var(--faint); letter-spacing:.04em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
+  .plat-note b{ color:var(--ink-soft); }
+
+  @media (max-width:980px){
+    .shell{ grid-template-columns:1fr; gap:0; padding:0 28px; }
+    nav.toc{ display:none; }
+    main{ padding-top:40px; max-width:100%; }
+    .hero{ padding:60px 28px 52px; } .hero h1{ font-size:42px; }
+    .tldr .stat-row, .legend, .lens-row, .ia{ grid-template-columns:1fr 1fr; }
+  }
+  @media print{
+    nav.toc{ display:none; } .shell{ display:block; padding:0 24px; } main{ max-width:100%; }
+    .hero{ background:#0E1623 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .lens,.leg,.how,.tldr,.ia-card{ break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .feature{ break-inside:avoid-page; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: INTOTO ADMIN</div>
+    <h1>The Intoto Admin Experience</h1>
+    <p class="sub">How the platform-level administrator onboards universities, governs users across every tenant, and oversees the whole of Intoto — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Intoto Admin</div>
+      <div><b>Scope</b>All universities (the whole platform)</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#admin-overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#admin-legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#admin-journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#admin-ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#admin-features"><span class="toc-num">·</span>Features for universities</a>
+    <a href="#admin-f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#admin-f2"><span class="toc-num">02</span>The dashboard</a>
+    <a href="#admin-f3"><span class="toc-num">03</span>University management</a>
+    <a href="#admin-f4"><span class="toc-num">04</span>Manage Users</a>
+    <a href="#admin-f5"><span class="toc-num">05</span>Add User</a>
+    <a href="#admin-f6"><span class="toc-num">06</span>Directories &amp; profiles</a>
+    <a href="#admin-f7"><span class="toc-num">07</span>Communities, events &amp; reports</a>
+    <a href="#admin-f8"><span class="toc-num">08</span>Mail, config &amp; account</a>
+    <a href="#admin-perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#admin-screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#admin-faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <!-- OVERVIEW -->
+    <section class="sec" id="admin-overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Intoto Admin is</h2>
+      <p>The Intoto Admin is the <b>platform-level administrator</b> for Intoto — they operate <b>across every university (tenant)</b> on the platform, not within a single institution like a University Super Admin. They onboard and manage universities, invite top-level university administrators, monitor platform-wide health, and govern users, communities, events, and reports at a cross-tenant level. A university context switcher lets them drill into one tenant and step back out to the platform-wide view at any time.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">An Intoto Admin logs into a <b>platform control panel</b> branded for Intoto, reads cross-tenant health from Quick Way stat cards, then <b>onboards and manages universities</b>, <b>provisions paid feature modules</b> for each tenant, <b>invites and controls users across all tenants</b>, <b>invites University Super Admins</b>, browses <b>global directories</b> of students, staff, communities and events, and <b>triages reports</b> platform-wide — switching university context whenever a single tenant needs a closer look.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">All</div><div class="l">Universities on the platform are in scope</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Only role that can onboard or suspend a tenant</div></div>
+          <div class="stat"><div class="n">6</div><div class="l">Account states across the invitation lifecycle</div></div>
+          <div class="stat"><div class="n">8</div><div class="l">Quick Way stat cards — each opens its own dashboard</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEGEND -->
+    <section class="sec" id="admin-legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the platform admin's workflow — the intent and the decisions behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, cross-tenant scoping rules, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for prospects and partners — the benefit, in plain language you can lift into copy and decks.</p></div>
+      </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="sec" id="admin-journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The platform admin's day is a loop: read the health of the whole platform, onboard and govern the tenants and people that need attention, then drill into any one university when a case demands it.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in to the platform panel</h4><p>Log in with Intoto platform credentials. The dashboard loads with Intoto branding and a platform-wide, cross-tenant view — not a single university.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Read platform health</h4><p>Quick Way stat cards show live counts for each group — students, ambassadors, the coordinator roles, sub-coordinators, and university super admins. Click any card to open its own dashboard.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Onboard &amp; govern tenants</h4><p>Add a new university, edit branding, suspend or re-activate institutions, and invite each university's first Super Admin.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Manage people across tenants</h4><p>Invite, resend, withdraw, suspend, or re-initiate accounts for any role at any university — all from one cross-tenant list.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div><div class="flow-line"></div></div><div class="flow-body"><h4>Focus on one university</h4><p>Switch university context from the header or filters to scope lists and counts to a single tenant, then clear it to return platform-wide.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">6</div></div><div class="flow-body"><h4>Oversee &amp; communicate</h4><p>Triage reports, review communities and events across tenants, and reach users directly through chat, bulk email, and notifications.</p></div></div>
+      </div>
+    </section>
+
+    <!-- IA -->
+    <section class="sec" id="admin-ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How it's organised — web &amp; mobile</h2>
+      <p>The Intoto Admin works on <b>both platforms</b>. The web console carries the heavy administrative lifting; the mobile app mirrors the core destinations. The layout differs — a left sidebar and top bar on web, a bottom tab bar on mobile.</p>
+      <div style="display:flex; align-items:center; gap:11px; margin:34px 0 0; font-family:var(--font-display); font-weight:600; font-size:20px; color:var(--ink);"><span style="font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--plat-wash); color:var(--plat); border:1px solid var(--plat-line);">Web</span>Left sidebar &amp; top bar</div>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Sidebar 01</div><div class="t">Dashboard</div><p>The analytics home — a Dashboard Overview band of Quick Way stat cards plus admission, location, community, event, travel, and message charts, with a university and date-range filter.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 02</div><div class="t">Configurations</div><p>Platform and university configuration — the settings and options the admin can adjust and save.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 03</div><div class="t">Mail</div><p>Compose and send email to users; bulk outreach can start from a selection on any people list.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 04</div><div class="t">Support</div><p>In-console help and support resources. The top-bar profile menu holds account options and Log Out.</p></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:11px; margin:40px 0 0; font-family:var(--font-display); font-weight:600; font-size:20px; color:var(--ink);"><span style="font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--qa-wash); color:var(--qa); border:1px solid var(--qa-line);">Mobile</span>Bottom tab bar</div>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>The platform dashboard — Quick Way stat cards, the analytics widgets, banners, and events.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse communities across tenants (or a selected university) and open community profiles and feeds.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Direct messaging with users anywhere on the platform.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Own admin profile, settings, language, role switching, and logout.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="admin-features">
+      <div class="kicker"><span class="sq"></span>Product catalog</div>
+      <h2>Features Intoto provides to universities</h2>
+      <p>Intoto is sold as <b>six standalone paid modules</b> — not an all-or-nothing license. The Intoto Admin <b>provisions</b> which modules each tenant receives, with contract dates and (for User Management) seat capacity. The University Super Admin sees the result read-only on <b>My University → Features</b>. Full detail for every module is in the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features product catalog</a>.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>During <b>Add University</b> or <b>Edit University</b>, configure which of the six modules are enabled for the tenant.</li>
+          <li>Set <b>Active</b> state, <b>Start Date</b>, and <b>End Date</b> per module per the commercial agreement.</li>
+          <li>For <b>User Management</b>, set <b>Total Capacity</b> and optional domestic vs international seat limits.</li>
+          <li>Save — the tenant's web portal and mobile app expose only the provisioned modules.</li>
+          <li>To add a module mid-contract, update the university and enable the new module; it appears on the university's Features tab with its own dates.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Paid module</th><th>Portal card copy</th><th>What provisioning unlocks</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ambassador Management</b></td><td>Connect students with ambassadors.</td><td>Internal &amp; external ambassador rosters · student discovery · Ambassador Platform linkage</td></tr>
+          <tr><td><b>Travel Plan</b></td><td>Manage student travel arrangements.</td><td>Travel lists · arrival status · campus travel tab</td></tr>
+          <tr><td><b>Community</b></td><td>Student connections &amp; groups.</td><td>Communities · pending requests · reports · mobile Community tab</td></tr>
+          <tr><td><b>Chat</b></td><td>Direct messaging between users.</td><td>Sidebar Chat · group creation · mobile Chats tab</td></tr>
+          <tr><td><b>Event Management</b></td><td>Create and manage campus events.</td><td>Event lifecycle · registration · attendance · feedback</td></tr>
+          <tr><td><b>User Management</b></td><td>Control user limits &amp; invitations.</td><td>Manage User · Invite Data · Profile Review · licensed seats</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>À la carte:</b> Universities can take one feature, several, or all six — and add more at any time. Inactive modules hide related sidebar entries and student experiences for that tenant. See the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a> for per-module detail and FAQs.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Platform admin owns commercial entitlements — universities cannot self-enable modules, which keeps billing and scope aligned with contracts.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Provisioning a module enables correct UI for that tenant only; other tenants unchanged; dates outside window treat module inactive; User Management capacity blocks invites at limit.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Start with what you need — one Intoto module or the full set — and scale as your university grows."</p></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURE 01 ===== -->
+    <article class="feature" id="admin-f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via Intoto platform credentials (Auth0 or configured SSO). The defining detail for this role: the app loads a cross-tenant, platform-wide view rather than a single university. Role selection only appears when one person also holds another role.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the Intoto app and enter email/password, or use the configured SSO method.</li>
+          <li>Wait for the app to load the profile and role.</li>
+          <li>Single role (Intoto Admin only) → land directly on the <span class="mono">Dashboard</span> (the platform analytics home).</li>
+          <li>Multiple roles → a <b>Role Selection</b> screen appears first; choose <b>Intoto Admin</b>.</li>
+          <li>Pending invitations → an alert offers <b>Accept</b> or <b>Do it later</b>; deferred ones wait under the notifications area.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Loading platform-wide is deliberate — the admin operates above any single institution. Role selection is conditional, shown only to multi-role accounts, so single-role admins skip a step.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on the platform dashboard (Intoto branding, cross-tenant cards), not a university home. Multi-role shows Role Selection; switching to Intoto Admin reloads platform-admin sections and global filters.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"One secure sign-in opens the entire platform — every university, every user, from a single command center."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 02 ===== -->
+    <article class="feature" id="admin-f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>The dashboard — Quick Way &amp; analytics</h3></div>
+      <p class="feat-lead">Dashboard is the admin's home screen. A <b>Dashboard Overview</b> band of <b>Quick Way</b> stat cards sits up top, a set of analytics charts fills the rest, and a right-hand rail carries a <b>university filter</b> (“All”), a <b>From / To date</b> range, and an <b>export</b> control. Every Quick Way card is a doorway — clicking one opens its <b>own dedicated dashboard</b> for that group, with its own list, stats, and actions.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Dashboard</b> from the sidebar (the default screen after login).</li>
+          <li>Read the top bar — date and greeting, language switcher, the <b>notifications</b> bell, and your profile menu.</li>
+          <li>Set context in the right rail: pick a <b>university</b> from the “All” dropdown, choose a <b>From / To date</b> range, and use <b>export</b> to download.</li>
+          <li>Scan the <b>Quick Way</b> stat cards under Dashboard Overview for the live count of each group.</li>
+          <li><b>Click any Quick Way card</b> to open its own dashboard — a focused screen for that group.</li>
+          <li>Read the analytics widgets below and in the rail; each has its own <b>export</b> button.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Quick Way card</th><th>Count (example)</th><th>Opens its own dashboard for…</th></tr></thead>
+        <tbody>
+          <tr><td>Students</td><td>24k</td><td>The student directory &amp; admissions detail</td></tr>
+          <tr><td>Ambassadors</td><td>20</td><td>The ambassador roster &amp; activity</td></tr>
+          <tr><td>External Ambassadors</td><td>15</td><td>The external-ambassador roster</td></tr>
+          <tr><td>Third-Party Coordinators</td><td>5</td><td>Partner coordinator accounts</td></tr>
+          <tr><td>Sub-coordinators</td><td>50</td><td>Field sub-coordinator accounts</td></tr>
+          <tr><td>Event Coordinators</td><td>10</td><td>Event-coordinator staff</td></tr>
+          <tr><td>Community Coordinators</td><td>12</td><td>Community-coordinator staff</td></tr>
+          <tr><td>University Super Admin</td><td>4</td><td>Top admins — one per university</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>Analytics widget</th><th>What it shows</th></tr></thead>
+        <tbody>
+          <tr><td>Student Admission</td><td>Admissions by intake / term (Fall, Summer, Spring) — with total students</td></tr>
+          <tr><td>Student's Location</td><td>Donut of students by country — India, China, Brazil, Canada, Others</td></tr>
+          <tr><td>Communities</td><td>Communities created, members joined, and posts — with total members</td></tr>
+          <tr><td>Event Status Distribution</td><td>Donut of events by status — Completed vs Upcoming, with a total</td></tr>
+          <tr><td>Student Travel Plan</td><td>Gauge of travel plans — Submitted, In Progress, Not Started</td></tr>
+          <tr><td>Message</td><td>Message volume by platform — Ambassadors, External Ambassadors, Intoto</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The dashboard pairs at-a-glance Quick Way counts with deeper charts, and every count is a live drill-down: each card opens its own dashboard, so the admin moves from “how many” to “which ones” in a single click.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Each Quick Way card routes to its own dashboard; the university filter and date range re-scope counts and every chart; each widget's export downloads; counts and charts stay consistent with the active filters.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"One screen, the whole picture — headline counts, rich analytics, and a click into the detail behind any number."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 03 ===== -->
+    <article class="feature" id="admin-f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>University management — tenants</h3></div>
+      <p class="feat-lead">This is the core Intoto Admin capability that no other role has: creating, viewing, editing, and controlling the lifecycle of universities on the platform. University Super Admins cannot do this — only the platform admin can onboard a tenant, edit its branding, and suspend or re-activate it.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open from the <b>Manage Universities</b> quick action, the <b>Total Universities</b> stat card, or the app-bar university picker.</li>
+          <li>On <b>University List</b>, search by name and narrow with status chips — All · Active · Pending · Suspended.</li>
+          <li>Tap a row to open <b>University Details</b> — logo, status, campus summary, key metrics, configuration, and actions.</li>
+          <li>To onboard, tap <b>Add University</b>: enter name, optional logo, identifier/domain, primary contact, an initial campus, and optionally invite the first Super Admin → <b>Submit</b>.</li>
+          <li>To control a tenant, open its details and tap <b>Suspend</b> (or <b>Activate</b>) and confirm; the status badge updates.</li>
+          <li>Configure <b>paid feature modules</b> for the tenant — see <a href="#admin-features">Features for universities</a> and the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a>.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Action</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>Add University</td><td>New tenant appears in University List (Pending or Active per rules); any Super Admin invite lands in Manage Users → Invited; provisioned modules appear on the tenant's Features tab</td></tr>
+          <tr><td>Edit University</td><td>Branding and metadata update; reflected across that tenant's experience</td></tr>
+          <tr><td>Suspend</td><td>Blocks new activity for the institution; users may see restricted access</td></tr>
+          <tr><td>Activate</td><td>Restores access for a previously suspended tenant</td></tr>
+          <tr><td>Invite Super Admin</td><td>Shortcut to Add User with that university pre-selected (no campus required)</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Tenant lifecycle lives only with the platform admin by design — onboarding, branding, and suspension are platform decisions, kept above the reach of any single university's staff.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Add University validates required fields and shows the success state; status chips filter correctly; Suspend/Activate confirms and updates the badge; the Invite Super Admin shortcut pre-selects the university and hides the campus field.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Onboard a new institution in minutes — and manage every tenant's lifecycle, branding, and status from one place."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 04 ===== -->
+    <article class="feature" id="admin-f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Manage Users — across all tenants</h3></div>
+      <p class="feat-lead">Manage Users is the cross-tenant account-control hub: everyone invited to or active on the platform, at any university, filterable by status, with actions that depend on where each person sits in the invitation lifecycle. The defining difference from a University Super Admin is the <b>University</b> dimension on every list and filter.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open from the <b>Manage User</b> quick action, the <b>Total Invites</b> stat, or a directory action.</li>
+          <li>Tap a <b>status chip</b> — All, Invited, Accepted, Withdrawn, Rejected, Suspended.</li>
+          <li>Search by name or email, or tap <b>Filter</b> → choose <b>University</b>, Campus, and/or Role → <b>Apply</b>.</li>
+          <li>Tap one person's row to see the actions available for their status.</li>
+          <li>Or enter selection mode, select many rows, and tap <b>Take Action</b> for bulk email.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Their status</th><th>What the admin can do</th></tr></thead>
+        <tbody>
+          <tr><td>Invited (not yet accepted)</td><td>Withdraw invite · Resend invite · Send email</td></tr>
+          <tr><td>Accepted (active)</td><td>Suspend account · Send email</td></tr>
+          <tr><td>Suspended</td><td>Re-initiate account · Send email</td></tr>
+          <tr><td>Withdrawn / Rejected</td><td>Resend invite · Send email</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Actions are state-aware by design — the admin only ever sees moves valid for that account — and the University filter is what turns a single-tenant tool into a platform-wide one.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Each status chip filters correctly; the right action set shows per status; the filter sidebar includes <b>University</b> (unlike the Super Admin); bulk selection → Take Action → email works across tenants.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Full control of every account on the platform — invite, resend, suspend, or restore — across every university, in one list."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 05 ===== -->
+    <article class="feature" id="admin-f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Add User — invite anyone, anywhere</h3></div>
+      <p class="feat-lead">A single form sends platform invitations by email for any invitable role — including <b>University Super Admin</b>. The fields adapt to the role, and one rule stands out for this role: a <b>University</b> is required for every university-scoped invite, while a campus is required for operational roles but skipped for a Super Admin.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Add User</b> from the dashboard quick action.</li>
+          <li>Select the <b>role</b> (Student, Coordinator, Ambassador, University Super Admin, etc.).</li>
+          <li>Select the <b>University</b> — required for all university-scoped roles and for University Super Admin.</li>
+          <li>Enter one <b>email</b>, or import a file for bulk invites.</li>
+          <li>Select <b>campus</b> — required for most operational roles; skipped for University Super Admin.</li>
+          <li>Set role-specific fields (Ambassador Type, profile visibility, invite type), pick an <b>expiry date</b>, then <b>Submit</b>.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>I want to…</th><th>Role</th><th>University?</th><th>Campus?</th></tr></thead>
+        <tbody>
+          <tr><td>Onboard a university's top admin</td><td>University Super Admin</td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+          <tr><td>Invite a student at Tenant A</td><td>Student</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span> + invite type</td></tr>
+          <tr><td>Invite an event coordinator</td><td>Event Coordinator</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td></tr>
+          <tr><td>Invite an ambassador</td><td>Ambassador</td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span> + ambassador type</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The conditional fields keep one form serving every role, while the always-required University field encodes the platform model: every invite belongs to a tenant, and a Super Admin sits above campus.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>University is required for all university-scoped invites; campus is required except for Super Admin; fields appear/disappear per role; bulk import works; on submit the invitee appears in Manage Users → <span class="mono">Invited</span> for the chosen tenant.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Stand up a university's leadership and team in minutes — one invite for any role at any tenant, with expiry control built in."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 06 ===== -->
+    <article class="feature" id="admin-f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Directories &amp; profiles — cross-tenant</h3></div>
+      <p class="feat-lead">From the Quick Way cards the admin opens global directories of students, University Super Admins, coordinators, and ambassadors. Each can be filtered by University, searched, and opened to a profile — with read oversight as the default, since day-to-day assignment of students stays a University Super Admin or coordinator operation.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Tap a directory stat card — <b>Total Students</b>, <b>University Super Admins</b>, a coordinator card, or an ambassador card.</li>
+          <li>Type in <b>search</b> (at least three characters for students).</li>
+          <li>Tap <b>Filter</b> → narrow by <b>University</b>, Campus, Country, Program, and more → <b>Apply</b>.</li>
+          <li>Tap a row to open the <b>profile</b> — student profile hub or read-only user profile, with university and campus clearly labelled.</li>
+          <li>For outreach: enter selection mode on a list → select rows → <b>Take Action</b> → <b>Send email</b>.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Global directories give the platform admin oversight without overreach: they can find and contact anyone, but operational actions like arrival assignment remain with the roles that own them.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search requires the minimum characters; the University filter scopes every directory; profiles show correct tenant/campus context; bulk email composes from a multi-select; assignment-style actions are absent (read oversight).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find any student, admin, or ambassador on the platform — and reach a whole cohort with a single message."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 07 ===== -->
+    <article class="feature" id="admin-f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Communities, events &amp; reports</h3></div>
+      <p class="feat-lead">The admin oversees communities, events, and moderation across every tenant. They browse global catalogs, filter to one university, review pending communities and events where the wireframe grants it, and work reports through a clear status workflow to resolution.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Communities:</b> open from a community stat card or the Community tab; filter by university; tap any to view its profile, members, and feed.</li>
+          <li><b>Pending communities:</b> open a request, review name and description, and <b>Approve</b> or <b>Reject</b> with a reason.</li>
+          <li><b>Events:</b> open via the Events quick action, the Total Events stat, or the upcoming carousel; filter by university and tap for details.</li>
+          <li><b>Pending events:</b> on the cards, tap <b>Approve</b> or <b>Reject</b> (reason required to reject), or View All for the full queue.</li>
+          <li><b>Reports:</b> open Total Reports, filter by university, read a case, and move it through <b>Assigned → Under Review → Escalated → Resolved</b>; use My Assigned Reports for a personal queue.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Oversight is cross-tenant but consistent: the same community, event, and report screens the single-university roles use, with a University filter layered on so the platform admin can work at scale or zoom into one tenant.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>The University filter scopes communities, events, and reports; approve/reject updates the relevant queue and requires a reason on reject; report status transitions persist; My vs All vs Assigned report views scope correctly.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep every campus vibrant and safe — review communities, approve events, and resolve issues across the whole platform."</p></div>
+      </div>
+    </article>
+
+    <!-- ===== FEATURE 08 ===== -->
+    <article class="feature" id="admin-f8">
+      <div class="feat-head"><span class="feat-num">08</span><h3>Mail, configuration, support &amp; account</h3></div>
+      <p class="feat-lead">Rounding out the console: emailing users from <b>Mail</b>, adjusting platform settings under <b>Configurations</b>, getting help from <b>Support</b>, and the top-bar essentials — language, notifications, and the profile menu with Log Out.</p>
+      <div class="how">
+        <ol class="steps">
+          <li><b>Mail:</b> open <b>Mail</b> from the sidebar to compose and send email to users; bulk outreach can start from a selection on a people list.</li>
+          <li><b>Configurations:</b> open <b>Configurations</b> to adjust platform and university settings; changes are staged and saved.</li>
+          <li><b>Support:</b> open <b>Support</b> for in-console help resources.</li>
+          <li><b>Notifications &amp; language:</b> use the top-bar <b>bell</b> for alerts and the <b>language</b> switcher to change the console language.</li>
+          <li><b>Account:</b> open the top-bar <b>profile menu</b> (name + “Intoto Admin”) for account options and <b>Log Out</b>.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Secondary destinations stay out of the way: Mail, Configurations, and Support live in the sidebar so the Dashboard keeps the focus, with language, notifications, and the account tucked into the top bar.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Mail composes and sends; Configurations stage and save changes (Save appears when values differ); the language switch re-renders the console; the bell opens notifications; Log Out clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Everything an administrator needs in one console — message users, configure the platform, and get help without leaving Intoto."</p></div>
+      </div>
+    </article>
+
+    <!-- PERMISSIONS -->
+    <section class="sec" id="admin-perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when sales, support, or QA need to confirm the edges of the platform role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do (typical)</th></tr></thead>
+        <tbody>
+          <tr><td>Manage all universities on the platform</td><td>Act as a day-to-day sub-coordinator for arrival assignment</td></tr>
+          <tr><td>Add, suspend, and activate universities</td><td>Run a university's campus-only operations in place of its Super Admin</td></tr>
+          <tr><td>Invite any role, including University Super Admin</td><td>Run the per-student assign-to-sub-coordinator wizard (a coordinator flow)</td></tr>
+          <tr><td>Manage users across every tenant</td><td>—</td></tr>
+          <tr><td>Switch university context via picker / filters</td><td>—</td></tr>
+          <tr><td>Browse global students, events, communities, reports</td><td>—</td></tr>
+          <tr><td>Triage and resolve reports platform-wide</td><td>—</td></tr>
+          <tr><td>Chat, email, and notify users anywhere</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SCREEN MAP -->
+    <section class="sec" id="admin-screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the admin gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Dashboard</td><td>Sidebar → Dashboard (default after login)</td></tr>
+          <tr><td>Quick Way card dashboards</td><td>Click any stat card in Dashboard Overview</td></tr>
+          <tr><td>Analytics widgets (admission, location, etc.)</td><td>Dashboard, below &amp; beside Quick Way</td></tr>
+          <tr><td>University &amp; date filter, export</td><td>Right-hand rail on Dashboard</td></tr>
+          <tr><td>University List</td><td>Total Universities stat or Manage Universities action</td></tr>
+          <tr><td>University Details</td><td>Tap a university row or the app-bar picker</td></tr>
+          <tr><td>University Details · Features (tenant)</td><td>University row → details → feature modules (mirrors tenant's My University → Features view)</td></tr>
+          <tr><td>Paid Features catalog (reference)</td><td><a href="Intoto%20Paid%20Features%20Guide.html">Intoto Paid Features Guide.html</a></td></tr>
+          <tr><td>Add / Edit University</td><td>Add University action or Edit on details</td></tr>
+          <tr><td>Campus List &amp; Details (global)</td><td>Total Campuses stat → tap a campus row</td></tr>
+          <tr><td>Manage Users</td><td>Manage User action or invite stat</td></tr>
+          <tr><td>Add User</td><td>Add User action</td></tr>
+          <tr><td>User Filter (University sidebar)</td><td>Filter on any user list</td></tr>
+          <tr><td>All Students &amp; Profile Hub (global)</td><td>Total Students stat → student row</td></tr>
+          <tr><td>Super Admin &amp; coordinator directories</td><td>Matching Quick Way stat cards</td></tr>
+          <tr><td>Community lists &amp; pending</td><td>Community stat cards</td></tr>
+          <tr><td>Events list, details &amp; pending</td><td>Events action, stat, or carousel</td></tr>
+          <tr><td>Reports</td><td>Report stat cards</td></tr>
+          <tr><td>Student Travel Plan</td><td>Travel widget on Dashboard</td></tr>
+          <tr><td>Mail · Notifications</td><td>Sidebar → Mail · top-bar bell</td></tr>
+          <tr><td>Configurations · Support</td><td>Sidebar → Configurations · Support</td></tr>
+          <tr><td>Profile &amp; account</td><td>Top-bar profile menu</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec" id="admin-faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Intoto Admin FAQs</h2>
+      <p>The questions admins, support, sales, and demo audiences ask most often about the platform role.</p>
+      <div class="faq">
+
+        <details><summary><span>What can the Intoto Admin do?</span><span class="pls"></span></summary>
+        <div class="ans">Run the whole platform — onboard and manage universities, invite and control users across every tenant, and oversee communities, events, and reports. It's the top administrator role above any single university.</div></details>
+
+        <details><summary><span>How is the Intoto Admin different from a University Super Admin?</span><span class="pls"></span></summary>
+        <div class="ans">Scope. The University Super Admin runs one university; the Intoto Admin operates across all universities, manages tenants themselves, and can switch university context. Only the Intoto Admin can add, suspend, or activate a university.</div></details>
+
+        <details><summary><span>How do I onboard a new university?</span><span class="pls"></span></summary>
+        <div class="ans">Use the <b>Add University</b> quick action: enter the institution name, optional logo, identifier/domain, primary contact, and an initial campus, then optionally invite the first University Super Admin and submit. The tenant appears in the University List.</div></details>
+
+        <details><summary><span>Can I focus on just one university?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Use the university context switcher in the header (or the University filter on any list) to scope counts and lists to one tenant, then select <b>All Universities</b> to return to the platform-wide view.</div></details>
+
+        <details><summary><span>Which roles can I invite?</span><span class="pls"></span></summary>
+        <div class="ans">Any invitable role, including University Super Admin. A University is required for every university-scoped invite; a campus is required for operational roles but skipped for a Super Admin.</div></details>
+
+        <details><summary><span>Do I assign students to coordinators?</span><span class="pls"></span></summary>
+        <div class="ans">Typically no — that's a University Super Admin or coordinator operation. The Intoto Admin has read oversight of student lists and profiles for volume and compliance, and reviews assignment status rather than running the assign wizard.</div></details>
+
+        <details><summary><span>How do I handle moderation across tenants?</span><span class="pls"></span></summary>
+        <div class="ans">Open Total Reports, filter by university if needed, and move each case through Assigned → Under Review → Escalated → Resolved. My Assigned Reports gives you a personal queue.</div></details>
+
+        <details><summary><span>What are the Quick Way cards, and what happens when I click one?</span><span class="pls"></span></summary>
+        <div class="ans">Quick Way cards are the stat tiles in the Dashboard Overview band — Students, Ambassadors, External Ambassadors, Third-Party Coordinators, Sub-coordinators, Event Coordinators, Community Coordinators, and University Super Admin. Each shows a live count, and clicking a card opens its <b>own dedicated dashboard</b> for that group, with its own list, stats, and actions.</div></details>
+
+        <details><summary><span>What does my dashboard show?</span><span class="pls"></span></summary>
+        <div class="ans">A Dashboard Overview band of Quick Way stat cards plus analytics widgets — Student Admission, Student's Location, Communities, Event Status Distribution, Student Travel Plan, and Message — with a university filter, a date range, and per-widget export in the right rail.</div></details>
+
+        <details><summary><span>Can one person be both an Intoto Admin and something else?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Multi-role accounts pick a role at Role Selection on login, or switch later from the role switcher; Home and tabs reload for whichever role is active.</div></details>
+
+        <details><summary><span>What paid features can Intoto provide to a university?</span><span class="pls"></span></summary>
+        <div class="ans">Six standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, and <b>User Management</b>. A university can buy one, several, or all — see the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a> for full detail on each.</div></details>
+
+        <details><summary><span>Who provisions paid features for a university?</span><span class="pls"></span></summary>
+        <div class="ans">The <b>Intoto Admin</b> during university onboarding or when editing a tenant — setting Active state, contract dates, and User Management capacity. The University Super Admin sees the result read-only on <b>My University → Features</b> but cannot change subscriptions.</div></details>
+
+        <details><summary><span>Can a university add features after go-live?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Intoto Admin enables additional modules when sales/onboarding requests it. Each new module gets its own Start/End dates and unlocks the related admin and student surfaces for that tenant only.</div></details>
+
+        <details><summary><span>What happens if a module is not provisioned?</span><span class="pls"></span></summary>
+        <div class="ans">That functionality is hidden for the tenant — no related sidebar entries, dashboard cards, or student experiences. For example, without Chat provisioned, the Chats tab does not appear for that university's users.</div></details>
+
+        <details><summary><span>How does User Management capacity work?</span><span class="pls"></span></summary>
+        <div class="ans">Intoto Admin sets <b>Total Capacity</b> and optional domestic/international limits when provisioning User Management. The university's Features tab shows live utilization; invites are blocked when capacity is exhausted until the limit is increased.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Intoto Admin Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <circle cx="600" cy="300" r="44" fill="none" stroke="#4FD0D8" stroke-width="7"/>
+    <rect x="430" y="250" width="100" height="100" rx="14" fill="none" stroke="#0E7C86" stroke-width="6"/>
+    <rect x="670" y="250" width="100" height="100" rx="14" fill="none" stroke="#0E7C86" stroke-width="6"/>
+    <line x1="474" y1="300" x2="556" y2="300" stroke="#39414E" stroke-width="6"/>
+    <line x1="644" y1="300" x2="726" y2="300" stroke="#39414E" stroke-width="6"/>
+    <rect x="430" y="430" width="340" height="20" rx="6" fill="#39414E"/>
+    <rect x="430" y="478" width="250" height="20" rx="6" fill="#2A2F3A"/>
+  </svg>
+</template>
+</body>
+</html>

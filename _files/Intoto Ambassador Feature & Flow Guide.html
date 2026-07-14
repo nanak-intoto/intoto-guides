@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Ambassador — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: AMBASSADOR</div>
+    <h1>The Intoto Ambassador Experience</h1>
+    <p class="sub">How a peer mentor keeps a student-facing profile, answers questions, and supports newcomers inside Intoto — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Ambassador · External Ambassador</div>
+      <div><b>Scope</b>One university &amp; campus</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>Home dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>Ambassador profile</a>
+    <a href="#f4"><span class="toc-num">04</span>Chats</a>
+    <a href="#f5"><span class="toc-num">05</span>Students &amp; discovery</a>
+    <a href="#f6"><span class="toc-num">06</span>Events &amp; community</a>
+    <a href="#f7"><span class="toc-num">07</span>How students find you</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Ambassador is</h2>
+      <p>An Ambassador is a university peer mentor — a current student, alumnus, or external partner — who helps incoming and current students navigate campus life. They answer questions, chat with students, and maintain a public ambassador profile that appears on the student Home dashboard so newcomers know whom to contact. They work within one university and are not operational administrators: no inviting staff, assigning students, or approving communities.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">An ambassador logs in, completes their <b>public mentor profile</b> (the Ambassador Info section), and spends most of their time in <b>Chats</b> answering students who found them on the dashboard — keeping their photo and details current so they stay visible and trusted on the student Ambassadors carousel.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">2</div><div class="l">Variants: Ambassador &amp; External Ambassador</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Key section to complete: Ambassador Info</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Tabs: Home, Community, Chats, Profile</div></div>
+          <div class="stat"><div class="n">∞</div><div class="l">Student conversations — the core of the role</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the ambassador's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, role-specific rules, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for students and universities — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The ambassador's loop is simple: stay visible with a complete profile, then be responsive to the students who reach out.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Accept &amp; sign in</h4><p>Accept the ambassador invitation, choose the Ambassador role if the account is multi-role, and land on the ambassador home.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Complete the mentor profile</h4><p>Add a photo and fill Ambassador Info — bio, programs, languages, availability — so the profile is trusted and visible.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Respond to students</h4><p>Work the Chats inbox — answer questions about arrival, campus, events, and point students to official channels when needed.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Stay engaged</h4><p>Browse and register for events, participate in communities, and keep programs and languages up to date as intakes change.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Switch context if dual-role</h4><p>Student ambassadors can switch to the Student role to manage their own onboarding, then back to mentor.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available. For ambassadors, the centre of gravity is Chats, supported by a complete profile.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Dashboard — completion alert, outreach-focused Quick Way, shortcuts, events, and banners.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse and participate in communities as a member — share welcome content and answer questions.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>The primary workspace — student conversations with live unread counts.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>My Profile (ambassador sections incl. Ambassador Info), settings, language, logout.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Ambassadors sign in with university credentials and accept an ambassador invitation. Many ambassadors are also Students on the same account, so role selection is common — and External Ambassadors confirm a campus and ambassador type when accepting.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the app and sign in with email/password or SSO.</li>
+          <li>If invited, the alert offers <b>Accept</b> or <b>Do it later</b> (deferred invites wait under the envelope icon).</li>
+          <li>On accept, select <b>campus</b> and, for External Ambassadors, an <b>ambassador type</b> if prompted.</li>
+          <li>Multi-role accounts choose <b>Ambassador</b> at Role Selection (or switch later).</li>
+          <li>Complete profile setup / Ambassador Info when nudged, then land on Home.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The dual Student+Ambassador account is a first-class case — role selection keeps the two contexts cleanly separate rather than merging mentor and personal flows.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Invite Accept/Do-it-later works; deferred invites appear under the envelope; External Ambassador prompts for campus + ambassador type; switching to Ambassador loads the ambassador dashboard (no student-only alerts).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Become the friendly face new students look for — set up your mentor profile in minutes."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Home dashboard</h3></div>
+      <p class="feat-lead">The ambassador home is outreach-focused, not governance. It shows a completion alert when the profile is unfinished, plus a Quick Way oriented around messages and students, quick actions, events, and banners — all in backend-defined order.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on Home; the university logo and name sit in the header (tap for read-only context).</li>
+          <li>If your profile or Ambassador Info is incomplete, read and tap the <b>completion alert</b> → My Profile.</li>
+          <li>Scan outreach-focused <b>Quick Way</b> cards — e.g. Total Messages, Total Students, Total Events.</li>
+          <li>Use <b>quick actions</b> (Events, Support, My Profile) and browse upcoming events.</li>
+          <li>Tap the <b>bell</b> for notifications; pull to refresh after heavy chat activity.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The backend sends only outreach-relevant sections — no governance stats, pending queues, or unassigned students — so the home reinforces the mentor role rather than overwhelming it.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Admin governance cards (Manage Users, pending approvals, unassigned students) do not appear; the completion alert routes to My Profile / Ambassador Info and clears when complete; the header collapses gracefully when the logo is missing.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A home built for helping — see who needs you and what's happening on campus at a glance."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>The ambassador profile</h3></div>
+      <p class="feat-lead">Unlike admin roles, ambassadors maintain a section-based profile (<span class="mono">ambassadorForm</span>) — and the mandatory <b>Ambassador Info</b> section is exactly what students see on mentor cards: bio, programs, languages, availability, interests, and ambassador type.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open My Profile from the Profile tab, the completion alert, or a quick action.</li>
+          <li>Tap the profile photo to change it (pick → crop → upload) — friendly photos rank higher on the carousel.</li>
+          <li>Tap <b>Ambassador Info</b> and fill bio, programs/faculties, languages, availability, and interests.</li>
+          <li>Use lookups (tap → search → select) for type, programs, and multi-select chips for languages/interests.</li>
+          <li>Tap <b>Save</b>; the completion ring on Home updates on refresh once the backend marks it complete.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The profile <i>is</i> the product surface students judge — so it's a rich, editable section hub, and completeness directly governs carousel visibility and ranking.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Ambassador Info saves and marks complete; lookups and multi-selects persist; photo change updates the header; required-field validation blocks save; incomplete profiles are hidden or ranked lower on the student carousel.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Show students who you are — your languages, your program, and how you can help — in a profile they can trust."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Chats</h3></div>
+      <p class="feat-lead">Chats is where ambassadors do their real work. Students who tap an ambassador on the Home carousel start a conversation here, and the ambassador answers questions about arrival, housing, registration, events, and campus life.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>Chats</b> tab to see the inbox of recent threads with unread badges.</li>
+          <li>Tap a thread to open the conversation, read history, and reply.</li>
+          <li>Attach an image or file where enabled; use search to find a student by name.</li>
+          <li>Point students to <b>Support</b>, <b>Events</b>, or a <b>Community</b> in your reply when a question is outside your scope.</li>
+          <li>Leave threads open for follow-up; new messages and counts update in real time.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Messaging is one-to-one and support-oriented by design — ambassadors aren't broadcast channels, so there's no bulk-messaging surface in this role.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load and send works; unread counts update live; chat opens from a student/ambassador profile; no bulk-message tools are exposed; empty inbox shows guidance to complete the profile.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Real answers from someone who's been there — students get human help from day one."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Students &amp; discovery</h3></div>
+      <p class="feat-lead">When configured, ambassadors can browse the students they're allowed to view and open a visibility-controlled profile — with Chat as the primary action. This is support, not administration: no assign, suspend, or coordinator tools.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Total Students</b> from Quick Way (when shown).</li>
+          <li>Search (3+ characters, debounced) or filter by campus, program, or intake.</li>
+          <li>Tap a student row to open their profile (only sections allowed by visibility rules).</li>
+          <li>Tap <b>Chat</b> to start or continue a conversation.</li>
+          <li>Direct the student to official channels or Support when a question exceeds your scope.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Discovery exists to enable outreach, not oversight — the only meaningful action from a student profile is to start a conversation.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search debounces at 3+ chars; filters apply/clear; student profiles show only allowed sections; no admin actions (assign/suspend) appear; Chat opens from the profile.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Reach out first — find the students who need a hand and start the conversation."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Events &amp; community</h3></div>
+      <p class="feat-lead">Ambassadors participate in campus life like engaged students — browsing and registering for events, and joining and posting in communities — but they do not approve events or pending communities.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Find events via the Upcoming Events carousel, the Events quick action, or Total Events.</li>
+          <li>Open an event and <b>Register</b> while the window is open; registered events show under My Events.</li>
+          <li>Open the <b>Community</b> tab, explore communities, and <b>Join</b> ones you want to support.</li>
+          <li>Read feeds, open posts, and <b>Create post</b> to share welcome content or answer questions.</li>
+          <li>Escalate anything beyond your scope to Support or staff rather than acting on it.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Ambassadors model good participation — present and helpful in events and communities — without governance powers, keeping moderation with the coordinator roles.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Register works and reflects on My Events; community join and member posting work; no approve/reject controls for events or pending communities appear for this role.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Be where students are — at events and in communities, helping the campus feel like home."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>How students find you</h3></div>
+      <p class="feat-lead">Understanding the student-facing path is why profile completeness matters so much. A student discovers an ambassador entirely through the Home carousel and the public profile.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>A student logs in and lands on their Home dashboard.</li>
+          <li>They scroll to the <b>Ambassadors</b> carousel and see your photo, name, and short descriptor.</li>
+          <li>They tap your card to open your public ambassador profile.</li>
+          <li>They tap <b>Chat</b> to start a conversation with you.</li>
+          <li>Incomplete Ambassador Info or a missing photo lowers trust and visibility on that carousel.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The carousel is the entire top-of-funnel for ambassador contact, which is why the app nudges profile completion so persistently.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Complete profiles appear on the student Ambassadors carousel; the public profile renders photo, name, and descriptor; the student Chat CTA opens a thread to the right ambassador.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Featured on every new student's home screen — a complete profile is your invitation to connect."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Complete and publish their own ambassador profile</td><td>Invite or suspend users</td></tr>
+          <tr><td>Chat with students in scope</td><td>Assign students to sub-coordinators</td></tr>
+          <tr><td>Browse students, events, and communities permitted by the tenant</td><td>Approve or reject events or communities</td></tr>
+          <tr><td>Register for events and post in communities as a member</td><td>See admin Quick Way (all invites, reports queue)</td></tr>
+          <tr><td>Switch to the Student role on the same account</td><td>Edit other users' profiles (beyond chat guidance)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the ambassador gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Ambassador Home</td><td>Home tab after login as Ambassador</td></tr>
+          <tr><td>My Profile (section hub)</td><td>Profile tab, completion alert, or quick action</td></tr>
+          <tr><td>Ambassador Info editor</td><td>Tap the Ambassador Info section</td></tr>
+          <tr><td>Student list &amp; profile</td><td>Total Students Quick Way → tap a row</td></tr>
+          <tr><td>Chats inbox &amp; thread</td><td>Chats tab or messages Quick Way</td></tr>
+          <tr><td>Events list &amp; details</td><td>Events action, carousel, or Total Events</td></tr>
+          <tr><td>Community feed &amp; profile</td><td>Community tab</td></tr>
+          <tr><td>Notifications · Pending invitations</td><td>Bell · envelope on Home</td></tr>
+          <tr><td>Support · University details</td><td>Support quick action · tap university header</td></tr>
+          <tr><td>Role Selection</td><td>Role switcher or multi-role login</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Ambassador FAQs</h2>
+      <p>The questions ambassadors, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What’s the difference between an Ambassador and an External Ambassador?</span><span class="pls"></span></summary>
+        <div class="ans">An Ambassador is usually a current student or alumnus (often also holding the Student role); an External Ambassador is an off-campus partner invited with the External ambassador type. Both use the same flows and profile form.</div></details>
+
+        <details><summary><span>Can I be both a Student and an Ambassador?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — that’s common. You choose which context to work in at login or via the role switcher, and the app keeps the two cleanly separate.</div></details>
+
+        <details><summary><span>How do I switch between my Student and Ambassador roles?</span><span class="pls"></span></summary>
+        <div class="ans">Use the role switcher on Home or Profile, or pick the role at login. Home and the tabs reload for whichever role you choose.</div></details>
+
+        <details><summary><span>Why is completing my profile so important?</span><span class="pls"></span></summary>
+        <div class="ans">Your Ambassador Info and photo are exactly what students see on the Ambassadors carousel. Incomplete profiles are hidden or ranked lower, so completeness is how students find and trust you.</div></details>
+
+        <details><summary><span>What is the Ambassador Info section?</span><span class="pls"></span></summary>
+        <div class="ans">The public, mentor-facing part of your profile: bio, type, programs, languages, availability, and interests. Everything students see on your card comes from here.</div></details>
+
+        <details><summary><span>Where do students reach me?</span><span class="pls"></span></summary>
+        <div class="ans">In Chats. A student taps your card on their home carousel, opens your profile, and taps Chat — the conversation lands in your Chats inbox.</div></details>
+
+        <details><summary><span>Can I message lots of students at once?</span><span class="pls"></span></summary>
+        <div class="ans">No. Ambassador messaging is one-to-one and support-oriented; mass communication to the student body is a staff capability.</div></details>
+
+        <details><summary><span>Can I approve events or communities?</span><span class="pls"></span></summary>
+        <div class="ans">No. You participate — register for events, join and post in communities — but approvals belong to the Event and Community Coordinator roles.</div></details>
+
+        <details><summary><span>What should I do with a question I can’t answer?</span><span class="pls"></span></summary>
+        <div class="ans">Point the student to the right place — Support, an event, or a community — especially for official matters like visas, admissions, or registration holds.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Ambassador Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <circle cx="600" cy="330" r="78" fill="none" stroke="#6FA4EE" stroke-width="6"/>
+    <circle cx="600" cy="300" r="30" fill="#6FA4EE"/>
+    <path d="M548 400 q52 -46 104 0" fill="none" stroke="#6FA4EE" stroke-width="6"/>
+    <rect x="500" y="470" width="200" height="16" rx="8" fill="#39414E"/>
+    <rect x="540" y="506" width="120" height="14" rx="7" fill="#2A6FDB"/>
+  </svg>
+</template>
+</body>
+</html>

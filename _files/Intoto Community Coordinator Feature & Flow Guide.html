@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Community Coordinator — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
+  .plat-note b{ color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: COMMUNITY COORDINATOR</div>
+    <h1>The Community Coordinator Experience</h1>
+    <p class="sub">How university staff review, publish, and moderate communities inside Intoto — keeping student groups safe and on-policy — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Community Coordinator</div>
+      <div><b>Scope</b>One university</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#feature"><span class="toc-num">·</span>Community feature</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>The dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>Approving communities</a>
+    <a href="#f4"><span class="toc-num">04</span>Creating official communities</a>
+    <a href="#f5"><span class="toc-num">05</span>Managing a community</a>
+    <a href="#f6"><span class="toc-num">06</span>Moderation &amp; reports</a>
+    <a href="#f7"><span class="toc-num">07</span>Chat &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Community Coordinator is</h2>
+      <p>The Community Coordinator is university staff responsible for groups and social spaces on Intoto: reviewing community creation requests, publishing official communities, monitoring active groups, and keeping conversations appropriate. They are the operational owner of community quality and safety within one university — the role that approves the student-created communities that would otherwise stay hidden.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A coordinator starts the day clearing the <b>pending community queue</b> — approving legitimate groups and rejecting policy violations with a clear reason — then <b>creates official communities</b> that go live instantly, <b>monitors active groups</b>, and <b>moderates content</b> and reports to keep the platform safe.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">Primary gate owned: community approval</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Decisions on each request: approve or reject (with reason)</div></div>
+          <div class="stat"><div class="n">0</div><div class="l">Wait time for coordinator-created official communities</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Report states: Assigned → Under Review → Escalated → Resolved</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the coordinator's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, validation, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for universities — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The coordinator's loop centres on the pending queue: review, decide, publish, and keep live groups healthy.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in &amp; check the queue</h4><p>Land on a community-centric dashboard and read the Pending Communities count first — student requests shouldn't be left waiting.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Review &amp; decide</h4><p>Open each request, check the name and description against policy, then approve to publish or reject with a clear, actionable reason.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Launch official groups</h4><p>Create university-run communities that go live instantly, and post welcome content or announcements inside them.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Monitor &amp; moderate</h4><p>Scan active communities and feeds, remove violating content where tools exist, and work reports through to resolution.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Communicate</h4><p>Chat with creators — especially after a rejection — to explain policy and guide a successful resubmission.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available. For this role, Home and the Community tab carry the work.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Operational dashboard — Quick Way counts, shortcuts, and pending/active community carousels.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>The primary workspace — discover, create, feeds, membership, and moderation.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Direct messages with students and creators about community decisions.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Account settings and own profile (admin-style read-only details), logout.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="feature">
+      <div class="kicker"><span class="sq"></span>Community feature</div>
+      <h2>Overview — topic-based discussions</h2>
+      <p>The <b>Community</b> feature lets people at a university create and join topic-based groups, post updates, and interact in a shared feed. Coordinators (and University Super Admins on web) can create communities and govern requests; students and Third-Party Coordinators can propose new communities, join approved ones, and take part in discussions. Requires the paid <b>Community</b> module to be Active for the tenant.</p>
+      <div class="tldr">
+        <h3>What Community unlocks</h3>
+        <p style="margin:0; font-size:18px;">Create or request topic communities → approve requests into a live directory → members join, post, like, comment, and share → coordinators moderate feeds and reports. Feeds always surface the <b>latest post</b>. Chat and profile views stay available alongside community activity.</p>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:40px 0 0; font-weight:600;">Roles &amp; permissions</h3>
+      <p style="margin-top:12px;">A university can staff any number of Community Coordinators as a team. Approvals and official creation also sit with the University Super Admin on the web portal.</p>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">1. Community Coordinator</h4>
+      <p style="font-size:16px; color:var(--muted); margin:10px 0 0; line-height:1.55;">Operational owner of groups and safety for one university (also known informally as social-media coordinator).</p>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Create communities on various topics — published instantly (no student approval wait)</td></tr>
+          <tr><td>Review and approve or reject community creation requests from students or other roles</td></tr>
+          <tr><td>Moderate discussions and remove inappropriate content</td></tr>
+          <tr><td>Delete or archive communities when needed</td></tr>
+          <tr><td>See community feeds with the latest post surfaced</td></tr>
+          <tr><td>Like, comment, and share posts</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+          <tr><td>Handle pending creation requests and community reports</td></tr>
+          <tr><td>Work as part of a team — any number of Community Coordinators can share the queue</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">2. Student</h4>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Submit a community creation request — goes for approval (not live until approved)</td></tr>
+          <tr><td>Join approved communities and participate in discussions</td></tr>
+          <tr><td>Post content in communities they have joined</td></tr>
+          <tr><td>View posts in joined communities; feeds show the latest post</td></tr>
+          <tr><td>Like, comment, and share posts</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">3. Third-Party Coordinator</h4>
+      <table>
+        <thead><tr><th>Can do</th></tr></thead>
+        <tbody>
+          <tr><td>Submit a community creation request — goes for approval like a student request</td></tr>
+          <tr><td>Join approved communities and participate in discussions</td></tr>
+          <tr><td>Receive suggestions for joining communities relevant to their interests or role</td></tr>
+          <tr><td>Post content in communities they have joined</td></tr>
+          <tr><td>See feeds with the latest post; like, comment, and share</td></tr>
+          <tr><td>Initiate chat with users and view profiles</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>University Super Admin (web):</b> Can create communities instantly and clear the pending request queue (approve/reject), plus moderate from the web Community module — same governance outcomes as the Community Coordinator, for university-wide oversight.</p>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:40px 0 0; font-weight:600;">Community creation workflow</h3>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">Coordinator / Super Admin creation</h4>
+      <div class="how">
+        <ol class="steps">
+          <li>Community Coordinator (or University Super Admin on web) creates a community on a topic.</li>
+          <li>The community publishes <b>instantly</b> — no pending approval step.</li>
+          <li>It becomes visible to relevant roles (Students, Third-Party Coordinators, and staff who can browse communities).</li>
+        </ol>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:20px; margin:28px 0 0; font-weight:600;">Student or Third-Party Coordinator request</h4>
+      <div class="how">
+        <ol class="steps">
+          <li>Student or Third-Party Coordinator submits a request to create a community.</li>
+          <li>The request lands in the <b>pending</b> queue for Community Coordinator / University Super Admin.</li>
+          <li><b>Approved</b> — community is created and visible to relevant users; requester is notified.</li>
+          <li><b>Rejected</b> — community does not go live; requester receives a notification with the rejection reason.</li>
+        </ol>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:40px 0 0; font-weight:600;">Participation &amp; engagement</h3>
+      <table>
+        <thead><tr><th>Area</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><b>Joining</b></td><td>Students and Third-Party Coordinators browse and join approved communities. Third-Party Coordinators may also get <b>join suggestions</b> based on interests or role.</td></tr>
+          <tr><td><b>Posting &amp; interaction</b></td><td>Members post discussions and updates, and comment on posts. Feeds show the <b>latest post</b>. Members can like, comment, and share. Coordinators and Super Admins moderate and remove inappropriate content.</td></tr>
+          <tr><td><b>Chat &amp; profiles</b></td><td>From community context, users can initiate chat with others and view profiles (subject to Chat module and privacy rules).</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:40px 0 0; font-weight:600;">Visibility &amp; notifications</h3>
+      <p style="margin-top:12px;">Once a community is created by a coordinator/Super Admin or approved from a request, it is visible to relevant users. Users are notified when:</p>
+      <table>
+        <thead><tr><th>Event</th><th>Who typically hears about it</th></tr></thead>
+        <tbody>
+          <tr><td>A new community becomes available</td><td>Relevant students and staff in discovery / suggestions</td></tr>
+          <tr><td>A post is made in a joined community</td><td>Members of that community</td></tr>
+          <tr><td>Their creation request is approved or rejected</td><td>The student or Third-Party Coordinator who submitted it (rejection includes reason)</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One feature serves three participation models — trusted publish for staff, gated requests for students and partners, and shared engagement once live.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Coordinator create → live immediately; student/TPC request → pending until approve/reject; reject notifies with reason; join, feed latest-post order, like/comment/share, reports queue, TPC suggestions when configured.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Topic communities with a clear approval path — students propose, coordinators publish, everyone engages safely."</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via university credentials. Multi-role accounts choose Community Coordinator, and the dashboard loads with community-centric Quick Way cards and sections — not student travel alerts or event approval queues.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open Intoto and sign in with email/password or SSO.</li>
+          <li>Wait for the profile and role payload to finish loading.</li>
+          <li>Single role → land on the Community Coordinator dashboard; multi-role → choose the role at Role Selection.</li>
+          <li>A new role invite shows an alert — <b>Accept</b> now or <b>Do it later</b> (deferred invites wait under the envelope).</li>
+          <li>The four tabs appear — Home, Community, Chats, Profile.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The role's dashboard is configured around groups, so the coordinator's first screen is already their workspace — not a generic menu.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on the Community Coordinator dashboard; multi-role shows Role Selection; switching roles reloads community-centric sections (no event-approval or student-travel content).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Open the app to a workspace built for community — your pending queue is right there, ready."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>The dashboard</h3></div>
+      <p class="feat-lead">Home is an API-driven overview centred on groups and members: a branded header, Quick Way counts (total communities, members, pending queue, active), quick actions, and pending/active community carousels — sometimes with a community analytics chart.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on Home; confirm the university logo and name match the institution you support.</li>
+          <li>Read <b>Quick Way</b> — start with <b>Pending Communities</b> so student requests aren't delayed.</li>
+          <li>Tap a card to open the list behind it (all communities, members, pending, or active).</li>
+          <li>Swipe the <b>Pending</b> and <b>Active</b> carousels; use <b>View All</b> for the full lists.</li>
+          <li>Pull to refresh after bulk approvals so counts stay accurate.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The dashboard deliberately omits student rosters, invites, and event queues — it shows only what's needed to keep communities healthy, which keeps moderation focused.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Community-centric cards render (not Total Students, Unassigned, or event queues unless dual-purpose); cards route correctly; carousels and View All work; pull-to-refresh updates counts after approvals.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See every group at a glance — what's pending, what's live, and how your communities are growing."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Approving communities</h3></div>
+      <p class="feat-lead">This is the heart of the role and the main safety gate before a group reaches student discovery. Each pending request carries everything needed to make a governance decision — name, description, images, category, visibility, and submitter.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a request from <b>Pending Communities</b> on Home or the pending list.</li>
+          <li>Review the name and description for policy compliance (impersonation, hate speech, duplicates of official groups).</li>
+          <li>Confirm images, category, and visibility settings are appropriate.</li>
+          <li><b>Approve</b> → the community goes live and leaves the queue; the creator is notified.</li>
+          <li><b>Reject</b> → enter a clear, actionable reason (empty reasons are blocked); the creator can fix and resubmit.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Requiring a reason on rejection turns a "no" into guidance — the creator learns exactly what to change, which improves the next submission instead of just blocking it.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Approve publishes and removes from the queue and updates counts; reject requires a non-empty reason; rejected requests leave the public queue and can be resubmitted; the creator receives the right notification.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Every student group gets a careful, human review — so the communities students join are real and safe."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Creating official communities</h3></div>
+      <p class="feat-lead">Coordinators create university-run communities — program houses, international student associations, and the like — that publish immediately, without the approval wait students face. The university vouches for these groups, and the coordinator is a trusted publisher.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Create Community</b> from the Community tab or the Home quick action.</li>
+          <li>Enter <b>name</b> and <b>description</b> (required).</li>
+          <li>Upload <b>profile</b> and <b>cover</b> images if required.</li>
+          <li>Set category, campus, rules, and visibility, then tap <b>Submit</b>.</li>
+          <li>See "Community created successfully!" — it's active and discoverable to students immediately.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The instant-publish path for staff (vs. the student approval flow) encodes trust in the data model — same form, different outcome based on who's creating.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Required fields block submit; success message shows; the community is live immediately (no self-approval step); a duplicate name surfaces an inline or server error.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Stand up official communities the moment the calendar calls for them — live instantly, branded for your university."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Managing a community</h3></div>
+      <p class="feat-lead">The Community Profile is the hub for one group — branding, about text, member list, and feed. Coordinators monitor the student experience, post official content, and adjust settings where the role permits.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a community from any list, carousel, or the Community tab.</li>
+          <li>Read the <b>About</b> and settings; edit where staff editing is allowed.</li>
+          <li>View the <b>members</b> list, search members, and remove a member if moderation tools exist.</li>
+          <li>Scroll the <b>feed</b>, open posts, and <b>Create post</b> to pin welcome messages or announcements.</li>
+          <li>Optionally <b>Join</b> the group to monitor it from a student's point of view.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Coordinators see the same profile students do, plus staff powers — so they manage from inside the real experience rather than a separate admin console.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Member list loads and searches; staff edit/remove appears only where permitted; coordinator posts publish to the feed; join state toggles correctly.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Run your communities from the inside — post announcements, welcome members, and keep groups thriving."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Moderation &amp; reports</h3></div>
+      <p class="feat-lead">When configured, coordinators handle community-related reports — user flags about inappropriate posts or behaviour — alongside direct content moderation, working each case through a clear status workflow to resolution.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a case from the Reports queue (when shown) or a moderation entry in the Community tools.</li>
+          <li>Read the reporter, the reported content, the timestamp, and the community context.</li>
+          <li>Take action on content — <b>Remove</b> or <b>Hide</b> a post/comment per policy.</li>
+          <li>Move the report through <b>Assigned → Under Review → Escalated → Resolved</b>.</li>
+          <li>Message the member via Chat to educate, or escalate severe cases to the University Super Admin.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>A shared four-state report lifecycle gives moderation a common language across roles, and the escalation path keeps the hardest cases moving up rather than stalling.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Report status transitions persist; content remove/hide reflects for students; escalation routes to senior/USA review; resolving closes the case.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep conversations respectful — a clear moderation workflow means issues get handled, not ignored."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Chat &amp; account</h3></div>
+      <p class="feat-lead">Direct messaging supports the governance work — especially explaining a rejection kindly — and the Profile tab holds account settings. Notifications surface new submissions, assigned reports, and milestones.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>Chats</b> tab to message creators and students about community decisions.</li>
+          <li>After a rejection, message the creator to clarify naming or policy rules before they resubmit.</li>
+          <li>Tap the <b>bell</b> for notifications — new submissions, assigned reports, membership milestones, chats.</li>
+          <li>Use the <b>envelope</b> for deferred role invitations.</li>
+          <li>Open <b>Profile</b> for account info, FAQs, terms, and logout; use <b>Support</b> to escalate beyond your authority.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Pairing rejection with a chat path makes governance feel like coaching — creators get a person to talk to, not just a closed door.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load and send; notifications deep-link to the pending request, community, or report; the envelope shows pending invites; logout clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Decisions come with a conversation — coordinators guide students to get their community right."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Approve and reject pending communities in scope</td><td>Approve or reject events (Event Coordinator)</td></tr>
+          <tr><td>Create official communities with instant publish</td><td>Manage Users — invite, suspend, bulk email (USA)</td></tr>
+          <tr><td>Browse all communities and members (scoped)</td><td>Assign students to sub-coordinators</td></tr>
+          <tr><td>Moderate posts and members where tools are enabled</td><td>Cross-university administration</td></tr>
+          <tr><td>Work community-related reports assigned to them</td><td>—</td></tr>
+          <tr><td>Like, comment, share posts; chat with users; view profiles</td><td>—</td></tr>
+          <tr><td>Delete or archive communities; operate as a multi-person coordinator team</td><td>—</td></tr>
+          <tr><td>Chat and use Support</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the coordinator gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Community Coordinator Home</td><td>Home tab after login</td></tr>
+          <tr><td>All communities list</td><td>Total Communities Quick Way or Communities action</td></tr>
+          <tr><td>Pending communities list</td><td>Pending Quick Way or carousel View All</td></tr>
+          <tr><td>Active communities list</td><td>Approved stat or carousel View All</td></tr>
+          <tr><td>Community request details</td><td>Tap a pending card or row</td></tr>
+          <tr><td>Create community form</td><td>Create quick action or Community tab</td></tr>
+          <tr><td>Community Profile · Post detail</td><td>Tap a community, then a post in the feed</td></tr>
+          <tr><td>Reports list / detail</td><td>Reports Quick Way (when configured)</td></tr>
+          <tr><td>Chats · Notifications · Support</td><td>Chats tab · bell · Support quick action</td></tr>
+          <tr><td>University details</td><td>Tap the university header</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Community Coordinator FAQs</h2>
+      <p>The questions coordinators, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What is the Community Coordinator responsible for?</span><span class="pls"></span></summary>
+        <div class="ans">Reviewing, publishing, and moderating communities within one university — clearing the pending queue and keeping student groups safe and on-policy.</div></details>
+
+        <details><summary><span>How does community approval work?</span><span class="pls"></span></summary>
+        <div class="ans">New communities arrive in a pending queue. You review each one and approve it to publish or reject it with a reason. Students only ever see approved communities.</div></details>
+
+        <details><summary><span>What happens when I reject a community?</span><span class="pls"></span></summary>
+        <div class="ans">It doesn’t go live, and the reason you give explains what needs to change. Rejected communities leave the active queue.</div></details>
+
+        <details><summary><span>How do I handle reported posts or content?</span><span class="pls"></span></summary>
+        <div class="ans">Reported content surfaces in a moderation queue where you can review it and take action according to policy.</div></details>
+
+        <details><summary><span>Can I create or approve events?</span><span class="pls"></span></summary>
+        <div class="ans">No — events belong to the Event Coordinator. You focus on communities; you can browse events like any member.</div></details>
+
+        <details><summary><span>Can I invite or suspend users?</span><span class="pls"></span></summary>
+        <div class="ans">No. Inviting and suspending users is the University Super Admin’s job. Your tools are community-focused.</div></details>
+
+        <details><summary><span>What’s the difference between me and the University Super Admin?</span><span class="pls"></span></summary>
+        <div class="ans">You own the community slice; the Super Admin owns the whole university — people, all queues, and governance — and can step into any area.</div></details>
+
+        <details><summary><span>Do students see pending communities?</span><span class="pls"></span></summary>
+        <div class="ans">No. Only approved communities appear to students, which is exactly why the approval gate matters.</div></details>
+
+        <details><summary><span>Am I limited to one university?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — each role assignment is scoped to one university (and campus where configured).</div></details>
+
+        <details><summary><span>What can students do in Community?</span><span class="pls"></span></summary>
+        <div class="ans">Submit a creation request (pending your approval), join approved communities, post in communities they have joined, see feeds with the latest post, like/comment/share, start chat, and view profiles. They never see unapproved communities in discovery.</div></details>
+
+        <details><summary><span>What can Third-Party Coordinators do?</span><span class="pls"></span></summary>
+        <div class="ans">Same participation model as students — request creation (pending approval), join, post, engage — plus <b>join suggestions</b> for communities relevant to their interests or role.</div></details>
+
+        <details><summary><span>Who gets notified about community activity?</span><span class="pls"></span></summary>
+        <div class="ans">Users are notified when a new community becomes available, when someone posts in a community they joined, and when their own creation request is approved or rejected (rejection includes the reason).</div></details>
+
+        <details><summary><span>Can there be more than one Community Coordinator?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. A university can run a team of any number of Community Coordinators sharing the pending queue, moderation, and official community creation.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Community Coordinator Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <circle cx="520" cy="320" r="44" fill="#6FA4EE"/>
+    <circle cx="610" cy="300" r="36" fill="#2A6FDB"/>
+    <circle cx="690" cy="335" r="30" fill="#8E76E6"/>
+    <path d="M470 470 l60 -52 46 36 56 -48 90 64" fill="none" stroke="#46B07C" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="470" y="500" width="260" height="14" rx="7" fill="#39414E"/>
+  </svg>
+</template>
+</body>
+</html>

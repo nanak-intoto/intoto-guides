@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · The Ambassador Platform — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  /* The Ambassador Platform — distinct teal identity (#02A3CA brand) */
+  :root{
+    --tap:#02A3CA; --tap-deep:#017F9C; --tap-wash:#E2F5F9; --tap-line:#B4E1EA;
+    --tap-soft:#3DC076; /* online indicator green */
+  }
+  body{ }
+  .eyebrow{ color:#4FD0D8; } .eyebrow .sq{ background:#4FD0D8; }
+  a{ color:var(--tap); }
+  nav.toc a:hover{ border-color:var(--tap); color:var(--ink); }
+  .kicker{ color:var(--tap); } .kicker .sq{ background:var(--tap); }
+  .stat .n{ color:var(--tap); }
+  .flow-node{ background:var(--tap-wash); border-color:var(--tap); color:var(--tap); }
+  .ia-card .tag{ color:var(--tap); }
+  .feat-num{ color:var(--tap); }
+  .faq summary .pls::before, .faq summary .pls::after{ background:var(--tap); }
+  .faq details[open] summary{ color:var(--tap); }
+  .badge.b-web{ color:#9CE5F0; border-color:#1F5560; } .badge.b-web .dot{ background:var(--tap); }
+  .lens.web{ background:var(--tap-wash); border-color:var(--tap-line); } .lens.web .lt{ color:var(--tap-deep); } .lens.web .lt .d{ background:var(--tap); }
+  .leg.web .lh{ color:var(--tap-deep); } .leg.web .dot{ background:var(--tap); }
+  /* product-card chip accent */
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .chip{ font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; padding:7px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--line); color:var(--ink-soft); }
+  .chip.on{ background:var(--tap); border-color:var(--tap); color:#fff; }
+  .chip .dot{ width:8px; height:8px; background:var(--tap-soft); border-radius:50%; display:inline-block; margin-right:6px; vertical-align:middle; }
+  /* Mock card preview */
+  .preview{ margin-top:30px; background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:30px; }
+  .preview .ph-head{ display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid var(--line-soft); }
+  .preview .ph-title{ font-family:var(--font-display); font-weight:600; font-size:20px; }
+  .preview .ph-sub{ font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+  .preview .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+  .amb-card{ border:1px solid var(--line); border-radius:14px; padding:18px; background:var(--bg); }
+  .amb-card .row{ display:flex; align-items:center; gap:11px; }
+  .amb-card .ph{ width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, #d8e7ec, #b4e1ea); position:relative; }
+  .amb-card .ph::after{ content:''; position:absolute; right:-2px; bottom:-2px; width:11px; height:11px; background:var(--tap-soft); border:2px solid #fff; border-radius:50%; }
+  .amb-card .n{ font-family:var(--font-display); font-weight:600; font-size:14px; line-height:1.2; }
+  .amb-card .p{ font-size:11px; color:var(--muted); margin-top:2px; }
+  .amb-card .bdg{ font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; color:var(--tap-deep); background:var(--tap-wash); padding:3px 8px; border-radius:99px; display:inline-block; margin-top:10px; }
+  .amb-card .bio{ font-size:11px; color:var(--ink-soft); margin-top:10px; line-height:1.4; }
+  .amb-card .cta{ margin-top:12px; background:var(--tap); color:#fff; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-align:center; padding:8px 0; border-radius:8px; }
+  /* Chat preview */
+  .chat-preview{ display:grid; grid-template-columns:200px 1fr; gap:18px; margin-top:20px; }
+  .chat-list{ border:1px solid var(--line); border-radius:14px; background:var(--bg); padding:12px; }
+  .chat-list .ct{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; padding:6px 8px; }
+  .chat-list .row2{ display:flex; align-items:center; gap:10px; padding:10px 8px; border-radius:9px; }
+  .chat-list .row2.on{ background:var(--surface); border:1px solid var(--tap-line); }
+  .chat-list .ph2{ width:34px; height:34px; border-radius:50%; background:#dbe5e9; flex:none; }
+  .chat-list .nm{ font-size:12px; font-weight:600; color:var(--ink); }
+  .chat-list .ms{ font-size:11px; color:var(--muted); margin-top:1px; line-height:1.3; }
+  .chat-list .b{ margin-left:auto; background:var(--tap); color:#fff; font-family:var(--font-mono); font-size:10px; padding:2px 7px; border-radius:99px; }
+  .chat-thread{ border:1px solid var(--line); border-radius:14px; padding:18px; background:var(--bg); display:flex; flex-direction:column; gap:10px; min-height:200px; }
+  .msg{ font-size:12px; max-width:80%; padding:10px 14px; border-radius:14px; line-height:1.45; }
+  .msg.in{ background:#F4F6F8; color:var(--ink-soft); border-bottom-left-radius:4px; align-self:flex-start; }
+  .msg.out{ background:rgba(2,163,202,0.1); color:var(--tap-deep); border-bottom-right-radius:4px; align-self:flex-end; }
+  .qr-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .qr{ font-family:var(--font-mono); font-size:10px; padding:5px 9px; border:1px solid var(--tap-line); color:var(--tap-deep); border-radius:99px; background:var(--surface); }
+  @media (max-width:980px){
+    .preview .grid3{ grid-template-columns:1fr 1fr; }
+    .chat-preview{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · PRODUCT: THE AMBASSADOR PLATFORM</div>
+    <h1>The Ambassador Platform — a web home where students meet ambassadors</h1>
+    <p class="sub">A public-facing web experience, branded <b>Student Ambassadors</b> and Powered by Intoto, where prospective and incoming students discover real university ambassadors, read profiles, and start individual or group chats — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+      <span class="badge b-web"><span class="dot"></span>Web · Standalone</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Surface</b>Browser · 1920 / 1280 / 412</div>
+      <div><b>Audience</b>Prospective &amp; incoming students</div>
+      <div><b>Not</b>The in-app Ambassador role</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>The visitor's journey</a>
+    <a href="#ia"><span class="toc-num">·</span>Site structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Sign up, log in, verify</a>
+    <a href="#f2"><span class="toc-num">02</span>Create profile</a>
+    <a href="#f3"><span class="toc-num">03</span>All Ambassadors</a>
+    <a href="#f4"><span class="toc-num">04</span>Ambassador card</a>
+    <a href="#f5"><span class="toc-num">05</span>Ambassador profile</a>
+    <a href="#f6"><span class="toc-num">06</span>Individual chat</a>
+    <a href="#f7"><span class="toc-num">07</span>Group chat</a>
+    <a href="#f8"><span class="toc-num">08</span>Moderation</a>
+    <a href="#f9"><span class="toc-num">09</span>Ambassador FAQ</a>
+    <a href="#f10"><span class="toc-num">10</span>Account &amp; logout</a>
+    <a href="#f11"><span class="toc-num">11</span>Responsive</a>
+    <a href="#perms"><span class="toc-num">·</span>Boundaries</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>What The Ambassador Platform is</h2>
+      <p>A standalone web portal — branded <b>Student Ambassadors</b> with <b>Powered by Intoto</b> in the header — that universities embed so a prospect or incoming student can find a real mentor and start a conversation in minutes. Visitors sign up, verify email, create a basic profile, then browse ambassadors with search and filters, read full profiles, and message ambassadors one-to-one or join program and cohort group chats. It is intentionally narrow: discovery and chat. Operational tools — approvals, governance, tenant configuration — live elsewhere in the Intoto mobile app and admin roles.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A prospect lands on <b>All Ambassadors</b>, filters by program or country, opens an ambassador's profile, taps <b>Chat</b>, and gets a real answer from a real student — all from the browser, all before they download anything. The platform also runs <b>Group Chats</b> for cohorts and a public <b>Ambassador FAQ</b> for visitors who aren't ready to message yet.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">Web product — separate from the Intoto mobile app</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Breakpoints: 1920, 1280, 412</div></div>
+          <div class="stat"><div class="n">7</div><div class="l">Filter chips on the directory home</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Chat modes: Individual &amp; Group</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature is followed by three short cards — one per team — so you can scan to what's relevant without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists on the platform — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, fields, and the things most likely to break across breakpoints.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for universities and prospects — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>The visitor's journey</div>
+      <h2>From URL to first chat</h2>
+      <p>The shortest path from a curious prospect to a live conversation with an ambassador is five steps — and they happen entirely in the browser.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign up</h4><p>Open the platform, tap Signup, enter email and password. Optional Remember me; Forget password is one tap away.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Verify email</h4><p>The <b>Verification Required!</b> screen confirms the address used; the visitor follows the link sent to their inbox.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Create profile</h4><p>Fill Basic Information — photo (optional), name, email, phone with country code, country — then Submit.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Browse &amp; filter</h4><p>Land on <b>All Ambassadors</b>, search by name/program/country, or use chips like <i>Available Now</i>, <i>Students</i>, <i>Alumni</i>, <i>Staff</i>, <i>By Program</i>, <i>By Country</i>.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Read &amp; chat</h4><p>Open a card to read About me, languages, programs, response time — then tap Chat to start the conversation, or join a Group Chat for the cohort.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the site is organised</h2>
+      <p>The chrome is consistent across every signed-in screen: a header with the page title, the chat icon, the profile icon, and Powered by Intoto. The body is built around four ideas.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Surface 01</div><div class="t">All Ambassadors</div><p>The directory home — search, filter chips, card grids (<i>Chat with Our Ambassadors</i>, <i>Ambassadors Card Final</i>), See More, and the FAQ section.</p></div>
+        <div class="ia-card"><div class="tag">Surface 02</div><div class="t">Ambassadors Profile</div><p>The full profile detail page — detail panel on the left (photo, badge, Chat CTA, program, country, languages, response time) and About me / Ask me a question on the right.</p></div>
+        <div class="ia-card"><div class="tag">Surface 03</div><div class="t">Chat</div><p>Two-column inbox on desktop — Individual Chats and Group Chats tabs on the left, the active conversation on the right with composer and quick-reply chips.</p></div>
+        <div class="ia-card"><div class="tag">Surface 04</div><div class="t">Account</div><p>View Profile, Basic Information, Logout, Delete Account — all reached from the header profile icon.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Sign up, log in, verify</h3></div>
+      <p class="feat-lead">Onboarding is intentionally lightweight: an email and a password to start, an email verification to build trust, and a returning-user login that lands on the directory. The product nudges prospects past the form and into the people as fast as possible.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Signup</b>. Enter email and password; optionally tick <b>Remember Me</b>.</li>
+          <li>Tap <b>Continue</b>. A loader resolves the API call.</li>
+          <li>If unverified, the <b>Verification Required!</b> card shows the email used and tells the visitor to check their inbox.</li>
+          <li>Returning users sign in on <b>Login</b>; an unverified login is bounced back to the verification card.</li>
+          <li><b>Forget Password?</b> opens the password reset flow.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Email-and-password keeps the bar low for prospects who have not yet applied — university SSO is reserved for the Intoto mobile app, where it makes sense.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Empty/invalid email and weak password are blocked inline; Remember Me persists across sessions; the verification card displays the submitted email; <b>Already have an account? Log in</b> swaps to Login; Forget Password is not a dead link.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Two fields and an email link — sign up and you're talking to an ambassador the same minute."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Create profile — Basic Information</h3></div>
+      <p class="feat-lead">After verification the visitor sets up a minimal identity so ambassadors know who they're talking to. The form is short by design: photo, name, email, phone with country code, and country. Chat — not data capture — is the goal.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on <b>Create profile · Basic Information</b>.</li>
+          <li>Optionally tap the circular avatar to upload a picture.</li>
+          <li>Fill First Name, Last Name, Email ID, Phone (with country code), Country.</li>
+          <li>Tap <b>Submit</b>.</li>
+          <li>Land on <b>All Ambassadors</b> — the directory home.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Profile is minimal because every extra field is a drop-off; ambassadors don't need ten fields to start a conversation.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Required fields block Submit; photo preview persists to View Profile; phone code + national number store as a single E.164-style value; country dropdown is searchable.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A short form, not a survey — your profile is just enough for an ambassador to greet you by name."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>All Ambassadors — the directory home</h3></div>
+      <p class="feat-lead">The whole product radiates out from here. A title, a subtitle, a search bar, a row of filter chips, a card grid of ambassadors, a See More link, and an FAQ — that's the whole anatomy of the home page.</p>
+
+      <div class="preview">
+        <div class="ph-head">
+          <div>
+            <div class="ph-title">Student Ambassadors</div>
+            <div style="font-size:13px; color:var(--muted); margin-top:4px;">Discover real insights from students, alumni, and university representatives.</div>
+          </div>
+          <div class="ph-sub">Powered by Intoto</div>
+        </div>
+        <div class="chip-row">
+          <span class="chip on">All Ambassadors</span>
+          <span class="chip"><span class="dot"></span>Available Now</span>
+          <span class="chip">Students</span>
+          <span class="chip">Alumni</span>
+          <span class="chip">Staff</span>
+          <span class="chip">By Program</span>
+          <span class="chip">By Country</span>
+        </div>
+        <div class="grid3">
+          <div class="amb-card">
+            <div class="row"><div class="ph"></div><div><div class="n">Aisha Rahman</div><div class="p">Business Administration · Canada</div></div></div>
+            <span class="bdg">STUDENT</span>
+            <div class="bio">Happy to chat about housing in downtown and finding your community in week one.</div>
+            <div class="cta">💬 Chat</div>
+          </div>
+          <div class="amb-card">
+            <div class="row"><div class="ph"></div><div><div class="n">Troy Fonz</div><div class="p">Computer Science · UK</div></div></div>
+            <span class="bdg">ALUMNI</span>
+            <div class="bio">Three years out, now in industry — ask me about the program, internships, or what I wish I'd known.</div>
+            <div class="cta">💬 Chat</div>
+          </div>
+          <div class="amb-card">
+            <div class="row"><div class="ph"></div><div><div class="n">Sarah Chen</div><div class="p">International Office · USA</div></div></div>
+            <span class="bdg" style="background:#fff3df; color:#8a5a08;">STAFF</span>
+            <div class="bio">Visa, arrival logistics, orientation week — I work in the office, so I can point you to the right form.</div>
+            <div class="cta">💬 Chat</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how">
+        <ol class="steps">
+          <li>Read the title <b>Student Ambassadors</b>, subtitle, and Powered by Intoto.</li>
+          <li>Type into the search bar (<i>Search ambassadors, programs, countries…</i>) and tap <b>Search</b>.</li>
+          <li>Tap a filter chip — active chips fill teal — to refresh the grid.</li>
+          <li>Tap a card body to open the full profile; tap <b>Chat</b> to skip straight to the conversation.</li>
+          <li>Tap <b>See More</b> below the grid to open the expanded Ambassadors List.</li>
+          <li>Scroll on to the <b>Ambassador FAQ</b> below the cards.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One screen, two affordances per ambassador — Chat for action, card body for depth. Filters are the difference between a flat directory and a personal match.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search returns relevant results and a graceful empty state; chips toggle active styling correctly; <i>By Program</i> and <i>By Country</i> open picker → list views; the See More link routes to the expanded list; no broken images.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find someone like you in a few taps — by program, by country, or who's online right now."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>The ambassador card</h3></div>
+      <p class="feat-lead">A card is the atomic unit of the directory and the place where a prospect's interest converts into a chat. It's small on purpose: a face, a status, a role, a few words, and a button.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Scan the status row: <b>Online</b> green dot and role badge (<i>Student</i>, <i>Alumni</i>, <i>Staff</i>).</li>
+          <li>Read the circular photo (with country flag overlay), name, and program subtitle.</li>
+          <li>Read the bio snippet — long bios truncate with ellipsis on some layouts.</li>
+          <li>Tap <b>Chat</b> to open a thread with this ambassador.</li>
+          <li>Tap the card body or photo to open the full <b>Ambassadors Profile</b>.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Two intentional taps — Chat for the impatient, the card body for the curious — keeps the card simple while serving both.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>The Online dot reflects real availability; the role badge matches the ambassador's record; tap targets are large enough on mobile; Chat opens the correct thread (new or existing).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Online ambassadors get a green dot — proof a real person is on the other side, right now."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Ambassador profile — full page</h3></div>
+      <p class="feat-lead">The profile is where a prospect decides whether to message. The left panel carries the trust signals — photo, badge, program, country, languages, favourite programs, response time — and the right side carries the story.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the profile by tapping a card body in the directory.</li>
+          <li>Read the left detail panel: photo, name, role badge, short description, <b>Chat</b> CTA, Program, Country, Languages, Favourite Programs, response-time hint (e.g. <i>Usually responds within 24 hours</i>).</li>
+          <li>Read the <b>About me</b> long bio on the right.</li>
+          <li>Tap <b>Ask me a question</b> for a guided chat entry.</li>
+          <li>Tap <b>Chat</b> on the left panel to open the thread.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Profiles are ambassador-authored — the voice is honest, not marketing copy — which is the whole point of peer mentorship.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>All detail panel fields render when data exists and degrade cleanly when empty; About me is fully readable without unwanted truncation; Ask me a question routes to a chat entry; the gallery and Like/share controls behave per design.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Read their story first — languages they speak, programs they love, how fast they reply — before you ever say hello."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Individual chat</h3></div>
+      <p class="feat-lead">The chat shell is the heart of the product. On desktop it's a left rail of conversations and a right pane with the active thread, the composer, and guided quick-reply chips that lower the barrier for a first message.</p>
+
+      <div class="preview">
+        <div class="chat-preview">
+          <div class="chat-list">
+            <div class="ct">Individual</div>
+            <div class="row2 on"><div class="ph2"></div><div><div class="nm">Troy Fonz</div><div class="ms">Of course — let me explain…</div></div><div class="b">3</div></div>
+            <div class="row2"><div class="ph2"></div><div><div class="nm">Sarah Chen</div><div class="ms">Welcome! What's your program?</div></div></div>
+            <div class="row2"><div class="ph2"></div><div><div class="nm">Aisha Rahman</div><div class="ms">05 December</div></div></div>
+            <div class="ct" style="margin-top:6px;">Group</div>
+            <div class="row2"><div class="ph2" style="background:var(--tap-wash); border:1px solid var(--tap-line);"></div><div><div class="nm">International Students 2025</div><div class="ms">24 members</div></div></div>
+          </div>
+          <div class="chat-thread">
+            <div class="msg in">Hey! Looking forward to meeting you in September 👋</div>
+            <div class="msg out">Thanks Troy! Any tips on housing?</div>
+            <div class="msg in">Of course — let me explain how rent works in the student district.</div>
+            <div class="msg in" style="background:transparent; padding:0;">
+              <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">What would you like to know about?</div>
+              <div class="qr-row">
+                <span class="qr">Campus life</span>
+                <span class="qr">Accommodation</span>
+                <span class="qr">Academic programs</span>
+                <span class="qr">Student life</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Chat</b> from the header icon or a card's <b>Chat</b> button.</li>
+          <li>Ensure the <b>Individual Chats</b> tab is active; tap a thread to load it.</li>
+          <li>Read incoming gray bubbles and outgoing teal bubbles; timestamps appear inline.</li>
+          <li>Tap a quick-reply chip after an ambassador message (<i>Campus life</i>, <i>Accommodation</i>, <i>Academic programs</i>, <i>Student life</i>) or type your own.</li>
+          <li>Use the attachment icon to share an image; the composer reveals a send button as you type.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Quick-reply chips solve the cold-start problem — students who don't know what to ask don't have to invent the first message.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load with the right messages; sending updates both the thread and the list preview; chips send or prefill per spec; image attach and the typing indicator render correctly; empty inbox shows the <i>Start a conversation</i> guidance.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Don't know what to ask? Tap a chip — and you're in a real conversation."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Group chat</h3></div>
+      <p class="feat-lead">Group chats turn the platform into a peer community. Cohorts like <i>International Students 2025</i> and program groups give a whole intake a single shared room — searchable, moderated, and persistent.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Chat</b> and switch to the <b>Group Chats</b> tab.</li>
+          <li>Tap a group (e.g. <i>International Students 2025</i>, <i>Business Administration Students</i>, <i>Campus Events &amp; Activities</i>).</li>
+          <li>Read the thread — each message shows the sender's name and role badge.</li>
+          <li>Tap the header to open <b>Group Detail</b> — member list and settings.</li>
+          <li>Use <b>Mute</b> to silence notifications or <b>Leave Group</b> to exit (with confirmation).</li>
+          <li>Tap shared images to open the gallery viewer.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Groups carry cohort identity — joining one is the platform's way of saying "you belong with these people," before classes even start.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Tab switch preserves state; group headers show correct member count; sender names and badges render per message; Mute and Leave Group are reversible until Leave is confirmed; after exit, the group disappears from the list.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"One room for your whole intake — meet classmates before the welcome week."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f8">
+      <div class="feat-head"><span class="feat-num">08</span><h3>Moderation — report &amp; delete</h3></div>
+      <p class="feat-lead">Safety lives in the three-dot menu on every chat header. Visitors can report inappropriate conversations or delete a thread; destructive actions always require a confirmation step.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>In any individual or group chat, tap the <b>⋮</b> menu on the header.</li>
+          <li>Choose <b>Report a conversation</b> — fill the reason in the modal and submit.</li>
+          <li>Or choose <b>Delete conversation</b> — confirm in the popup to remove the thread.</li>
+          <li>After report, the <i>after report</i> confirmation UI shows the action recorded.</li>
+          <li>Cancel from any modal returns to the chat with no state change.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Both actions sit inside the chat header so they're contextual and obvious — visitors don't hunt through settings to feel safe.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Both actions appear on every chat header; Report submits and shows the after-report state; Delete removes the thread from the list; cancel does nothing destructive.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Universities get peer mentorship without losing safety — report and moderation are built in."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f9">
+      <div class="feat-head"><span class="feat-num">09</span><h3>Ambassador FAQ</h3></div>
+      <p class="feat-lead">Below the card grid on the directory home, the Ambassador FAQ is ambassador-authored, evergreen content — useful for prospects not ready to message and for SEO. Each row is a familiar accordion.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Scroll past the card grids on <b>All Ambassadors</b> to <b>Ambassador FAQ</b>.</li>
+          <li>Tap a collapsed question row — the answer expands.</li>
+          <li>Tap an open row again, or another row, to switch.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>FAQ content does double duty — it answers prospects who never chat, and it indexes for search engines bringing them in.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Accordion expand/collapse without layout shift; long answers don't break the page; behaviour matches spec (single-open vs multi-open).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Real answers from real ambassadors — not a chatbot, not a brochure."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f10">
+      <div class="feat-head"><span class="feat-num">10</span><h3>Account — view, logout, delete</h3></div>
+      <p class="feat-lead">The account area is reached from the header profile icon. Visitors can view and edit their Basic Information, sign out, or delete the account entirely.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Tap the <b>profile icon</b> in the header to open <b>View Profile</b>.</li>
+          <li>Edit fields under <b>Basic Information</b> and save.</li>
+          <li>Tap <b>Logout</b> → confirm in <b>Logout Confirmation?</b> → return to Login.</li>
+          <li>Tap <b>Delete Account</b> for a destructive removal flow with explicit confirmation.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Self-serve logout and delete are a baseline — universities don't want to be a support bottleneck for a prospect who changed their mind.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Edits persist after refresh; logout clears the session and routes to Login; delete blocks login with the same credentials afterwards; confirmation modals require explicit action.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Students control their data — logout, delete, and report are one tap away."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f11">
+      <div class="feat-head"><span class="feat-num">11</span><h3>Responsive — desktop, tablet, mobile</h3></div>
+      <p class="feat-lead">Three breakpoints with intentional layout shifts. Desktop is two-column wherever it can be; tablet narrows the rails; mobile collapses chat into a list → detail flow with a compact header.</p>
+      <table>
+        <thead><tr><th>Feature</th><th>Desktop 1920</th><th>Tablet 1280</th><th>Mobile 412</th></tr></thead>
+        <tbody>
+          <tr><td>Filter chips</td><td>Full horizontal row</td><td>Wrapped / scroll</td><td>Stacked / scroll</td></tr>
+          <tr><td>Chat layout</td><td>Side-by-side list + thread</td><td>Side-by-side (narrower)</td><td>List → full-screen Chat Detail</td></tr>
+          <tr><td>Ambassador cards</td><td>4-column grid</td><td>3-column</td><td>1-column</td></tr>
+          <tr><td>FAQ accordion</td><td>Full width</td><td>Full width</td><td>Full width, smaller padding</td></tr>
+          <tr><td>Auth forms</td><td>Centered card ~510px</td><td>Centered ~1280 canvas</td><td>Full-width sheet</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row" style="margin-top:30px;">
+        <div class="lens web"><div class="lt"><span class="d"></span>Web · responsive</div><p>International prospects often browse on phones over mobile data — mobile parity isn't optional.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>No horizontal overflow at 412px; touch targets ≥ 44px; chat list navigates to <b>Chat Detail</b> and back; tablet header doesn't clip.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Same product on phone or laptop — wherever a student starts looking, they end up in a chat."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What visitors can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the platform.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Sign up, verify email, create a basic profile</td><td>Administer university tenants or roles</td></tr>
+          <tr><td>Search and filter ambassadors</td><td>Invite, suspend, or moderate ambassadors</td></tr>
+          <tr><td>View public ambassador profiles and FAQs</td><td>Edit another user's ambassador profile here</td></tr>
+          <tr><td>Start individual and group chats; attach images</td><td>Broadcast or bulk-message ambassadors</td></tr>
+          <tr><td>Report or delete their own conversations</td><td>Approve communities, events, or content</td></tr>
+          <tr><td>Logout and delete their own account</td><td>Access mobile-app admin tools or dashboards</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each surface lives</h2>
+      <p>Mapping the Figma frames on page <span class="mono">5051:661</span> back to where a visitor encounters them.</p>
+      <table>
+        <thead><tr><th>Surface</th><th>How the visitor gets there</th><th>Figma frame</th></tr></thead>
+        <tbody>
+          <tr><td>Directory home</td><td>Default landing after login</td><td><span class="mono">All Ambassadors</span></td></tr>
+          <tr><td>Expanded list</td><td>See More below card grid</td><td><span class="mono">see more · Ambassadors List</span></td></tr>
+          <tr><td>Filter views</td><td>Tap any filter chip</td><td><span class="mono">Available Now · Students · Alumni · Employee · By Program · By Country</span></td></tr>
+          <tr><td>Full profile</td><td>Tap a card body</td><td><span class="mono">Ambassadors Profile</span></td></tr>
+          <tr><td>Ask question</td><td>Profile right column CTA</td><td><span class="mono">when click on Ask me a question</span></td></tr>
+          <tr><td>Signup / Login</td><td>Auth entry points</td><td><span class="mono">Signup · Login</span></td></tr>
+          <tr><td>Email verification</td><td>Post-signup gate</td><td><span class="mono">Email Verification Required!</span></td></tr>
+          <tr><td>Create profile</td><td>Post-verification setup</td><td><span class="mono">Create profile · Basic Information</span></td></tr>
+          <tr><td>Chat inbox</td><td>Header chat icon</td><td><span class="mono">chat</span></td></tr>
+          <tr><td>Empty inbox</td><td>New user with no threads</td><td><span class="mono">If there is no chat</span></td></tr>
+          <tr><td>Group chat</td><td>Group Chats tab</td><td><span class="mono">Group chat · Group Detail</span></td></tr>
+          <tr><td>Three-dot menu</td><td>Chat header ⋮</td><td><span class="mono">3 dots</span></td></tr>
+          <tr><td>Report / Delete</td><td>From the ⋮ menu</td><td><span class="mono">Report · Delete conversation</span></td></tr>
+          <tr><td>Leave group</td><td>Group Detail → Leave Group</td><td><span class="mono">Leave Group popup</span></td></tr>
+          <tr><td>View profile</td><td>Header profile icon</td><td><span class="mono">View Profile · Profile</span></td></tr>
+          <tr><td>Logout / Delete account</td><td>Account menu</td><td><span class="mono">Logout · Delete Account</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Ambassador Platform FAQs</h2>
+      <p>The questions universities, prospects, support, and demo audiences ask most often about the platform.</p>
+      <div class="faq">
+
+        <details><summary><span>What is The Ambassador Platform?</span><span class="pls"></span></summary>
+        <div class="ans">A public-facing web portal where prospective and incoming students discover real university ambassadors, read profiles, and chat one-to-one or in cohort groups. It's branded <b>Student Ambassadors</b> with <b>Powered by Intoto</b> in the header, and universities embed it on their own site.</div></details>
+
+        <details><summary><span>How is this different from the Intoto mobile app?</span><span class="pls"></span></summary>
+        <div class="ans">The platform is a browser product focused on discovery and chat — meeting ambassadors before applying or enrolling. The mobile app is the full student lifecycle after enrolment: profile, travel, communities, events, and university admin. Different audience, different surface, different scope.</div></details>
+
+        <details><summary><span>How do External Ambassadors appear on the platform?</span><span class="pls"></span></summary>
+        <div class="ans">Off-campus partners invited as <b>External Ambassador</b> show in the directory with a <b>Staff</b> badge (Figma <span class="mono">Employee</span> filter). Prospects filter by <i>Staff</i>, open the card, and tap <b>Chat</b>; the partner replies from the <b>External Ambassador web portal</b>. See <i>Intoto External Ambassador Feature &amp; Flow Guide</i> for the fulfilment side.</div></details>
+
+        <details><summary><span>Do visitors need to be enrolled students to use it?</span><span class="pls"></span></summary>
+        <div class="ans">No. The platform is built for prospective and incoming students — anyone can sign up with email and password, verify, and start chatting. Universities embed it to convert interest into conversations long before an application is in.</div></details>
+
+        <details><summary><span>How does a visitor find an ambassador who matches them?</span><span class="pls"></span></summary>
+        <div class="ans">Two ways: search by name, program, or country in the search bar, or use the filter chips — <i>Available Now</i>, <i>Students</i>, <i>Alumni</i>, <i>Staff</i>, <i>By Program</i>, <i>By Country</i>. Active filters refresh the card grid; <i>By Program</i> and <i>By Country</i> open a picker first.</div></details>
+
+        <details><summary><span>What's the difference between an Individual Chat and a Group Chat?</span><span class="pls"></span></summary>
+        <div class="ans">Individual chat is a one-to-one thread with a specific ambassador. Group chats are cohort or program rooms (e.g. <i>International Students 2025</i>) where many members and ambassadors talk together. Both live in the same Chat surface, behind two tabs.</div></details>
+
+        <details><summary><span>What does the green Online dot mean?</span><span class="pls"></span></summary>
+        <div class="ans">The ambassador is currently available. It's a soft signal — even offline ambassadors usually respond within their stated response time — but Online suggests a real-time reply is likely.</div></details>
+
+        <details><summary><span>Who moderates conversations?</span><span class="pls"></span></summary>
+        <div class="ans">The platform offers a per-chat report and delete via the three-dot menu, and the university's Intoto Admin and Super Admin handle moderation in the admin tools. Reports surface to those roles; visitors don't see moderation queues.</div></details>
+
+        <details><summary><span>Can visitors send images in chat?</span><span class="pls"></span></summary>
+        <div class="ans">Yes — the composer has an attachment icon for image uploads, and group chats include a shared media gallery. Other file types are out of scope for this product surface.</div></details>
+
+        <details><summary><span>What happens if a visitor doesn't verify their email?</span><span class="pls"></span></summary>
+        <div class="ans">The <b>Verification Required!</b> screen blocks the rest of the product until they click the link sent to their inbox. Login also redirects unverified accounts back to this gate, so chat and the directory require a verified address.</div></details>
+
+        <details><summary><span>Can the platform be white-labelled?</span><span class="pls"></span></summary>
+        <div class="ans">In the current Figma scope, <b>Powered by Intoto</b> appears in the header alongside the university's <b>Student Ambassadors</b> branding. Full white-label is a product-roadmap conversation.</div></details>
+
+        <details><summary><span>How do visitors delete their data?</span><span class="pls"></span></summary>
+        <div class="ans">From the profile icon → Delete Account. The flow confirms the destructive action, removes the account, and the email cannot log back in — a self-serve route designed with GDPR-style expectations in mind.</div></details>
+
+        <details><summary><span>Why does the design specify three breakpoints?</span><span class="pls"></span></summary>
+        <div class="ans">International prospects browse on whatever they have — laptops at home, tablets at school, phones in transit. 1920, 1280, and 412 cover the realistic top, middle, and floor of that range without micro-optimising for every device.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · The Ambassador Platform · Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="350" y="220" width="500" height="360" rx="22" fill="none" stroke="#4FD0D8" stroke-width="6"/>
+    <circle cx="600" cy="330" r="58" fill="none" stroke="#4FD0D8" stroke-width="6"/>
+    <circle cx="638" cy="370" r="14" fill="#3DC076"/>
+    <rect x="430" y="430" width="340" height="14" rx="7" fill="#39414E"/>
+    <rect x="470" y="464" width="260" height="14" rx="7" fill="#39414E"/>
+    <rect x="500" y="510" width="200" height="38" rx="10" fill="#02A3CA"/>
+  </svg>
+</template>
+</body>
+</html>

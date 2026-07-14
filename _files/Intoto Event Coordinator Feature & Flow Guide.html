@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Event Coordinator — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: EVENT COORDINATOR</div>
+    <h1>The Event Coordinator Experience</h1>
+    <p class="sub">How university staff run campus events end to end inside Intoto — create, approve, track registrations, and read analytics — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Event Coordinator</div>
+      <div><b>Scope</b>One university (campus where configured)</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>The dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>Creating &amp; editing events</a>
+    <a href="#f4"><span class="toc-num">04</span>Approving events</a>
+    <a href="#f5"><span class="toc-num">05</span>Registrations &amp; attendance</a>
+    <a href="#f6"><span class="toc-num">06</span>Event analytics</a>
+    <a href="#f7"><span class="toc-num">07</span>Chat &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Event Coordinator is</h2>
+      <p>The Event Coordinator is university staff responsible for campus events end to end: creating events, reviewing submissions before they go live, monitoring registrations and attendance, and using analytics to understand programming by category. They operate within one university and are not the full administrator — they don't run invites for all roles, assign students to coordinators, or own the community approval queue.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A coordinator <b>creates and edits events</b>, clears the <b>pending event queue</b> (approve or reject with a reason), tracks <b>registrations and attendance</b> from Event Details, and reads the <b>events-by-category analytics</b> to plan what to program next — all scoped to their university.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">Primary gate owned: event approval</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Event lists: Upcoming · Pending · Completed</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Day-of tools: registrations &amp; attendance</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Analytics view to plan the calendar</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the coordinator's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, validation, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for universities — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The coordinator's loop runs the whole event lifecycle: create, gate, run, and learn.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in &amp; scan the program</h4><p>Land on an events-focused dashboard — Total Events, the category chart, and Upcoming / Pending / Completed carousels.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Create &amp; submit events</h4><p>Build events with schedule, venue, registration window, imagery, and category — saved or submitted for approval per tenant rules.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Clear the pending queue</h4><p>Review submitted events for correct dates, venue, and policy, then approve to publish or reject with a reason.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Run event day</h4><p>Track registrations, mark attendance, and review feedback from inside Event Details.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Plan with analytics</h4><p>Read events-by-category and attendance trends to decide what to program next semester.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available. For this role, Home is an events command centre.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Events dashboard — Quick Way (Total Events, Analytics), carousels, the category chart, and banners.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse communities and posts when permitted — secondary to event work.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Messages with students and staff about events — deadlines, venues, accessibility.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Own profile (read-only basic details), settings, language, logout.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via university credentials. Multi-role accounts choose Event Coordinator, and Home reloads with event Quick Way cards, carousels, and the analytics chart — not student travel alerts or community queues.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the app and sign in with email/password or SSO.</li>
+          <li>Wait for the profile and role to load.</li>
+          <li>Single role → land on the Event Coordinator dashboard; multi-role → choose the role at Role Selection.</li>
+          <li>A pending invitation shows an alert at login — <b>Accept</b> or <b>Do it later</b> (envelope icon later).</li>
+          <li>The four tabs appear — Home, Community, Chats, Profile.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The role's home is purpose-built for events, so the coordinator opens directly into their program rather than a generic admin surface.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on the Event Coordinator dashboard; multi-role shows Role Selection; switching reloads event-centric sections (no student-travel alerts).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Open the app straight into your events command centre — everything you're running, in one place."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>The dashboard</h3></div>
+      <p class="feat-lead">Home is an API-driven overview for events: a branded header, Quick Way (Total Events, Events Analytics), quick actions, the Upcoming / Pending / Completed carousels, and an events-by-category chart — rendered in backend order.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on Home; read the university header (tap for read-only context).</li>
+          <li>Scan <b>Quick Way</b> — Total Events opens the full catalog; Events Analytics opens reporting.</li>
+          <li>Swipe the <b>Upcoming</b>, <b>Pending</b>, and <b>Completed</b> carousels; <b>View All</b> opens each list.</li>
+          <li>Read the <b>Events by Category</b> chart (it may load just after the overview payload).</li>
+          <li>Pull to refresh after creating or approving events to update counts.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Separating events into Upcoming, Pending, and Completed mirrors the real lifecycle, so the coordinator always knows what needs action versus what's done.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Event Quick Way cards render (not governance stats); carousels and View All work; the category chart shows a placeholder then loads; pull-to-refresh updates counts.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See your whole calendar at a glance — what's coming up, what needs approval, and what just wrapped."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Creating &amp; editing events</h3></div>
+      <p class="feat-lead">A form-driven flow adds and updates events — title, description, schedule, registration window, location, category, cover image, and capacity. Depending on tenant rules, a new event lands in Pending or publishes to Upcoming.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>From the events list, tap <b>Create</b> / <b>+</b>.</li>
+          <li>Fill required fields: title, description, date/time, registration start &amp; end, location, category, cover image, capacity.</li>
+          <li>Tap <b>Save</b> or <b>Submit for approval</b> — the event lands in Pending or Upcoming per auto-publish rules.</li>
+          <li>To edit, open <b>Event Details → Edit</b>; some fields lock once registration opens or the event starts.</li>
+          <li>Where provided, <b>Cancel</b> / <b>Unpublish</b> closes registration and moves the event to a cancelled/completed state.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Locking certain fields after registration opens protects students who already signed up from surprise changes to dates or capacity.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Required fields block save; an invalid date range (registration end before start) shows an inline error; post-registration field locks are enforced; cancel/unpublish closes registration.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Stand up a new event in minutes — schedule, venue, registration, and imagery in one clean form."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Approving events</h3></div>
+      <p class="feat-lead">The pending queue is the quality and compliance gate: events with wrong dates, missing venues, or policy issues shouldn't reach the student app. The coordinator reviews each submission and approves it to publish or rejects it with a reason.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open an event from <b>Pending Events</b> on Home or the pending list.</li>
+          <li>Verify title, dates, registration start/end, location, image, category, and capacity.</li>
+          <li><b>Approve</b> (confirm if prompted) → the event leaves Pending and appears under Upcoming.</li>
+          <li><b>Reject</b> → enter a mandatory reason explaining what to fix; submit.</li>
+          <li>Pull to refresh Home → Total Events updates and the queue reflects your decision.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>A single approval gate keeps the student-facing calendar trustworthy — every published event has been checked for correct dates, venue, and policy.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Approve moves the event to Upcoming and updates counts; reject requires a non-empty reason; rejected events leave the queue or show rejected status; students never see pending events.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Every event students see has been reviewed — right dates, right place, on-policy."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Registrations &amp; attendance</h3></div>
+      <p class="feat-lead">Event Details is the single-event hub. Beyond the overview, coordinators view who registered, mark who actually attended, and review post-event feedback — the proof of participation that feeds reports and follow-up.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Event Details</b> and go to the <b>Registrations</b> tab to see the registered student list.</li>
+          <li>Search the list, open a student row for a read-only profile, or message per policy; export where provided.</li>
+          <li>On or after event day, open <b>Attendance</b> and mark attended students (checkbox, scan, or manual list).</li>
+          <li>Save — attendance is reflected in analytics.</li>
+          <li>Review the <b>Feedback</b> tab for post-event ratings and comments.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Keeping registrations, attendance, and feedback on the same event hub means the full record of an event lives in one place, from sign-up to outcome.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Registration list loads and searches; attendance marking saves and flows into analytics; feedback summary renders; export works where provided; read-only student profiles open from rows.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Know who's coming, who showed up, and what they thought — every event, fully accounted for."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Event analytics</h3></div>
+      <p class="feat-lead">Beyond the Home category chart, a dedicated analytics screen shows KPIs and trends — total events, registrations, attendance rate, registrations over time, and events by category — with filters for date range, campus, and category.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Tap <b>Events Analytics</b> on Home (Quick Way).</li>
+          <li>Apply filters — date range, campus, category.</li>
+          <li>Read the KPI tiles and the bar/pie charts.</li>
+          <li>Identify under-used categories to plan future programming.</li>
+          <li>Drill through to a filtered event list where the frame supports tap-through.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Analytics close the loop from "run events" to "program better" — the coordinator plans next semester from real attendance and category data, not guesswork.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Filters re-query and update charts; KPI labels are API-driven; charts show placeholders while loading; tap-through (where present) opens a correctly filtered list.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Turn every event into insight — see what's working and program more of what students show up for."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Chat &amp; account</h3></div>
+      <p class="feat-lead">Messaging supports the event work — registration questions, venue changes, accessibility requests — and notifications surface new submissions and reminders. The Profile tab holds account settings; community access is browse-only.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>Chats</b> tab to message students and staff about events; search for a user where compose is available.</li>
+          <li>Tap the <b>bell</b> for notifications — new pending submissions, registration thresholds, events starting soon.</li>
+          <li>Use the <b>envelope</b> for deferred role invitations.</li>
+          <li>Browse the <b>Community</b> tab to promote events in posts (no community approval powers here).</li>
+          <li>Open <b>Profile</b> for account info, FAQs, language, and logout; use <b>Support</b> to escalate.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Notifications are tuned to event timing — submissions, registration thresholds, and start reminders — so the coordinator acts at the right moment.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Threads load and send; notifications deep-link to Event Details or the pending list; no community approval controls appear; logout clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Stay on top of every event — reminders when it matters and a direct line to attendees."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Create, edit, and publish events (per workflow)</td><td>Invite or suspend arbitrary users (Manage Users)</td></tr>
+          <tr><td>Approve and reject pending events in scope</td><td>Assign students to sub-coordinators</td></tr>
+          <tr><td>View registrations and record attendance</td><td>Manage university-wide governance stats (USA)</td></tr>
+          <tr><td>View event analytics for scoped data</td><td>Override the community approval queue</td></tr>
+          <tr><td>Chat and use Support</td><td>Cross-university administration</td></tr>
+          <tr><td>Browse communities when permitted</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the coordinator gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Event Coordinator Home</td><td>Home tab after login</td></tr>
+          <tr><td>All Events list</td><td>Total Events Quick Way or Events quick action</td></tr>
+          <tr><td>Upcoming / Pending / Completed lists</td><td>Carousel View All or list filters</td></tr>
+          <tr><td>Event Details</td><td>Tap an event card or list row</td></tr>
+          <tr><td>Create / Edit event</td><td>+ or Edit on Event Details</td></tr>
+          <tr><td>Registrations / Attendance</td><td>Tabs on Event Details</td></tr>
+          <tr><td>Event Analytics</td><td>Events Analytics Quick Way</td></tr>
+          <tr><td>Community feed</td><td>Community tab</td></tr>
+          <tr><td>Chats · Notifications · Support</td><td>Chats tab · bell · Support quick action</td></tr>
+          <tr><td>University details</td><td>Tap the university header</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Event Coordinator FAQs</h2>
+      <p>The questions coordinators, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What is the Event Coordinator responsible for?</span><span class="pls"></span></summary>
+        <div class="ans">Campus events end to end within one university — creating events, reviewing submissions, tracking registrations and attendance, and reading analytics. They don’t manage users or own community approvals.</div></details>
+
+        <details><summary><span>How do I create a new event?</span><span class="pls"></span></summary>
+        <div class="ans">From the events list tap Create / +, fill the required fields — title, description, date/time, registration window, location, category, cover image, and capacity — and Save or Submit for approval.</div></details>
+
+        <details><summary><span>How do I approve or reject a submitted event?</span><span class="pls"></span></summary>
+        <div class="ans">Open it from Pending Events, verify the details, then Approve to publish or Reject. Rejection requires a mandatory reason explaining what to fix.</div></details>
+
+        <details><summary><span>Why can’t I edit some fields after an event is live?</span><span class="pls"></span></summary>
+        <div class="ans">Certain fields lock once registration opens or the event starts, to protect students who already registered from surprise changes to dates or capacity.</div></details>
+
+        <details><summary><span>What’s the difference between Upcoming, Pending, and Completed?</span><span class="pls"></span></summary>
+        <div class="ans">Upcoming are published future events students can register for; Pending await your approve/reject decision; Completed have passed. Each has its own carousel and list.</div></details>
+
+        <details><summary><span>How do I see who registered for an event?</span><span class="pls"></span></summary>
+        <div class="ans">Open Event Details → Registrations to see the list, search it, open read-only student profiles, and export where provided.</div></details>
+
+        <details><summary><span>How do I mark attendance?</span><span class="pls"></span></summary>
+        <div class="ans">On or after event day, open Attendance in Event Details, mark attended students, and save. Attendance feeds into analytics.</div></details>
+
+        <details><summary><span>What does the analytics screen show me?</span><span class="pls"></span></summary>
+        <div class="ans">KPI tiles and charts — total events, registrations, attendance rate, registrations over time, and events by category — with filters for date range, campus, and category.</div></details>
+
+        <details><summary><span>Can I approve communities or invite users?</span><span class="pls"></span></summary>
+        <div class="ans">No. Community approval belongs to the Community Coordinator, and inviting or suspending users to the University Super Admin.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Event Coordinator Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="470" y="280" width="260" height="210" rx="14" fill="none" stroke="#6FA4EE" stroke-width="6"/>
+    <rect x="470" y="280" width="260" height="50" rx="14" fill="#2A6FDB"/>
+    <line x1="528" y1="262" x2="528" y2="300" stroke="#6FA4EE" stroke-width="6" stroke-linecap="round"/>
+    <line x1="672" y1="262" x2="672" y2="300" stroke="#6FA4EE" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="600" cy="410" r="34" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <path d="M584 410 l12 12 22 -26" fill="none" stroke="#46B07C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</template>
+</body>
+</html>

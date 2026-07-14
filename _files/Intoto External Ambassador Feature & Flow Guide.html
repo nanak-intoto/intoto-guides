@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · External Ambassador — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  /* External Ambassador — web portal identity (ambassador tier gold) */
+  :root{ --ext:#A16207; --ext-wash:#FEF3C7; --ext-line:#FDE68A; }
+  .eyebrow{ color:#FCD34D; } .eyebrow .sq{ background:#FCD34D; }
+  a, .kicker, .stat .n, .feat-num, .faq details[open] summary{ color:var(--ext); }
+  nav.toc a:hover{ border-color:var(--ext); color:var(--ink); }
+  .kicker .sq{ background:var(--ext); }
+  .flow-node{ background:var(--ext-wash); border-color:var(--ext); color:var(--ext); }
+  .ia-card .tag{ color:var(--ext); }
+  .faq summary .pls::before, .faq summary .pls::after{ background:var(--ext); }
+  .badge.b-web{ color:#FDE68A; border-color:#78350F; } .badge.b-web .dot{ background:var(--ext); }
+  .badge.b-link{ color:#9CE5F0; border-color:#1F5560; } .badge.b-link .dot{ background:#02A3CA; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: EXTERNAL AMBASSADOR</div>
+    <h1>The External Ambassador web portal</h1>
+    <p class="sub">How an off-campus partner mentor represents a university from the browser — managing student leads, keeping a public profile, and answering prospects who discover them on <b>The Ambassador Platform</b> — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+      <span class="badge b-web"><span class="dot"></span>Web · Ambassador portal</span>
+      <span class="badge b-link"><span class="dot"></span>Linked · Ambassador Platform</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>External Ambassador</div>
+      <div><b>Surface</b>Browser · INTOTO WebApp</div>
+      <div><b>Linked product</b>The Ambassador Platform</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>Portal structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>Students &amp; leads</a>
+    <a href="#f3"><span class="toc-num">03</span>Profile</a>
+    <a href="#f4"><span class="toc-num">04</span>Chats</a>
+    <a href="#f5"><span class="toc-num">05</span>The Ambassador Platform</a>
+    <a href="#f6"><span class="toc-num">06</span>Events &amp; community</a>
+    <a href="#f7"><span class="toc-num">07</span>Support &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the External Ambassador is</h2>
+      <p>An External Ambassador is an <b>off-campus</b> mentor — a recruitment partner, agency contact, alumnus abroad, or regional representative — invited with ambassador type <span class="mono">External</span>. In Figma (<span class="mono">INTOTO-WebApp</span> page <span class="mono">EXTERNAL AMBASSADOR</span>, node <span class="mono">1461:139005</span>), they work from a <b>web portal</b> with a fixed sidebar, a global header, and five modules: <b>Dashboard</b> (student leads), <b>Events</b>, <b>Community</b>, <b>Chat</b>, and <b>Support</b>. Their public mentor profile appears on <b>The Ambassador Platform</b> — the student-facing <i>Student Ambassadors</i> directory — where prospects browse, filter, and start chats. Replies happen in the portal <b>Chat</b> inbox. They are not administrators: no inviting staff, assigning students, or approving content.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">An external ambassador signs into the <b>web portal</b>, monitors <b>New Leads</b> and response metrics on the <b>Students</b> dashboard, keeps their <b>Profile</b> current (badge <b>External Ambassador</b>, campus access, Ambassador Info), and answers prospects in <b>Chat</b> — including threads started on <b>The Ambassador Platform</b>, where they appear as a <b>Staff</b>-tagged card in the ambassador directory.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">Web portal — primary surface in Figma</div></div>
+          <div class="stat"><div class="n">5</div><div class="l">Sidebar: Dashboard, Events, Community, Chat, Support</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Lead KPIs: New, Total, Responded, Response Rate</div></div>
+          <div class="stat"><div class="n">↔</div><div class="l">Paired with The Ambassador Platform directory</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the external ambassador's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, role-specific rules, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for students and universities — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The external ambassador loop is web-first: monitor leads, stay visible on The Ambassador Platform, then be responsive in Chat — with an emphasis on the pre-arrival journey.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in to the portal</h4><p>Open the web app, complete <b>Login</b> or <b>Signup</b>, verify email if prompted, and choose <b>External Ambassadors</b> at role selection when the account holds multiple roles.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Check student leads</h4><p>Land on the <b>Students</b> dashboard — scan <b>New Leads</b>, <b>Total Leads</b>, <b>Total Responded</b>, and <b>Total Response Rate</b>, then search or filter the leads table.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Keep the profile current</h4><p>Open <b>Profile</b> — confirm the <b>External Ambassador</b> badge, <b>Campus Access</b>, and <b>Ambassador Info</b> so the public card on The Ambassador Platform stays trusted and complete.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Reply in Chat</h4><p>Work the <b>Chat</b> sidebar — answer prospects who tapped <b>Chat</b> on the platform directory, and follow up on open lead threads.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Stay current on campus</h4><p>Browse <b>Events</b> and <b>Community</b> so advice stays accurate; use <b>Support</b> when a question exceeds partner scope.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the portal is organised</h2>
+      <p>Chrome is consistent across signed-in screens: university logo in the left sidebar, a top header with date, language, notifications, and the profile menu, and a main content area. The Figma sidebar component exposes five destinations plus <b>Log Out</b>.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Sidebar 01</div><div class="t">Dashboard</div><p>The default workspace — <b>Students</b> lead KPIs, date filters, search, and a paginated leads table (name, email, country, create date). Export via the download control.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 02</div><div class="t">Events</div><p>Browse upcoming events, register where allowed, and track <b>My Events</b> — participant view only, no approve/reject.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 03</div><div class="t">Community</div><p>Explore communities, join, read feeds, and create posts — member participation without coordinator governance tools.</p></div>
+        <div class="ia-card"><div class="tag">Sidebar 04</div><div class="t">Chat</div><p>The primary reply surface — individual threads, group chats, attachments, and filters. Platform prospects land here after tapping <b>Chat</b> on a directory card.</p></div>
+      </div>
+      <div class="ia" style="margin-top:16px;">
+        <div class="ia-card"><div class="tag">Sidebar 05</div><div class="t">Support</div><p>Help and escalation when a student question is outside partner scope.</p></div>
+        <div class="ia-card"><div class="tag">Header</div><div class="t">Account &amp; profile</div><p>Language selector, notification bell with unread count, and profile menu showing name plus role label. <b>Profile</b> opens the full mentor profile editor.</p></div>
+        <div class="ia-card"><div class="tag">Linked product</div><div class="t">The Ambassador Platform</div><p>Student-facing <i>Student Ambassadors</i> directory — signup, search, filter chips, ambassador cards, profiles, and chat entry. External ambassadors appear here with a <b>Staff</b> badge. See the separate Platform guide for visitor flows.</p></div>
+        <div class="ia-card"><div class="tag">Auth entry</div><div class="t">Login &amp; onboarding</div><p><b>Login</b>, <b>Signup</b>, <b>Email Verification Required!</b>, and <b>Create profile · Basic Information</b> — same lightweight email-and-password pattern as the platform, scoped to ambassador accounts.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">External ambassadors are invited by university staff with ambassador type <b>External</b>. They sign into the <b>INTOTO WebApp</b> in the browser — not the mobile app's Auth0 flow — using email and password. Multi-role accounts land on a <b>Choose your role to continue</b> screen where <b>External Ambassadors</b> is one card alongside Ambassador, Student, and coordinator roles.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the portal URL and tap <b>Login</b> or <b>Signup</b>.</li>
+          <li>Enter email and password; optionally use <b>Remember Me</b> or <b>Forget Password?</b></li>
+          <li>If unverified, read the <b>Verification Required!</b> card and complete the inbox link before continuing.</li>
+          <li>New users complete <b>Create profile · Basic Information</b> (photo, name, email, phone, country).</li>
+          <li>When prompted, choose <b>External Ambassadors</b> on the role picker (<i>Welcome! Choose your role to continue</i>).</li>
+          <li>Land on the <b>Students</b> dashboard with sidebar and header chrome visible.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Web auth keeps off-campus partners out of the student mobile app while reusing the same lightweight signup pattern as The Ambassador Platform — one identity model, two products.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Signup → verification → create profile → role picker → Students dashboard; <b>External Ambassadors</b> card routes to the correct shell; unverified login bounces to verification; role label in header reads External Ambassador after profile load.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Your partners log in from any browser — no app download, no campus SSO required."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Students &amp; leads</h3></div>
+      <p class="feat-lead"><b>Students</b> is the external ambassador's command centre — not a mobile Home tab. Four KPI cards sit above a searchable, filterable leads table. This is where partners track outreach volume and response performance across prospects who engaged via The Ambassador Platform or other Intoto entry points.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on <b>Dashboard → Students</b> after login (or tap <b>Students</b> in the sidebar).</li>
+          <li>Read the four stat cards: <b>New Leads</b>, <b>Total Leads</b>, <b>Total Responded</b>, and <b>Total Response Rate</b>.</li>
+          <li>Set the date range — <b>Custom</b> preset plus <b>From Date</b> and <b>To Date</b> pickers — then tap the export/download control to pull a report.</li>
+          <li>Search with <i>Search students…</i>; toggle column grid, apply filters, or refresh the table.</li>
+          <li>Scan rows for <b>Students Name</b> (avatar, name, email), <b>Country</b>, and <b>Create Date</b>.</li>
+          <li>Tap a row to open the student profile overview and continue in <b>Chat</b> when needed.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Lead KPIs speak the language of recruitment partners — volume, response, and rate — rather than campus governance stats. The table is the operational surface; chat is the action layer.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>KPI counts update after date filter changes; search debounces; pagination shows total count and page range; export produces data for the selected range; row tap opens the correct student profile.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See every prospect in one place — who's new, who's waiting, and how fast your team responds."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Profile</h3></div>
+      <p class="feat-lead">The web <b>Profile</b> page is what prospects read on The Ambassador Platform. The summary card shows photo, name, an <b>External Ambassador</b> badge, active status, campus count, and last login. Tabs cover <b>Personal Information</b>, <b>FAQs</b>, <b>Settings</b>, <b>About App</b>, and <b>Delete Account</b>. The <b>Ambassador Info</b> block — about text, programs, languages, favourite programs, clubs — is the public story students judge before they message.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Profile</b> from the header menu or the <b>Edit Profile</b> CTA on the summary card.</li>
+          <li>On <b>Personal Information</b>, review <b>Basic Detail</b> (name, email, phone, passport, country) and <b>Campus Access</b> (assigned campuses such as Main, North, Downtown).</li>
+          <li>Scroll to <b>Ambassador Info</b> — fill about text, ambassador type, country, program, academic year, campus, favourite programs, clubs, and qualifications.</li>
+          <li>Tap <b>Edit Profile</b> to change photo or fields; save and confirm the badge still reads <b>External Ambassador</b>.</li>
+          <li>Use <b>FAQs</b>, <b>Settings</b>, and <b>About App</b> for self-serve help; <b>Delete Account</b> requires confirmation.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Campus Access makes multi-campus partnerships explicit — an external mentor may cover several locations while still appearing as one directory card. Profile completeness directly governs platform visibility and trust.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Badge reads External Ambassador; campus list matches invite scope; Ambassador Info fields persist and sync to the platform card; Edit Profile updates the directory without stale photo or bio; Delete Account blocks re-login after confirmation.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Show prospects who you are and which campuses you cover — a complete profile is your invitation to connect before they ever apply."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Chats</h3></div>
+      <p class="feat-lead"><b>Chat</b> is where external ambassadors do their real work on the web. The sidebar opens a two-column inbox on desktop — thread list on the left, active conversation on the right — with support for individual chats, group chats, image and file attachments, audio, filters, and <b>Start New Chat</b>. Threads started on The Ambassador Platform arrive here when a prospect taps <b>Chat</b> on an ambassador card or profile.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Chat</b> from the sidebar.</li>
+          <li>Scan the inbox for unread badges; use <b>Chat filter</b> or search to find a student by name.</li>
+          <li>Tap a thread to read history and reply — text, images, PDFs, or audio per design.</li>
+          <li>Use <b>Start New Chat</b> or <b>Chat — Create Group</b> flows when initiating outreach to selected students.</li>
+          <li>Point students to <b>Support</b>, <b>Events</b>, or official channels when a question exceeds partner scope.</li>
+          <li>Leave threads open for follow-up; counts update in the header bell and Chat list.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>One chat rail serves both platform-originated prospects and leads from the Students table — the external ambassador never needs to know which surface the student used first.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Platform Chat CTA opens the correct thread in the portal inbox; send/receive works across attachment types; group create/name/add/select flows complete; empty inbox shows guidance; no bulk-message tools appear.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Real answers from a real partner — students message from the website, ambassadors reply from the portal."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>The Ambassador Platform</h3></div>
+      <p class="feat-lead">The same Figma file pairs the external ambassador portal with <b>The Ambassador Platform</b> — the public <i>Student Ambassadors</i> directory (<b>Powered by Intoto</b>). Prospects sign up on the platform, browse <b>All Ambassadors</b>, filter by <i>Staff</i> (Figma frame <span class="mono">Employee</span>), open a card, read the full profile, and tap <b>Chat</b>. External ambassadors are the <b>Staff</b>-badged mentors in that directory; their portal profile feeds the card and profile page students see.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>A prospect opens the university's embedded platform URL and completes <b>Signup → Verify → Create profile</b>.</li>
+          <li>They land on <b>All Ambassadors</b>, search, or tap filter chips — including <b>Staff</b> / <b>Employee</b> for external mentors.</li>
+          <li>They tap an external ambassador's card to read photo, bio snippet, program, and country — or open the full <b>Ambassadors Profile</b>.</li>
+          <li>They tap <b>Chat</b> or <b>Ask me a question</b> to start a conversation.</li>
+          <li>The thread appears in the external ambassador's portal <b>Chat</b> inbox; the student name also surfaces on the <b>Students</b> leads table.</li>
+          <li>Incomplete portal profiles lower trust and visibility on the platform directory — keep Ambassador Info current.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Two products, one loop — the platform is top-of-funnel discovery; the portal is fulfilment. External ambassadors bridge recruitment partners to prospects without exposing admin tools on either surface.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>External ambassador with complete profile appears under Staff/Employee filter; card Chat opens a thread visible in portal Chat; profile fields on platform match portal Ambassador Info; cross-product message delivery is timely; see <i>Intoto Ambassador Platform Feature &amp; Flow Guide</i> for visitor-side QA.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Featured on the university's public ambassador site — your partners become the face students meet before they download anything."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Events &amp; community</h3></div>
+      <p class="feat-lead">External ambassadors participate in campus life from the browser — browsing and registering for events, exploring and joining communities, and posting as members. Figma includes full web flows for event lists, registration, community feeds, create-post, and share — without coordinator approve/reject controls.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Events</b> from the sidebar; browse upcoming items or <b>My Events</b>.</li>
+          <li>Open an event detail and <b>Register</b> while the window is open.</li>
+          <li>Open <b>Community</b> — explore, join, read feeds, and <b>Create post</b> (text, image, video, or document).</li>
+          <li>Use share flows to forward content where the tenant allows.</li>
+          <li>Escalate moderation issues via <b>Support</b> rather than acting as a coordinator.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Events and community keep off-campus partners current on campus activity so platform chat advice stays accurate — participation without governance.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Event register reflects on My Events; community join and member posting work; no approve/reject or assign-coordinator controls appear; share and report flows behave per design.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Stay close to campus life from anywhere — so every answer on the platform reflects what's actually happening."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Support &amp; account</h3></div>
+      <p class="feat-lead">Rounding out the portal: <b>Support</b> for help requests, plus self-serve account actions from the header and profile tabs — language switch, notifications, <b>Logout Confirmation?</b>, and <b>Delete Account</b>.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Support</b> from the sidebar when a student question exceeds partner scope.</li>
+          <li>Switch language from the header <b>Eng (US)</b> control; read notifications from the bell icon.</li>
+          <li>From <b>Profile → Settings</b> or the header menu, tap <b>Log Out</b> and confirm.</li>
+          <li>Use <b>Delete Account</b> on the profile tab for a destructive removal with explicit confirmation.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Support and self-serve logout keep partners from becoming a university helpdesk bottleneck — the portal is narrow on purpose.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Support form submits; language change re-renders chrome; logout clears session; delete blocks re-login; notification badge clears when threads are read.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Partners control their own session — help, logout, and account deletion are always one click away."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Sign into the External Ambassador web portal</td><td>Invite or suspend users</td></tr>
+          <tr><td>Monitor student leads and KPIs on the Students dashboard</td><td>Assign students to sub-coordinators</td></tr>
+          <tr><td>Edit their own profile (External Ambassador badge, Campus Access, Ambassador Info)</td><td>Approve or reject events or communities</td></tr>
+          <tr><td>Reply in Chat — including threads from The Ambassador Platform</td><td>Access University Super Admin or Intoto Admin consoles</td></tr>
+          <tr><td>Appear on the platform directory as a Staff-badged ambassador card</td><td>Edit another user's profile</td></tr>
+          <tr><td>Browse, register for events, and post in communities as a member</td><td>Configure The Ambassador Platform tenant or public signup rules</td></tr>
+          <tr><td>Export lead data for a selected date range</td><td>Broadcast or bulk-message all leads at once</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <p>Mapping Figma frames on page <span class="mono">EXTERNAL AMBASSADOR</span> (<span class="mono">1461:139005</span>) in <span class="mono">INTOTO-WebApp</span>.</p>
+      <table>
+        <thead><tr><th>Surface</th><th>How the external ambassador gets there</th><th>Figma frame</th></tr></thead>
+        <tbody>
+          <tr><td>Role selection</td><td>Post-login when account has multiple roles</td><td><span class="mono">Role</span></td></tr>
+          <tr><td>Students / leads dashboard</td><td>Default after External Ambassadors role · Sidebar → Dashboard</td><td><span class="mono">Students</span></td></tr>
+          <tr><td>Student profile overview</td><td>Tap a row in the leads table</td><td><span class="mono">Student Profile - Overview</span></td></tr>
+          <tr><td>Profile editor</td><td>Header profile menu · Edit Profile</td><td><span class="mono">Profile</span> · <span class="mono">Profile faq</span> · <span class="mono">Profile setting</span></td></tr>
+          <tr><td>Login / Signup / Verify</td><td>Auth entry</td><td><span class="mono">Login</span> · <span class="mono">Signup</span> · <span class="mono">Email Verification Required!</span></td></tr>
+          <tr><td>Create profile</td><td>Post-verification onboarding</td><td><span class="mono">Create profile</span> · <span class="mono">Basic Information</span></td></tr>
+          <tr><td>Chat inbox &amp; threads</td><td>Sidebar → Chat</td><td><span class="mono">Chat</span> · <span class="mono">Start New Chat</span> · <span class="mono">Group chat</span></td></tr>
+          <tr><td>Events</td><td>Sidebar → Events</td><td><span class="mono">Events</span> · <span class="mono">My Events</span> · <span class="mono">Register Event</span></td></tr>
+          <tr><td>Community</td><td>Sidebar → Community</td><td><span class="mono">Community Feed</span> · <span class="mono">Create post</span></td></tr>
+          <tr><td>Support</td><td>Sidebar → Support</td><td><span class="mono">Support</span></td></tr>
+          <tr><td>Logout / Delete</td><td>Profile or sidebar footer</td><td><span class="mono">Logout Confirmation?</span> · <span class="mono">Profile delete account</span></td></tr>
+          <tr><td>Platform directory (linked)</td><td>Public URL — student-facing</td><td><span class="mono">All Ambassadors</span> · <span class="mono">Employee</span> filter · <span class="mono">Ambassadors Profile</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>External Ambassador FAQs</h2>
+      <p>The questions external ambassadors, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>How is an External Ambassador different from an Ambassador?</span><span class="pls"></span></summary>
+        <div class="ans">An <b>Ambassador</b> is usually a current student or alumnus — often on the mobile app and sometimes also holding the Student role. An <b>External Ambassador</b> is an off-campus partner invited with the External type; in Figma they work primarily from the <b>web portal</b> and appear on The Ambassador Platform with a <b>Staff</b> badge.</div></details>
+
+        <details><summary><span>How is this different from The Ambassador Platform?</span><span class="pls"></span></summary>
+        <div class="ans">The <b>Ambassador Platform</b> is the public student directory — signup, browse, filter, chat. The <b>External Ambassador portal</b> is where partners manage leads, edit their profile, and reply. Students discover on the platform; external ambassadors fulfil in the portal. See <i>Intoto Ambassador Platform Feature &amp; Flow Guide</i> for the visitor side.</div></details>
+
+        <details><summary><span>Do external ambassadors use the mobile app?</span><span class="pls"></span></summary>
+        <div class="ans">Figma scopes External Ambassador to the <b>INTOTO WebApp</b> browser portal. Some tenants may also expose ambassador flows in the mobile app, but the web portal + platform pairing is the documented design for off-campus partners.</div></details>
+
+        <details><summary><span>How do I get access?</span><span class="pls"></span></summary>
+        <div class="ans">University staff invite you with ambassador type <b>External</b>. You sign up or log in on the web portal, verify email, complete basic profile, choose <b>External Ambassadors</b> at role selection if prompted, then complete <b>Ambassador Info</b> so you go live on the platform directory.</div></details>
+
+        <details><summary><span>What are New Leads and Total Response Rate?</span><span class="pls"></span></summary>
+        <div class="ans"><b>New Leads</b> counts recent prospect rows on the Students dashboard. <b>Total Leads</b>, <b>Total Responded</b>, and <b>Total Response Rate</b> summarise outreach volume and how often the partner replies — filterable by custom date range and exportable.</div></details>
+
+        <details><summary><span>Where do students reach me?</span><span class="pls"></span></summary>
+        <div class="ans">Primarily through <b>The Ambassador Platform</b> — they filter by <i>Staff</i>, open your card, and tap <b>Chat</b>. The thread lands in your portal <b>Chat</b> inbox and the student appears on the <b>Students</b> leads table.</div></details>
+
+        <details><summary><span>Why does my profile show a Staff badge on the platform?</span><span class="pls"></span></summary>
+        <div class="ans">Figma maps external and staff-type ambassadors to the <b>Staff</b> / <b>Employee</b> filter chip on <b>All Ambassadors</b> — distinguishing off-campus partners from student and alumni mentors. Your portal badge still reads <b>External Ambassador</b>.</div></details>
+
+        <details><summary><span>Why is completing my profile so important?</span><span class="pls"></span></summary>
+        <div class="ans">Your <b>Ambassador Info</b>, photo, and campus access feed the public platform card and profile page. Incomplete profiles reduce trust and visibility in the directory; region and languages are especially strong match signals for international prospects.</div></details>
+
+        <details><summary><span>Can I message lots of students at once?</span><span class="pls"></span></summary>
+        <div class="ans">No. Messaging is one-to-one or small group chat — there is no bulk-message surface in this role.</div></details>
+
+        <details><summary><span>Can I approve events or communities?</span><span class="pls"></span></summary>
+        <div class="ans">No. You browse events and join and post in communities as a member; approvals belong to coordinator and admin roles.</div></details>
+
+        <details><summary><span>What can I see on a student's profile?</span><span class="pls"></span></summary>
+        <div class="ans">The <b>Student Profile - Overview</b> shows the sections allowed by visibility rules for external partners — enough to support a conversation, with <b>Chat</b> as the primary action. No assign, suspend, or coordinator tools appear.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · External Ambassador Feature &amp; Flow Guide · v1.1</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="280" y="200" width="220" height="400" rx="14" fill="none" stroke="#FCD34D" stroke-width="5"/>
+    <rect x="540" y="240" width="380" height="80" rx="10" fill="none" stroke="#A16207" stroke-width="4"/>
+    <rect x="540" y="360" width="380" height="200" rx="12" fill="none" stroke="#39414E" stroke-width="3"/>
+    <circle cx="390" cy="280" r="24" fill="#A16207"/>
+    <rect x="600" y="600" width="160" height="36" rx="8" fill="#02A3CA"/>
+  </svg>
+</template>
+</body>
+</html>

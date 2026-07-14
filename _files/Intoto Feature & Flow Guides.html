@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Feature &amp; Flow Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  /* ---- Hub-specific styles (build on guide.css tokens) ---- */
+  .hub-meta{ display:flex; flex-wrap:wrap; gap:40px; margin-top:40px; font-family:var(--font-mono); font-size:14px; color:#7E8B9C; }
+  .hub-meta .n{ font-family:var(--font-display); font-size:30px; font-weight:600; color:#F6F9FD; line-height:1; }
+  .hub-meta .l{ display:block; margin-top:8px; letter-spacing:.06em; text-transform:uppercase; font-size:12px; color:#7E8B9C; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 48px; }
+
+  /* About facts */
+  .facts{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:34px; }
+  .fact{ border:1px solid var(--line); border-radius:14px; padding:22px 24px; background:var(--surface); }
+  .fact .ft{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--product); }
+  .fact .fd{ font-family:var(--font-display); font-weight:600; font-size:19px; margin-top:8px; line-height:1.2; }
+  .fact p{ font-size:14px; color:var(--muted); margin:8px 0 0; line-height:1.45; }
+
+  /* Tabs */
+  .tabs{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
+  .tab{ font-family:var(--font-mono); font-size:13px; letter-spacing:.04em; padding:11px 20px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--ink-soft); cursor:pointer; transition:.15s; }
+  .tab:hover{ border-color:var(--product-line); color:var(--product); }
+  .tab.active{ background:var(--bg-dark); border-color:var(--bg-dark); color:#EAF0F7; }
+  .tab .count{ color:var(--faint); margin-left:7px; }
+  .tab.active .count{ color:#7E8B9C; }
+
+  /* Role grid */
+  .roles{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:30px; }
+  .role-card{ display:flex; flex-direction:column; border:1px solid var(--line); border-left-width:4px; border-radius:16px; padding:26px 26px 22px; background:var(--surface); color:var(--ink); transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; min-height:230px; }
+  .role-card:hover{ transform:translateY(-4px); box-shadow:0 18px 40px -22px rgba(22,28,38,.45); }
+  .role-card .rc-top{ display:flex; align-items:center; justify-content:space-between; }
+  .role-card .rc-cat{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .role-card .rc-arrow{ width:30px; height:30px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--muted); transition:.16s; }
+  .role-card:hover .rc-arrow{ background:var(--product); border-color:var(--product); color:#fff; transform:translateX(2px); }
+  .role-card h3{ font-family:var(--font-display); font-weight:600; font-size:25px; line-height:1.12; letter-spacing:-0.01em; margin:18px 0 0; }
+  .role-card p{ font-size:15px; color:var(--muted); line-height:1.5; margin:11px 0 0; }
+  .role-card .rc-foot{ margin-top:auto; padding-top:18px; font-family:var(--font-mono); font-size:13px; color:var(--product); display:flex; align-items:center; gap:7px; }
+
+  .role-card[data-group="students"]{ border-left-color:var(--product); }
+  .role-card[data-group="students"] .rc-cat{ color:var(--product); }
+  .role-card[data-group="ambassador"]{ border-left-color:#A16207; }
+  .role-card[data-group="ambassador"] .rc-cat{ color:#A16207; }
+  .role-card[data-group="ambassador"] .rc-foot{ color:#A16207; }
+  .role-card[data-group="ambassador"]:hover .rc-arrow{ background:#A16207; border-color:#A16207; }
+  .role-card[data-group="staff"]{ border-left-color:var(--qa); }
+  .role-card[data-group="staff"] .rc-cat{ color:var(--qa); }
+  .role-card[data-group="staff"] .rc-foot{ color:var(--qa); }
+  .role-card[data-group="staff"]:hover .rc-arrow{ background:var(--qa); border-color:var(--qa); }
+  .role-card[data-group="partner"]{ border-left-color:var(--mktg); }
+  .role-card[data-group="partner"] .rc-cat{ color:var(--mktg); }
+  .role-card[data-group="partner"] .rc-foot{ color:var(--mktg); }
+  .role-card[data-group="partner"]:hover .rc-arrow{ background:var(--mktg); border-color:var(--mktg); }
+  .role-card[data-group="platform"]{ border-left-color:var(--plat); }
+  .role-card[data-group="platform"] .rc-cat{ color:var(--plat); }
+  .role-card[data-group="platform"] .rc-foot{ color:var(--plat); }
+  .role-card[data-group="platform"]:hover .rc-arrow{ background:var(--plat); border-color:var(--plat); }
+
+  /* Web product tier (Ambassador Platform) identity — teal */
+  .role-card[data-group="webapp"]{ border-left-color:#02A3CA; }
+  .role-card[data-group="webapp"] .rc-cat{ color:#02A3CA; }
+  .role-card[data-group="webapp"] .rc-foot{ color:#02A3CA; }
+  .role-card[data-group="webapp"]:hover .rc-arrow{ background:#02A3CA; border-color:#02A3CA; }
+
+  .role-card.hide{ display:none; }
+
+  .more{ margin-top:42px; border:1px solid var(--line); border-radius:16px; background:var(--surface-2); padding:26px 30px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .more .mt{ font-family:var(--font-display); font-weight:600; font-size:20px; }
+  .more p{ font-size:15px; color:var(--muted); margin:6px 0 0; }
+  .more a.cta{ font-family:var(--font-mono); font-size:14px; padding:12px 22px; border-radius:999px; background:var(--bg-dark); color:#EAF0F7; white-space:nowrap; }
+  .more a.cta:hover{ background:var(--product); }
+
+  .faq-group{ font-family:var(--font-display); font-size:23px; font-weight:600; color:var(--ink); margin:48px 0 4px; padding-top:8px; }
+  .faq-group:first-of-type{ margin-top:34px; }
+
+  @media (max-width:980px){
+    .wrap{ padding:0 28px; }
+    .facts{ grid-template-columns:1fr 1fr; }
+    .roles{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:600px){
+    .roles{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>INTOTO · FEATURE &amp; FLOW GUIDES</div>
+    <h1>Every Intoto role, end to end — in one place.</h1>
+    <p class="sub">Intoto is a white-label campus engagement platform for universities. These guides explain how each role experiences the app — what they do, the flows they run, and where every feature lives — written for Product, QA, and Marketing alike. Pick a role to dive in.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hub-meta">
+      <div><span class="n">12</span><span class="l">Guides documented</span></div>
+      <div><span class="n">1</span><span class="l">University per assignment</span></div>
+      <div><span class="n">iOS</span><span class="l">Native app</span></div>
+      <div><span class="n">Android</span><span class="l">Native app</span></div>
+      <div><span class="n">Web</span><span class="l">Web app</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:64px; padding-bottom:120px;">
+
+  <section class="sec" style="margin-top:0;">
+    <div class="kicker"><span class="sq"></span>What Intoto is</div>
+    <h2>One platform, many roles, one campus</h2>
+    <p>Intoto brings a university's people together in a single place — one app, available on iOS, Android, and the web. Incoming students onboard, complete their travel and arrival details, discover their campus, join communities, and register for events. University staff and partner organisations run the experience behind the scenes through role-specific tools — each scoped to a single university and campus, and tuned to exactly what that role needs.</p>
+    <div class="facts">
+      <div class="fact"><div class="ft">Backend-driven</div><div class="fd">Configured, not hard-coded</div><p>Dashboards, forms, and quick actions render in the order the backend defines — per tenant.</p></div>
+      <div class="fact"><div class="ft">Multi-tenant</div><div class="fd">One university per role</div><p>Every role assignment is scoped to a single university and campus; accounts can switch roles.</p></div>
+      <div class="fact"><div class="ft">Modular product</div><div class="fd">Six paid features, à la carte</div><p>Universities buy one or more modules — User Management, Chat, Travel, Community, Events, Ambassadors — and add more any time.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="paid-features">
+    <div class="kicker"><span class="sq"></span>Product catalog</div>
+    <h2>What Intoto provides to universities</h2>
+    <p>Intoto is not sold as a single all-or-nothing license. Each university subscribes to a custom mix of <b>six standalone paid modules</b> — provisioned by Intoto Admin and visible to the University Super Admin on <b>My University → Features</b>.</p>
+    <div class="mod-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;">
+      <div class="fact"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p></div>
+      <div class="fact"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p></div>
+      <div class="fact"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p></div>
+      <div class="fact"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p></div>
+      <div class="fact"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p></div>
+      <div class="fact"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p></div>
+    </div>
+    <div class="more" style="margin-top:32px;">
+      <div><div class="mt">Paid Features — full product catalog</div><p>Every module explained in detail — what it unlocks, who provisions it, capacity rules, and FAQs for sales and demos.</p></div>
+      <a class="cta" href="Intoto%20Paid%20Features%20Guide.html">Open catalog →</a>
+    </div>
+  </section>
+
+  <section class="sec" id="roles">
+    <div class="kicker"><span class="sq"></span>Choose a role</div>
+    <h2>Ten roles, plus web products</h2>
+    <p>Ten in-app roles plus web product guides. Filter by category, then tap a card to open its full Feature &amp; Flow Guide.</p>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-filter="all">All<span class="count">11</span></button>
+      <button class="tab" data-filter="platform">Platform<span class="count">2</span></button>
+      <button class="tab" data-filter="students">Students<span class="count">1</span></button>
+      <button class="tab" data-filter="ambassador">Ambassadors<span class="count">2</span></button>
+      <button class="tab" data-filter="staff">University staff<span class="count">3</span></button>
+      <button class="tab" data-filter="partner">Partner network<span class="count">2</span></button>
+      <button class="tab" data-filter="webapp">Web product<span class="count">1</span></button>
+    </div>
+
+    <div class="roles" id="roles">
+
+      <a class="role-card" data-group="platform" href="Intoto%20Paid%20Features%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Platform · Product</span><span class="rc-arrow">→</span></div>
+        <h3>Paid Features</h3>
+        <p>The product catalog — six standalone modules universities can buy à la carte: ambassadors, travel, community, chat, events, and user management.</p>
+        <span class="rc-foot">Open catalog →</span>
+      </a>
+
+      <a class="role-card" data-group="platform" href="Intoto%20Intoto%20Admin%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Platform · Admin</span><span class="rc-arrow">→</span></div>
+        <h3>Intoto Admin</h3>
+        <p>The platform-level administrator — onboards and governs universities, manages users across every tenant, and oversees the whole of Intoto.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="students" href="Intoto%20Student%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Student</span><span class="rc-arrow">→</span></div>
+        <h3>Student</h3>
+        <p>How an incoming student onboards, discovers their campus, and connects with peers inside Intoto.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="ambassador" href="Intoto%20Ambassador%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Ambassador</span><span class="rc-arrow">→</span></div>
+        <h3>Ambassador</h3>
+        <p>A peer mentor who keeps a student-facing profile, answers questions, and supports newcomers.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="ambassador" href="Intoto%20External%20Ambassador%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Ambassador · External</span><span class="rc-arrow">→</span></div>
+        <h3>External Ambassador</h3>
+        <p>An off-campus partner mentor on the web portal — student leads, profile, and chat — linked to The Ambassador Platform where prospects discover them.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="staff" href="Intoto%20Community%20Coordinator%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">University staff</span><span class="rc-arrow">→</span></div>
+        <h3>Community Coordinator</h3>
+        <p>University staff who review, publish, and moderate communities — keeping student groups safe and on-policy.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="staff" href="Intoto%20Event%20Coordinator%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">University staff</span><span class="rc-arrow">→</span></div>
+        <h3>Event Coordinator</h3>
+        <p>University staff who run campus events end to end — create, approve, track registrations, and read analytics.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="staff" href="Intoto%20University%20Super%20Admin%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">University staff · Admin</span><span class="rc-arrow">→</span></div>
+        <h3>University Super Admin</h3>
+        <p>The top administrator of one university — web portal and mobile app — managing users, profile review, university content, configuration, and read-only oversight of every other role.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="partner" href="Intoto%20Third%20Party%20Coordinator%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Partner network</span><span class="rc-arrow">→</span></div>
+        <h3>Third Party Coordinator</h3>
+        <p>A partner organisation that manages a pool of students and delegates them to sub-coordinators with dates and field-level access.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="partner" href="Intoto%20Third%20Party%20Sub%20Coordinator%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Partner network · Field</span><span class="rc-arrow">→</span></div>
+        <h3>Third Party Sub Coordinator</h3>
+        <p>The field operator who works assigned students, reads each arrival brief, and marks status.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+      <a class="role-card" data-group="webapp" href="Intoto%20Ambassador%20Platform%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">Web product · Standalone</span><span class="rc-arrow">→</span></div>
+        <h3>The Ambassador Platform</h3>
+        <p>A public web portal — branded Student Ambassadors, Powered by Intoto — where prospective and incoming students discover ambassadors and start individual or group chats.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="sec" id="faqs" style="max-width:900px;">
+    <div class="kicker"><span class="sq"></span>Common questions</div>
+    <h2>FAQs across every role</h2>
+    <p>Feature- and flow-level questions spanning the whole platform — grouped by who they're about. For role-specific detail, open that role's guide above.</p>
+
+    <h3 class="faq-group">Platform &amp; access</h3>
+    <div class="faq">
+      <details><summary><span>What is Intoto?</span><span class="pls"></span></summary><div class="ans">A white-label campus engagement platform that brings a university's people together in one place. Incoming students onboard, complete travel and arrival details, discover their campus, join communities, and register for events — while staff and partner organisations run the experience through role-specific tools.</div></details>
+      <details><summary><span>What paid features does Intoto sell to universities?</span><span class="pls"></span></summary><div class="ans">Six standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, and <b>User Management</b>. Universities can buy one, several, or all — and add more at any time. See the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a> for full detail.</div></details>
+      <details><summary><span>Can a university subscribe to only some features?</span><span class="pls"></span></summary><div class="ans">Yes. Intoto is <b>à la carte</b>, not all-or-nothing. A common starting point is <b>User Management</b> plus <b>Chat</b>; modules like Travel Plan or Event Management are added when the institution is ready.</div></details>
+      <details><summary><span>Who provisions features — Intoto Admin or the university?</span><span class="pls"></span></summary><div class="ans"><b>Intoto Admin</b> provisions modules during onboarding or on request from sales. The <b>University Super Admin</b> sees Active status and contract dates on <b>My University → Features</b> but cannot toggle modules themselves.</div></details>
+      <details><summary><span>How many roles are there?</span><span class="pls"></span></summary><div class="ans">Ten in-app roles plus web product guides and the Paid Features catalog: Intoto Admin, Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, University Super Admin, Third Party Coordinator, Third Party Sub Coordinator, The Ambassador Platform (public web), and Paid Features (product catalog). Each role guide is linked above.</div></details>
+      <details><summary><span>What is the Intoto Admin, and how is it different from a University Super Admin?</span><span class="pls"></span></summary><div class="ans">The Intoto Admin is the platform-level administrator — they operate across every university on Intoto, onboard and manage the universities (tenants) themselves, invite top-level University Super Admins, and can switch university context to drill into one tenant. A University Super Admin runs a <b>single university</b> on the <b>web portal</b> and <b>mobile app</b> — user lifecycle, profile review, configuration, and read-only oversight of other roles. Only the Intoto Admin can add, suspend, or activate a university.</div></details>
+      <details><summary><span>Can one person hold more than one role?</span><span class="pls"></span></summary><div class="ans">Yes. Multi-role accounts pick a role at Role Selection on login, or switch later from the role switcher. The home and tabs reload for whichever role is active, keeping each context cleanly separate.</div></details>
+      <details><summary><span>What does “scoped to one university and campus” mean?</span><span class="pls"></span></summary><div class="ans">Every role assignment is tied to a single university (and a campus where configured). Working across more than one university is handled as separate role assignments you switch between — not a single cross-university view.</div></details>
+      <details><summary><span>How do invitations work?</span><span class="pls"></span></summary><div class="ans">Invited users see an alert at login with <b>Accept</b> or <b>I'll do it later</b> (deferred invites wait under the envelope icon). Some roles confirm a campus or type on accept — for example External Ambassadors confirm the External ambassador type.</div></details>
+      <details><summary><span>Why does my dashboard look different from someone else's?</span><span class="pls"></span></summary><div class="ans">Home is backend-driven: the server sends only the sections relevant to your role, in the order it defines. A coordinator sees governance and queues; an ambassador sees outreach cards; a student sees onboarding and discovery.</div></details>
+      <details><summary><span>What are the four tabs?</span><span class="pls"></span></summary><div class="ans">Home, Community, Chats, and Profile are always present. What each surfaces is tuned to the active role, but the structure stays consistent across the app.</div></details>
+      <details><summary><span>How is student data kept safe?</span><span class="pls"></span></summary><div class="ans">Sign-in is via Auth0, on-device storage is encrypted, and uploaded documents are checked for tampering. Visibility rules further limit what each role can see — for example, what a sub-coordinator sees about an assigned student.</div></details>
+    </div>
+
+    <h3 class="faq-group">Students &amp; ambassadors</h3>
+    <div class="faq">
+      <details><summary><span>How does a student get started?</span><span class="pls"></span></summary><div class="ans">A student signs in, completes onboarding and their travel/arrival details, and lands on a Home dashboard built for discovery — finding their campus, communities, events, and ambassadors. Forms save as they go so progress isn't lost.</div></details>
+      <details><summary><span>Why does profile completion matter so much?</span><span class="pls"></span></summary><div class="ans">Completion drives what students unlock and how ambassadors appear to them. For ambassadors specifically, an incomplete profile is hidden or ranked lower on the student Ambassadors carousel, so completeness directly affects visibility.</div></details>
+      <details><summary><span>How do students find an ambassador?</span><span class="pls"></span></summary><div class="ans">Two paths: enrolled students use the <b>Ambassadors</b> carousel on the mobile Home dashboard; prospective students use <b>The Ambassador Platform</b> web directory — search, filter, open a card, tap <b>Chat</b>. External ambassadors are especially visible on the platform under the <b>Staff</b> filter.</div></details>
+      <details><summary><span>What's the difference between an Ambassador and an External Ambassador?</span><span class="pls"></span></summary><div class="ans">An <b>Ambassador</b> is usually a current student or alumnus on the mobile app (often also holding the Student role). An <b>External Ambassador</b> is an off-campus partner — recruitment agency, regional rep, or alumnus abroad — who works from the <b>web portal</b>, appears on The Ambassador Platform with a Staff badge, and manages student leads plus chat from the browser.</div></details>
+      <details><summary><span>What is the Ambassador Info section?</span><span class="pls"></span></summary><div class="ans">It's the public, mentor-facing part of the profile: bio, ambassador type, programs supported, languages, availability, and interests. Everything a student sees on a mentor card comes from here.</div></details>
+      <details><summary><span>Can an ambassador message many students at once?</span><span class="pls"></span></summary><div class="ans">No. Ambassador messaging is one-to-one and support-oriented. Mass communication to the student body is a staff/coordinator capability, not an ambassador one.</div></details>
+      <details><summary><span>Can an ambassador approve events or communities?</span><span class="pls"></span></summary><div class="ans">No. Ambassadors participate — register for events, join and post in communities — but approving events belongs to the Event Coordinator and approving communities to the Community Coordinator or University Super Admin.</div></details>
+      <details><summary><span>What does an ambassador do day to day?</span><span class="pls"></span></summary><div class="ans">Two things: keep a complete, current mentor profile so students can find them, and answer the students who reach out in Chats — questions about arrival, housing, registration, events, and campus life.</div></details>
+    </div>
+
+    <h3 class="faq-group">University staff</h3>
+    <div class="faq">
+      <details><summary><span>What does the Community Coordinator do?</span><span class="pls"></span></summary><div class="ans">They review, publish, and moderate communities — clearing the pending queue, approving or rejecting new groups, and keeping student communities safe and on-policy within their university.</div></details>
+      <details><summary><span>How does community approval work?</span><span class="pls"></span></summary><div class="ans">New communities land in a pending queue. The coordinator reviews each one and approves it to publish or rejects it with a reason. Students only ever see approved communities.</div></details>
+      <details><summary><span>What does the Event Coordinator do?</span><span class="pls"></span></summary><div class="ans">They run campus events end to end — creating and editing events, clearing the pending event queue, tracking registrations and attendance, and reading events-by-category analytics to plan programming.</div></details>
+      <details><summary><span>How does an event get published?</span><span class="pls"></span></summary><div class="ans">A coordinator creates the event with schedule, venue, registration window, image, and category, then saves or submits for approval. Depending on tenant rules it lands in Pending or publishes to Upcoming; approval is the gate that puts it in front of students.</div></details>
+      <details><summary><span>What do Upcoming, Pending, and Completed mean for events?</span><span class="pls"></span></summary><div class="ans">Upcoming are published future events students can register for; Pending are awaiting an approve/reject decision; Completed are events whose date has passed. Each has its own carousel and list.</div></details>
+      <details><summary><span>How is event attendance tracked?</span><span class="pls"></span></summary><div class="ans">From Event Details: the Registrations tab shows who signed up, and on or after event day the Attendance section records who actually attended. Attendance feeds the analytics.</div></details>
+      <details><summary><span>What can the University Super Admin do?</span><span class="pls"></span></summary><div class="ans">The University Super Admin runs one university end to end. You manage all the people — inviting students, ambassadors, external ambassadors, and community and event coordinators, assigning their roles, and suspending accounts when needed. You configure the university itself — branding, forms, notification preferences, and language — and you share documents with students one at a time or in bulk through Take Action. You resolve reports and own moderation across the tenant. For oversight you can open any other role's dashboard read-only — Student, Ambassador, Community or Event Coordinator, even Third-Party Coordinator — to see exactly what they see, while the actions stay theirs.</div></details>
+      <details><summary><span>Who can invite or suspend users?</span><span class="pls"></span></summary><div class="ans">The University Super Admin. Coordinators have focused tools (events, communities, assignments) but inviting and suspending users sits with the Super Admin. User invites also require the <b>User Management</b> module to be Active and within licensed capacity.</div></details>
+      <details><summary><span>Where do I see which features our university has purchased?</span><span class="pls"></span></summary><div class="ans">INTOTO WebApp → <b>My University</b> → <b>Features</b> tab. Each module shows Active status, contract dates, and (for User Management) seat utilization. Full module descriptions are in the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a>.</div></details>
+      <details><summary><span>What's the difference between a coordinator and the Super Admin?</span><span class="pls"></span></summary><div class="ans">Coordinators own one slice — events, communities, or partner assignments. The Super Admin owns the whole university: people, all queues, and governance. Coordinators can't cross into each other's domains; the Super Admin oversees them all.</div></details>
+    </div>
+
+    <h3 class="faq-group">Partner network</h3>
+    <div class="faq">
+      <details><summary><span>What is a Third Party Coordinator?</span><span class="pls"></span></summary><div class="ans">An external partner — typically a travel, relocation, or arrival-services organisation — that receives a pool of students from a university and gets them from arrival to campus by delegating them to its own sub-coordinators.</div></details>
+      <details><summary><span>How does assigning students work?</span><span class="pls"></span></summary><div class="ans">The coordinator selects students from the pool and runs the Assign Students setup: pick a sub-coordinator, set a from/to service window, write a work brief, choose which fields are visible, then confirm — assigning the whole batch in one step.</div></details>
+      <details><summary><span>What is field-level visibility?</span><span class="pls"></span></summary><div class="ans">In the assignment setup the coordinator toggles which student fields a sub-coordinator may see. Only the enabled fields are shared — data-minimisation by default, so field staff see exactly what they need and nothing more.</div></details>
+      <details><summary><span>What does a Third Party Sub Coordinator do?</span><span class="pls"></span></summary><div class="ans">They're the field operator — greeter, driver, or host — who works the students assigned to them, reads each arrival brief, meets the student, and records how the arrival went.</div></details>
+      <details><summary><span>What arrival statuses can a student have?</span><span class="pls"></span></summary><div class="ans">A placed student moves through Assigned → Attended → Completed as the sub-coordinator updates it. If a pickup didn't happen it's marked Not Attended with a reason. The status and reason show on the coordinator's Arrival Request Details.</div></details>
+      <details><summary><span>What reasons can a sub-coordinator give for Not Attended?</span><span class="pls"></span></summary><div class="ans">Student not answering phone, Flight delayed, Student arrived late, Incorrect arrival details, or Other. Choosing Other requires a note; notes are optional for the other reasons.</div></details>
+      <details><summary><span>How do reassign and unassign requests work?</span><span class="pls"></span></summary><div class="ans">A sub-coordinator who can't take a student raises an unassign or reassign request. It reaches the assigning coordinator's Notifications, who accepts or declines — the student stays on the sub-coordinator's list until they act.</div></details>
+      <details><summary><span>Can a sub-coordinator reassign students themselves?</span><span class="pls"></span></summary><div class="ans">No. Only the Third Party Coordinator can reassign or remove. The sub-coordinator can request it, but the actual move — and choosing who it goes to — stays with the coordinator so load is managed centrally.</div></details>
+    </div>
+
+  </section>
+
+</main>
+
+<div class="wrap">
+  <footer style="margin-top:0;">
+    <span>Intoto · Feature &amp; Flow Guides · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var tabs = document.querySelectorAll('#tabs .tab');
+    var cards = document.querySelectorAll('#roles .role-card');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        var f = tab.getAttribute('data-filter');
+        cards.forEach(function(c){
+          var show = (f === 'all') || (c.getAttribute('data-group') === f);
+          c.classList.toggle('hide', !show);
+        });
+      });
+    });
+  })();
+</script>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="360" y="250" width="150" height="130" rx="14" fill="none" stroke="#5C95E8" stroke-width="6"/>
+    <rect x="525" y="250" width="150" height="130" rx="14" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <rect x="690" y="250" width="150" height="130" rx="14" fill="none" stroke="#8E76E6" stroke-width="6"/>
+    <rect x="360" y="420" width="150" height="130" rx="14" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <rect x="525" y="420" width="150" height="130" rx="14" fill="none" stroke="#8E76E6" stroke-width="6"/>
+    <rect x="690" y="420" width="150" height="130" rx="14" fill="none" stroke="#5C95E8" stroke-width="6"/>
+    <circle cx="600" cy="170" r="22" fill="#6FA4EE"/>
+  </svg>
+</template>
+</body>
+</html>

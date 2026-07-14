@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Third Party Coordinator — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: THIRD PARTY COORDINATOR</div>
+    <h1>The Third Party Coordinator Experience</h1>
+    <p class="sub">How a partner organisation manages a pool of students, delegates them to sub-coordinators with dates and field-level access, and tracks every arrival to completion inside Intoto — explained for Product, QA, and Marketing in one place.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Third Party Coordinator</div>
+      <div><b>Scope</b>One university (campus where configured)</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Getting in</a>
+    <a href="#f2"><span class="toc-num">02</span>The dashboard</a>
+    <a href="#f3"><span class="toc-num">03</span>The student pool</a>
+    <a href="#f4"><span class="toc-num">04</span>Assigning to sub-coordinators</a>
+    <a href="#f5"><span class="toc-num">05</span>Tracking arrivals &amp; status</a>
+    <a href="#f6"><span class="toc-num">06</span>Reassign, remove &amp; unassign</a>
+    <a href="#f7"><span class="toc-num">07</span>Configurations &amp; account</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Third Party Coordinator is</h2>
+      <p>The Third Party Coordinator is an external partner — typically a travel, relocation, or arrival-services organisation — engaged by a university to receive incoming students and get them safely from arrival to campus. Inside Intoto they hold a pool of students, delegate batches to their own sub-coordinators with a service window and clear instructions, control exactly which student details each sub-coordinator can see, and watch every assignment move through its arrival states. They are not university administrators — they don't invite arbitrary users, approve events, or moderate communities.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A coordinator works a <b>pool of assigned students</b>, runs the <b>Assign Students</b> flow (pick a sub-coordinator, set the date range, write the work brief, choose which fields are visible, then select students), then tracks each arrival through <b>Assigned → Attended → Completed</b> — handling <b>reassign</b>, <b>remove</b>, and <b>unassign requests</b> along the way, all scoped to their university.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1</div><div class="l">Pool owned: students to place</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Setup inputs: sub-coordinator · dates · work · visibility</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Arrival states tracked per student</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Lifecycle actions: assign · reassign · unassign</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by three short cards — one per team — so you can scan to what's relevant to you without losing the shared picture.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature is and why it exists in the coordinator's workflow — the intent behind it.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The behaviour to verify — states, gates, validation, and the things most likely to break.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>The story for universities and partners — the benefit, in plain language you can lift into copy.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The coordinator's loop runs the whole delegation lifecycle: receive a pool, place students, watch arrivals, and rebalance the load.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Sign in &amp; scan the load</h4><p>Land on an assignment-focused dashboard — Total Sub-Coordinators, students in the pool, and how many are assigned, attended, or completed.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Work the student pool</h4><p>Open the list of students to place, search and filter, and select the batch heading to the same sub-coordinator.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Set up the assignment</h4><p>Choose the sub-coordinator, set the from/to service window, write the work brief, and toggle which student fields they'll see — then confirm.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Track every arrival</h4><p>Watch each student move through Assigned → Attended → Completed, and read the reason if a pickup didn't go to plan.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Rebalance the load</h4><p>Reassign students to a different sub-coordinator, remove a placement, or action an unassign request when plans change.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>Four tabs are always available. For this role, Home is an assignment command centre.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Assignment dashboard — Quick Way (Total Sub-Coordinators, students by status), the student pool, and banners, in backend order.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Community</div><p>Browse communities and posts when permitted — secondary to assignment work.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Chats</div><p>Messages with sub-coordinators and students — arrival times, flight changes, handovers.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Profile</div><p>Own profile, <b>Configurations</b> (sub-coordinator field visibility), language, logout.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Getting in</h3></div>
+      <p class="feat-lead">Sign-in is via the partner credentials issued for the university. Multi-role accounts choose Third Party Coordinator, and Home reloads with assignment Quick Way cards and the student pool — not student travel alerts or event queues.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the app and sign in with email/password or SSO.</li>
+          <li>Wait for the profile and role to load.</li>
+          <li>Single role → land on the Third Party Coordinator dashboard; multi-role → choose the role at Role Selection.</li>
+          <li>A pending invitation shows an alert at login — <b>Accept</b> or <b>I'll do it later</b> (envelope icon later).</li>
+          <li>The four tabs appear — Home, Community, Chats, Profile.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The role's home is purpose-built for delegation, so the coordinator opens directly into their pool and sub-coordinators rather than a generic admin surface.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Single-role lands on the Third Party Coordinator dashboard; multi-role shows Role Selection; switching reloads assignment-centric sections (no student-travel alerts).</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Open the app straight into your arrivals command centre — every student you're responsible for, in one place."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>The dashboard</h3></div>
+      <p class="feat-lead">Home is an API-driven overview for delegation: a branded header, Quick Way tiles (Total Sub-Coordinators, students by status), quick actions, and lists for the pool and assignments — rendered in backend order.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Land on Home; read the university header (tap for read-only context).</li>
+          <li>Scan <b>Quick Way</b> — <b>Total Sub-Coordinators</b> opens your team; status tiles open the matching student lists.</li>
+          <li>Open the <b>student pool</b> to see who still needs placing.</li>
+          <li>Read the counts of <b>Assigned</b>, <b>Attended</b>, and <b>Completed</b> students to gauge progress.</li>
+          <li>Pull to refresh after assigning or after a sub-coordinator marks status to update counts.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Surfacing the pool and per-status counts up front means the coordinator always knows what still needs placing versus what's already moving.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Assignment Quick Way cards render (not governance or event stats); Total Sub-Coordinators and status tiles open the correct filtered lists; pull-to-refresh updates counts after an assign or status change.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"See your whole operation at a glance — who's waiting, who's been placed, and who's safely arrived."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>The student pool</h3></div>
+      <p class="feat-lead">The pool is the list of students the university has handed to this partner but who aren't yet placed with a sub-coordinator. It's a searchable, paginated, filterable list — the starting point for every assignment.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>students to assign</b> list from Home or the relevant Quick Way tile.</li>
+          <li>Search by name and apply filters (campus, date) to narrow the list.</li>
+          <li>Tap a student row to open a <b>read-only profile</b> with the details your access allows.</li>
+          <li>Use <b>Select All</b> or tap rows to build the batch heading to one sub-coordinator.</li>
+          <li>Tap <b>Assign</b> to carry the selection into the assignment setup step.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Selecting a batch before setup lets the coordinator place a planeload of students with one sub-coordinator, dates, and brief in a single pass — not one student at a time.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>List paginates and searches; filters re-query; Select All selects the loaded set; placed students leave the pool; read-only profiles open from rows and honour visibility.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Group arriving students by flight, day, or campus and place them together in seconds."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Assigning to sub-coordinators</h3></div>
+      <p class="feat-lead">The Assign Students flow is the heart of the role: a setup step captures the sub-coordinator, a from/to service window, a work brief, and field-level visibility — then the selected students are assigned in one request. Validation guards every field.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>From the pool with students selected, open <b>Assign Students</b>.</li>
+          <li>Pick the <b>Sub-Coordinator</b> from your team (required).</li>
+          <li>Set <b>From Date</b> and <b>To Date</b> for the service window (To must be on or after From).</li>
+          <li>Write the <b>Sub-Coordinator Work</b> brief — what they need to do (required).</li>
+          <li>Toggle which student fields the sub-coordinator may see (visibility access form), then <b>confirm</b> to assign the batch.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Bundling who, when, what, and how-much-they-can-see into one setup makes delegation deliberate — the sub-coordinator gets exactly the brief and data they need, and nothing more.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Missing sub-coordinator, missing dates, To-before-From, or empty work brief each block submit with the matching inline error; only toggled-on fields are sent as visible; a successful assign removes students from the pool and shows them as Assigned.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Delegate with confidence — set the dates, the brief, and exactly what each team member can see, in one screen."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Tracking arrivals &amp; status</h3></div>
+      <p class="feat-lead">Once assigned, every student carries an arrival status the sub-coordinator updates from the field. The coordinator reads each Arrival Request Details record — status, who it's assigned to, dates, and the reason when something didn't go to plan.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open an assigned student to see <b>Arrival Request Details</b>.</li>
+          <li>Read the <b>Assignment Status</b> — Assigned, Attended, or Completed.</li>
+          <li>See the <b>assigned sub-coordinator</b>, who assigned it, and the assignment date range.</li>
+          <li>When a status is <b>Not Attended</b>, read the <b>reason</b> (e.g. flight delayed, student not answering phone) and any notes.</li>
+          <li>Pull to refresh to pick up status changes pushed by sub-coordinators.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>A single arrival record per student — status, owner, dates, and reason — gives the coordinator one trustworthy source of truth for every pickup, from assignment to completion.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Status reflects the sub-coordinator's last update; Not Attended shows the chosen reason and notes; assigned-by, sub-coordinator, and date range render; refresh updates status without duplicating records.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Know where every student is in their arrival — and exactly why, the moment a plan changes."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Reassign, remove &amp; unassign</h3></div>
+      <p class="feat-lead">Plans shift — a sub-coordinator falls ill, a flight moves, a student drops out. From the assigned-student list the coordinator can reassign a student to a different sub-coordinator, remove a placement, and respond to unassign requests raised from the field.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the <b>assigned students</b> list and tap a student's <b>more</b> menu.</li>
+          <li>Choose <b>Assign Student</b>, <b>Remove Student</b>, or <b>Reassign Students</b>.</li>
+          <li>For <b>Reassign</b>, pick the new sub-coordinator and add an optional reason; confirm.</li>
+          <li>Review <b>unassign</b> / <b>reassign requests</b> raised by sub-coordinators in Notifications and Accept or decline.</li>
+          <li>Refresh — the student moves to the new owner or back to the pool as appropriate.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Reassignment and unassign requests keep the operation resilient — the coordinator can rebalance load without losing the arrival history attached to each student.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Reassign updates the owner and keeps the record; the reassignment reason is optional; remove returns the student to the pool; unassign requests appear in Notifications and Accept/decline updates state.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Adapt instantly — move a student to another team member the moment something changes, history intact."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Configurations &amp; account</h3></div>
+      <p class="feat-lead">A Configurations screen sets the default visibility of student fields for sub-coordinators across assignments, and messaging keeps the team coordinated. The Profile tab holds account settings; community access is browse-only.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open <b>Profile → Configurations</b> to set which student fields sub-coordinators can see by default.</li>
+          <li>Use the <b>Chats</b> tab to message sub-coordinators and students about arrivals and handovers.</li>
+          <li>Tap the <b>bell</b> for notifications — new requests, status changes, arrivals due soon.</li>
+          <li>Use the <b>envelope</b> for deferred role invitations.</li>
+          <li>Open <b>Profile</b> for account info, FAQs, language, and logout; use <b>Support</b> to escalate.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Centralising field visibility in Configurations means data-minimisation is the default — sub-coordinators only ever see what the partner has deliberately enabled.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Configurations save and apply to new assignments; Configurations (not "Settings") is the label for this role; threads load and send; notifications deep-link to the right list; logout clears the session.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Protect student privacy by default — your team sees only what they need to do the job."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What the role can &amp; can't do</h2>
+      <p>A quick reference for scoping conversations — useful when support, sales, or QA need to confirm the edges of the role.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Work a pool of assigned students</td><td>Invite or suspend arbitrary users (Manage Users)</td></tr>
+          <tr><td>Assign students to its own sub-coordinators</td><td>Approve or create campus events</td></tr>
+          <tr><td>Set service dates, work brief, and field visibility</td><td>Override the community approval queue</td></tr>
+          <tr><td>Track arrival status and read reasons</td><td>Manage university-wide governance stats (USA)</td></tr>
+          <tr><td>Reassign, remove, and action unassign requests</td><td>Cross-university administration</td></tr>
+          <tr><td>Chat, configure visibility, and use Support</td><td>Edit data the visibility config hides from itself</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each feature lives</h2>
+      <table>
+        <thead><tr><th>Screen</th><th>How the coordinator gets there</th></tr></thead>
+        <tbody>
+          <tr><td>Third Party Coordinator Home</td><td>Home tab after login</td></tr>
+          <tr><td>Total Sub-Coordinators list</td><td>Total Sub-Coordinators Quick Way</td></tr>
+          <tr><td>Student pool (to assign)</td><td>Home list or students-by-status tile</td></tr>
+          <tr><td>Assign Students setup</td><td>Select students → Assign</td></tr>
+          <tr><td>Student selection &amp; visibility</td><td>Continue from the setup step</td></tr>
+          <tr><td>Assigned students list</td><td>Assigned status tile or Quick Way</td></tr>
+          <tr><td>Arrival Request Details</td><td>Tap an assigned student</td></tr>
+          <tr><td>Reassign / Remove</td><td>More menu on an assigned student</td></tr>
+          <tr><td>Configurations</td><td>Profile → Configurations</td></tr>
+          <tr><td>Chats · Notifications · Support</td><td>Chats tab · bell · Support</td></tr>
+          <tr><td>University details</td><td>Tap the university header</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Third Party Coordinator FAQs</h2>
+      <p>The questions partners, support, and demo audiences ask most often about the role.</p>
+      <div class="faq">
+
+        <details><summary><span>What is the Third Party Coordinator responsible for?</span><span class="pls"></span></summary>
+        <div class="ans">Receiving a pool of students from a university and getting them from arrival to campus by delegating batches to sub-coordinators with dates, a work brief, and controlled field visibility, then tracking each arrival.</div></details>
+
+        <details><summary><span>Where do the students in my pool come from?</span><span class="pls"></span></summary>
+        <div class="ans">The university hands students to the partner organisation; they land in your pool and stay there until you assign them to a sub-coordinator.</div></details>
+
+        <details><summary><span>How do I assign students to a sub-coordinator?</span><span class="pls"></span></summary>
+        <div class="ans">Select students, tap Assign, then choose the sub-coordinator, set the From/To dates, write the work brief, toggle the visible fields, and confirm — the batch is assigned in one request.</div></details>
+
+        <details><summary><span>What gets validated on the assignment setup?</span><span class="pls"></span></summary>
+        <div class="ans">You must pick a sub-coordinator, set both dates with To on or after From, and enter a work brief; each missing or invalid field blocks submission until fixed.</div></details>
+
+        <details><summary><span>How does field visibility work?</span><span class="pls"></span></summary>
+        <div class="ans">Only the fields you toggle on are shared with the sub-coordinator, and Configurations sets the default — data-minimisation by default.</div></details>
+
+        <details><summary><span>What arrival statuses can a student have?</span><span class="pls"></span></summary>
+        <div class="ans">Assigned, Attended, and Completed — or Not Attended with a reason. The sub-coordinator sets these from the field; you read them on Arrival Request Details.</div></details>
+
+        <details><summary><span>How do I reassign a student?</span><span class="pls"></span></summary>
+        <div class="ans">From the assigned list, use the student’s more menu and choose Reassign, pick the new sub-coordinator, add an optional reason, and confirm.</div></details>
+
+        <details><summary><span>What’s the difference between removing and unassigning a student?</span><span class="pls"></span></summary>
+        <div class="ans">Remove pulls a student back to the pool; an unassign request is raised by a sub-coordinator and arrives in your Notifications for you to Accept or decline.</div></details>
+
+        <details><summary><span>Can I create events or approve communities?</span><span class="pls"></span></summary>
+        <div class="ans">No. Your tools are focused on assigning students and coordinating their arrivals.</div></details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Third Party Coordinator Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <circle cx="600" cy="300" r="46" fill="none" stroke="#2A6FDB" stroke-width="7"/>
+    <circle cx="600" cy="290" r="18" fill="#6FA4EE"/>
+    <path d="M566 332 q34 -30 68 0" fill="none" stroke="#6FA4EE" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="430" cy="500" r="34" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <circle cx="600" cy="500" r="34" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <circle cx="770" cy="500" r="34" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <line x1="600" y1="346" x2="430" y2="466" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+    <line x1="600" y1="346" x2="600" y2="466" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+    <line x1="600" y1="346" x2="770" y2="466" stroke="#2A6FDB" stroke-width="6" stroke-linecap="round"/>
+  </svg>
+</template>
+</body>
+</html>
