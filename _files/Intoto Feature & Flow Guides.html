@@ -22,6 +22,9 @@
   .fact .ft{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--product); }
   .fact .fd{ font-family:var(--font-display); font-weight:600; font-size:19px; margin-top:8px; line-height:1.2; }
   .fact p{ font-size:14px; color:var(--muted); margin:8px 0 0; line-height:1.45; }
+  .module-link{ display:block; color:var(--ink); transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .module-link:hover{ transform:translateY(-3px); border-color:var(--mktg-line); box-shadow:0 16px 36px -24px rgba(22,28,38,.45); }
+  .module-link .open{ display:inline-block; margin-top:14px; font-family:var(--font-mono); font-size:13px; color:var(--mktg); }
 
   /* Tabs */
   .tabs{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
@@ -120,21 +123,22 @@
     <div class="facts">
       <div class="fact"><div class="ft">Backend-driven</div><div class="fd">Configured, not hard-coded</div><p>Dashboards, forms, and quick actions render in the order the backend defines — per tenant.</p></div>
       <div class="fact"><div class="ft">Multi-tenant</div><div class="fd">One university per role</div><p>Every role assignment is scoped to a single university and campus; accounts can switch roles.</p></div>
-      <div class="fact"><div class="ft">Modular product</div><div class="fd">Six paid features, à la carte</div><p>Universities buy one or more modules — User Management, Chat, Travel, Community, Events, Ambassadors — and add more any time.</p></div>
+      <div class="fact"><div class="ft">Modular product</div><div class="fd">Seven paid features, à la carte</div><p>Universities buy one or more modules — User Management, Chat, Travel, Community, Events, Ambassadors, Mobility Program — and add more any time.</p></div>
     </div>
   </section>
 
   <section class="sec" id="paid-features">
     <div class="kicker"><span class="sq"></span>Product catalog</div>
     <h2>What Intoto provides to universities</h2>
-    <p>Intoto is not sold as a single all-or-nothing license. Each university subscribes to a custom mix of <b>six standalone paid modules</b> — provisioned by Intoto Admin and visible to the University Super Admin on <b>My University → Features</b>.</p>
+    <p>Intoto is not sold as a single all-or-nothing license. Each university subscribes to a custom mix of <b>seven standalone paid modules</b> — provisioned by Intoto Admin and visible to the University Super Admin on <b>My University → Features</b>.</p>
     <div class="mod-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;">
-      <div class="fact"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p></div>
-      <div class="fact"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p></div>
-      <div class="fact"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p></div>
-      <div class="fact"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p></div>
-      <div class="fact"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p></div>
-      <div class="fact"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p></div>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-ambassador"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-travel"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-community"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-chat"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-events"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-usermgmt"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-mobility"><div class="ft">07</div><div class="fd">Mobility Program</div><p>Academic exchange applications, approvals, nominations, programs, partners, and reports.</p><span class="open">Open details →</span></a>
     </div>
     <div class="more" style="margin-top:32px;">
       <div><div class="mt">Paid Features — full product catalog</div><p>Every module explained in detail — what it unlocks, who provisions it, capacity rules, and FAQs for sales and demos.</p></div>
@@ -148,11 +152,11 @@
     <p>Ten in-app roles plus web product guides. Filter by category, then tap a card to open its full Feature &amp; Flow Guide.</p>
 
     <div class="tabs" id="tabs">
-      <button class="tab active" data-filter="all">All<span class="count">11</span></button>
+      <button class="tab active" data-filter="all">All<span class="count">12</span></button>
       <button class="tab" data-filter="platform">Platform<span class="count">2</span></button>
       <button class="tab" data-filter="students">Students<span class="count">1</span></button>
       <button class="tab" data-filter="ambassador">Ambassadors<span class="count">2</span></button>
-      <button class="tab" data-filter="staff">University staff<span class="count">3</span></button>
+      <button class="tab" data-filter="staff">University staff<span class="count">4</span></button>
       <button class="tab" data-filter="partner">Partner network<span class="count">2</span></button>
       <button class="tab" data-filter="webapp">Web product<span class="count">1</span></button>
     </div>
@@ -162,7 +166,7 @@
       <a class="role-card" data-group="platform" href="Intoto%20Paid%20Features%20Guide.html">
         <div class="rc-top"><span class="rc-cat">Platform · Product</span><span class="rc-arrow">→</span></div>
         <h3>Paid Features</h3>
-        <p>The product catalog — six standalone modules universities can buy à la carte: ambassadors, travel, community, chat, events, and user management.</p>
+        <p>The product catalog — seven standalone modules universities can buy à la carte: ambassadors, travel, community, chat, events, user management, and mobility program.</p>
         <span class="rc-foot">Open catalog →</span>
       </a>
 
@@ -208,6 +212,13 @@
         <span class="rc-foot">Open guide →</span>
       </a>
 
+      <a class="role-card" data-group="staff" href="Intoto%20Mobility%20Program%20Admin%20Feature%20%26%20Flow%20Guide.html">
+        <div class="rc-top"><span class="rc-cat">University staff · Mobility</span><span class="rc-arrow">→</span></div>
+        <h3>Mobility Program Admin</h3>
+        <p>International Office staff who review mobility applications, approve or reject students, nominate them to partner universities, and manage mobility programs, partners, documents, and reports.</p>
+        <span class="rc-foot">Open guide →</span>
+      </a>
+
       <a class="role-card" data-group="staff" href="Intoto%20University%20Super%20Admin%20Feature%20%26%20Flow%20Guide.html">
         <div class="rc-top"><span class="rc-cat">University staff · Admin</span><span class="rc-arrow">→</span></div>
         <h3>University Super Admin</h3>
@@ -248,10 +259,10 @@
     <h3 class="faq-group">Platform &amp; access</h3>
     <div class="faq">
       <details><summary><span>What is Intoto?</span><span class="pls"></span></summary><div class="ans">A white-label campus engagement platform that brings a university's people together in one place. Incoming students onboard, complete travel and arrival details, discover their campus, join communities, and register for events — while staff and partner organisations run the experience through role-specific tools.</div></details>
-      <details><summary><span>What paid features does Intoto sell to universities?</span><span class="pls"></span></summary><div class="ans">Six standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, and <b>User Management</b>. Universities can buy one, several, or all — and add more at any time. See the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a> for full detail.</div></details>
-      <details><summary><span>Can a university subscribe to only some features?</span><span class="pls"></span></summary><div class="ans">Yes. Intoto is <b>à la carte</b>, not all-or-nothing. A common starting point is <b>User Management</b> plus <b>Chat</b>; modules like Travel Plan or Event Management are added when the institution is ready.</div></details>
+      <details><summary><span>What paid features does Intoto sell to universities?</span><span class="pls"></span></summary><div class="ans">Seven standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, <b>User Management</b>, and <b>Mobility Program</b>. Universities can buy one, several, or all — and add more at any time. See the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a> for full detail.</div></details>
+      <details><summary><span>Can a university subscribe to only some features?</span><span class="pls"></span></summary><div class="ans">Yes. Intoto is <b>à la carte</b>, not all-or-nothing. A common starting point is <b>User Management</b> plus <b>Chat</b>; modules like Travel Plan, Event Management, or Mobility Program are added when the institution is ready.</div></details>
       <details><summary><span>Who provisions features — Intoto Admin or the university?</span><span class="pls"></span></summary><div class="ans"><b>Intoto Admin</b> provisions modules during onboarding or on request from sales. The <b>University Super Admin</b> sees Active status and contract dates on <b>My University → Features</b> but cannot toggle modules themselves.</div></details>
-      <details><summary><span>How many roles are there?</span><span class="pls"></span></summary><div class="ans">Ten in-app roles plus web product guides and the Paid Features catalog: Intoto Admin, Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, University Super Admin, Third Party Coordinator, Third Party Sub Coordinator, The Ambassador Platform (public web), and Paid Features (product catalog). Each role guide is linked above.</div></details>
+      <details><summary><span>How many roles are there?</span><span class="pls"></span></summary><div class="ans">Ten in-app roles plus web product guides and the Paid Features catalog: Intoto Admin, Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, Mobility Program Admin, University Super Admin, Third Party Coordinator, Third Party Sub Coordinator, The Ambassador Platform (public web), and Paid Features (product catalog). Each role guide is linked above.</div></details>
       <details><summary><span>What is the Intoto Admin, and how is it different from a University Super Admin?</span><span class="pls"></span></summary><div class="ans">The Intoto Admin is the platform-level administrator — they operate across every university on Intoto, onboard and manage the universities (tenants) themselves, invite top-level University Super Admins, and can switch university context to drill into one tenant. A University Super Admin runs a <b>single university</b> on the <b>web portal</b> and <b>mobile app</b> — user lifecycle, profile review, configuration, and read-only oversight of other roles. Only the Intoto Admin can add, suspend, or activate a university.</div></details>
       <details><summary><span>Can one person hold more than one role?</span><span class="pls"></span></summary><div class="ans">Yes. Multi-role accounts pick a role at Role Selection on login, or switch later from the role switcher. The home and tabs reload for whichever role is active, keeping each context cleanly separate.</div></details>
       <details><summary><span>What does “scoped to one university and campus” mean?</span><span class="pls"></span></summary><div class="ans">Every role assignment is tied to a single university (and a campus where configured). Working across more than one university is handled as separate role assignments you switch between — not a single cross-university view.</div></details>
@@ -281,6 +292,8 @@
       <details><summary><span>How does an event get published?</span><span class="pls"></span></summary><div class="ans">A coordinator creates the event with schedule, venue, registration window, image, and category, then saves or submits for approval. Depending on tenant rules it lands in Pending or publishes to Upcoming; approval is the gate that puts it in front of students.</div></details>
       <details><summary><span>What do Upcoming, Pending, and Completed mean for events?</span><span class="pls"></span></summary><div class="ans">Upcoming are published future events students can register for; Pending are awaiting an approve/reject decision; Completed are events whose date has passed. Each has its own carousel and list.</div></details>
       <details><summary><span>How is event attendance tracked?</span><span class="pls"></span></summary><div class="ans">From Event Details: the Registrations tab shows who signed up, and on or after event day the Attendance section records who actually attended. Attendance feeds the analytics.</div></details>
+      <details><summary><span>What does the Mobility Program Admin do?</span><span class="pls"></span></summary><div class="ans">The Mobility Program Admin is International Office staff responsible for day-to-day academic mobility operations: reviewing applications, approving or rejecting students, nominating approved students to partner universities, and maintaining mobility programs, partner universities, documents, reports, settings, and notifications.</div></details>
+      <details><summary><span>What does the Mobility Program paid feature unlock?</span><span class="pls"></span></summary><div class="ans">It unlocks the mobility command center, application review, approval queue, nomination hub, program catalog, partner university directory, admin document view, operational reports, and the dedicated Mobility Program Admin role. It does not change the Student guide in this update.</div></details>
       <details><summary><span>What can the University Super Admin do?</span><span class="pls"></span></summary><div class="ans">The University Super Admin runs one university end to end. You manage all the people — inviting students, ambassadors, external ambassadors, and community and event coordinators, assigning their roles, and suspending accounts when needed. You configure the university itself — branding, forms, notification preferences, and language — and you share documents with students one at a time or in bulk through Take Action. You resolve reports and own moderation across the tenant. For oversight you can open any other role's dashboard read-only — Student, Ambassador, Community or Event Coordinator, even Third-Party Coordinator — to see exactly what they see, while the actions stay theirs.</div></details>
       <details><summary><span>Who can invite or suspend users?</span><span class="pls"></span></summary><div class="ans">The University Super Admin. Coordinators have focused tools (events, communities, assignments) but inviting and suspending users sits with the Super Admin. User invites also require the <b>User Management</b> module to be Active and within licensed capacity.</div></details>
       <details><summary><span>Where do I see which features our university has purchased?</span><span class="pls"></span></summary><div class="ans">INTOTO WebApp → <b>My University</b> → <b>Features</b> tab. Each module shows Active status, contract dates, and (for User Management) seat utilization. Full module descriptions are in the <a href="Intoto%20Paid%20Features%20Guide.html">Paid Features catalog</a>.</div></details>

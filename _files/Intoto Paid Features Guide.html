@@ -20,10 +20,28 @@
   .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
   .plat-note b{ color:var(--ink-soft); }
   .mod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; }
-  .mod-card{ border:1px solid var(--line); border-radius:14px; padding:22px 24px; background:var(--surface); }
+  .mod-card{ display:block; border:1px solid var(--line); border-radius:14px; padding:22px 24px; background:var(--surface); color:var(--ink); transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .mod-card:hover{ transform:translateY(-3px); border-color:var(--mktg-line); box-shadow:0 16px 36px -24px rgba(22,28,38,.45); }
   .mod-card h4{ font-family:var(--font-display); font-size:20px; margin:0; font-weight:600; }
   .mod-card .tagline{ font-size:15px; color:var(--muted); margin:8px 0 0; line-height:1.45; }
-  .mod-card a{ font-family:var(--font-mono); font-size:13px; margin-top:14px; display:inline-block; }
+  .mod-card .read-more{ font-family:var(--font-mono); font-size:13px; margin-top:14px; display:inline-block; color:var(--feat); }
+  .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
+  .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
+  .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
+  .flow-node-card p{ font-size:14px; line-height:1.42; margin:8px 0 0; color:var(--muted); }
+  .flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+  .flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+  .flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+  .flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+  .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+  .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+  .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+  @media (max-width:980px){ .flow-visual{ padding:18px; } .flow-track, .flow-branches{ min-width:680px; } }
   @media (max-width:980px){ .mod-grid{ grid-template-columns:1fr 1fr; } }
   @media (max-width:600px){ .mod-grid{ grid-template-columns:1fr; } }
 </style>
@@ -34,14 +52,14 @@
   <div class="hero-inner">
     <div class="eyebrow"><span class="sq"></span>PRODUCT CATALOG · INTOTO PAID FEATURES</div>
     <h1>What Intoto provides to universities</h1>
-    <p class="sub">Intoto is sold as <b>six standalone paid modules</b> — not an all-or-nothing platform license. This catalog explains each module, what it unlocks for students and staff, and how Intoto Admin and University Super Admin interact with subscriptions. Written for Product, Sales, QA, and client demos.</p>
+    <p class="sub">Intoto is sold as <b>seven standalone paid modules</b> — not an all-or-nothing platform license. This catalog explains each module, what it unlocks for students and staff, and how Intoto Admin and University Super Admin interact with subscriptions. Written for Product, Sales, QA, and client demos.</p>
     <div class="badges">
       <span class="badge b-product"><span class="dot"></span>Product</span>
       <span class="badge b-qa"><span class="dot"></span>QA</span>
       <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
     </div>
     <div class="hero-meta">
-      <div><b>Modules</b>6 standalone paid features</div>
+      <div><b>Modules</b>7 standalone paid features</div>
       <div><b>Model</b>À la carte — one, several, or all</div>
       <div><b>Provisioned by</b>Intoto Admin</div>
       <div><b>Visible to university</b>My University → Features tab</div>
@@ -54,13 +72,14 @@
     <div class="toc-h">On this page</div>
     <a href="#overview"><span class="toc-num">00</span>At a glance</a>
     <a href="#model"><span class="toc-num">·</span>How subscriptions work</a>
-    <a href="#catalog"><span class="toc-num">·</span>All six modules</a>
+    <a href="#catalog"><span class="toc-num">·</span>All seven modules</a>
     <a href="#feat-ambassador"><span class="toc-num">01</span>Ambassador Management</a>
     <a href="#feat-travel"><span class="toc-num">02</span>Travel Plan</a>
     <a href="#feat-community"><span class="toc-num">03</span>Community</a>
     <a href="#feat-chat"><span class="toc-num">04</span>Chat</a>
     <a href="#feat-events"><span class="toc-num">05</span>Event Management</a>
     <a href="#feat-usermgmt"><span class="toc-num">06</span>User Management</a>
+    <a href="#feat-mobility"><span class="toc-num">07</span>Mobility Program</a>
     <a href="#roles"><span class="toc-num">·</span>Who does what</a>
     <a href="#faq"><span class="toc-num">·</span>FAQs</a>
   </nav>
@@ -75,7 +94,7 @@
         <h3>The one-paragraph version</h3>
         <p style="margin:0; font-size:18px;"><b>Intoto Admin</b> provisions modules when onboarding or updating a tenant. The <b>University Super Admin</b> sees what is live on <b>My University → Features</b> — read-only cards with Active status, Start/End dates, and (for User Management) seat capacity. When a module is Active, its sidebar entries and student-facing surfaces appear; when inactive, that functionality is hidden entirely.</p>
         <div class="stat-row">
-          <div class="stat"><div class="n">6</div><div class="l">Standalone paid modules</div></div>
+          <div class="stat"><div class="n">7</div><div class="l">Standalone paid modules</div></div>
           <div class="stat"><div class="n">1+</div><div class="l">Minimum modules per university</div></div>
           <div class="stat"><div class="n">Any time</div><div class="l">Add modules as needs grow</div></div>
           <div class="stat"><div class="n">1 tab</div><div class="l">University view — My University → Features</div></div>
@@ -103,20 +122,21 @@
           <tr><td><b>Start Date</b> / <b>End Date</b></td><td>Subscription window (example: Jul 13, 2025 – Jul 13, 2026). Outside this range the module is inactive.</td></tr>
         </tbody>
       </table>
-      <p class="plat-note"><b>Example mix:</b> Year one — <b>User Management</b> + <b>Chat</b> only. Before next intake — add <b>Travel Plan</b> and <b>Ambassador Management</b>. Each module bills and renews independently.</p>
+      <p class="plat-note"><b>Example mix:</b> Year one — <b>User Management</b> + <b>Chat</b> only. Before next intake — add <b>Travel Plan</b>, <b>Ambassador Management</b>, or <b>Mobility Program</b>. Each module bills and renews independently.</p>
     </section>
 
     <section class="sec" id="catalog">
       <div class="kicker"><span class="sq"></span>Quick reference</div>
-      <h2>All six paid modules</h2>
-      <p>Tap a module below to jump to its full description, or scroll through sections 01–06.</p>
+      <h2>All seven paid modules</h2>
+      <p>Tap a module below to jump to its full description, or scroll through sections 01–07.</p>
       <div class="mod-grid">
-        <div class="mod-card"><h4>Ambassador Management</h4><p class="tagline">Connect students with ambassadors.</p><a href="#feat-ambassador">Read more →</a></div>
-        <div class="mod-card"><h4>Travel Plan</h4><p class="tagline">Manage student travel arrangements.</p><a href="#feat-travel">Read more →</a></div>
-        <div class="mod-card"><h4>Community</h4><p class="tagline">Student connections &amp; groups.</p><a href="#feat-community">Read more →</a></div>
-        <div class="mod-card"><h4>Chat</h4><p class="tagline">Direct messaging between users.</p><a href="#feat-chat">Read more →</a></div>
-        <div class="mod-card"><h4>Event Management</h4><p class="tagline">Create and manage campus events.</p><a href="#feat-events">Read more →</a></div>
-        <div class="mod-card"><h4>User Management</h4><p class="tagline">Control user limits &amp; invitations.</p><a href="#feat-usermgmt">Read more →</a></div>
+        <a class="mod-card" href="#feat-ambassador"><h4>Ambassador Management</h4><p class="tagline">Connect students with ambassadors.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-travel"><h4>Travel Plan</h4><p class="tagline">Manage student travel arrangements.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-community"><h4>Community</h4><p class="tagline">Student connections &amp; groups.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-chat"><h4>Chat</h4><p class="tagline">Direct messaging between users.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-events"><h4>Event Management</h4><p class="tagline">Create and manage campus events.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-usermgmt"><h4>User Management</h4><p class="tagline">Control user limits &amp; invitations.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="#feat-mobility"><h4>Mobility Program</h4><p class="tagline">Manage academic exchange lifecycle.</p><span class="read-more">Read more →</span></a>
       </div>
       <table>
         <thead><tr><th>Module</th><th>Primary audience</th><th>Key surfaces when Active</th></tr></thead>
@@ -127,6 +147,7 @@
           <tr><td><b>Chat</b></td><td>Students · ambassadors · staff</td><td>1:1 &amp; group messaging · mobile Chats tab</td></tr>
           <tr><td><b>Event Management</b></td><td>Students · event coordinators</td><td>Event lifecycle · registration · attendance · feedback</td></tr>
           <tr><td><b>User Management</b></td><td>University Super Admin · all roles</td><td>Manage User · Invite Data · Profile Review · seat limits</td></tr>
+          <tr><td><b>Mobility Program</b></td><td>International office · mobility program admins · university leadership</td><td>Applications · approvals · nominations · programs · partners · reports</td></tr>
         </tbody>
       </table>
     </section>
@@ -485,6 +506,100 @@
       </div>
     </article>
 
+    <article class="feature" id="feat-mobility">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Mobility Program</h3></div>
+      <p class="feat-lead"><b>Portal card copy:</b> Manage academic exchange lifecycle.</p>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">The <b>Mobility Program</b> paid feature digitizes the academic mobility lifecycle for Mobility Offices: application review, student approval decisions, nomination to partner universities, program and partner management, document oversight, reports, and admin notifications. It is designed for a 430px mobile-first web shell and introduces a dedicated <b>Mobility Program Admin</b> role for day-to-day mobility operations.</p>
+      <div class="tldr" style="margin-top:24px;">
+        <h3>What Mobility Program unlocks</h3>
+        <p style="margin:0; font-size:18px;">Role Selection → Mobility Admin route → Command Center → approval queue → application detail with approve/reject/request-more-info actions → nomination hub for approved students → program catalog → partner university directory → document review → operational reports and settings. University-level admins keep institutional oversight through partner, budget, program, user, and report views.</p>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Platform entry flow</h4>
+      <table>
+        <thead><tr><th>Role selection card</th><th>Route</th><th>Landing screen</th><th>Primary areas</th></tr></thead>
+        <tbody>
+          <tr><td><b>Student</b></td><td><span class="mono">/student</span></td><td>Home Dashboard</td><td>Journey · Tasks · Documents · Chats · Profile</td></tr>
+          <tr><td><b>Mobility Program Admin</b></td><td><span class="mono">/mobility-admin</span></td><td>Command Center</td><td>Stats · Approvals · Nominations · Programs · Partners</td></tr>
+          <tr><td><b>University Admin</b></td><td><span class="mono">/admin</span></td><td>Dashboard</td><td>Stats · Budget · Campus Network · Reports · Users</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Core operating model</h4>
+      <table>
+        <thead><tr><th>Area</th><th>What the module provides</th></tr></thead>
+        <tbody>
+          <tr><td><b>5-stage mobility lifecycle</b></td><td>Application → Review → Nomination → Pre-Departure → In Mobility. Admins own Review and Nomination; student preparation and exchange participation remain the student-facing side of the module.</td></tr>
+          <tr><td><b>Command Center</b></td><td>Mobility Program Admin dashboard with total students, pending approvals, active programs, total partners, approval activity feed, quick actions, and pending approvals summary.</td></tr>
+          <tr><td><b>Application review</b></td><td>Searchable/filterable student and application queues, priority badges for high-GPA applications, detailed review screens, document checks, review notes, and decision actions.</td></tr>
+          <tr><td><b>Nomination Hub</b></td><td>Eligible approved students, nominated vs pending counts, nominate toggle buttons, and partner university selection for assignment.</td></tr>
+          <tr><td><b>Programs &amp; partners</b></td><td>Mobility program catalog, program detail pages, partner university directory, partner detail pages, agreement status, active programs, student counts, and ranking/context fields.</td></tr>
+          <tr><td><b>Reports &amp; documents</b></td><td>Document summary and category filters; report catalog with annual, quarterly, evaluation, survey, and financial reports plus detail, metrics, and export actions.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Admin flow diagrams, summarized</h4>
+      <div class="flow-visual">
+        <div class="diagram-title">Mobility Program admin flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student"><div class="label">Student starts</div><div class="title">Application + documents</div><p>Student submits mobility application and supporting documents.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Admin reviews</div><div class="title">Approval Queue</div><p>Admin opens detail, checks GPA, documents, eligibility, and notes.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card success"><div class="label">Decision</div><div class="title">Approve / reject / request info</div><p>Approved students become eligible for partner nomination.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Admin assigns</div><div class="title">Nomination Hub</div><p>Admin selects partner university and nominates the approved student.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card university"><div class="label">Oversight</div><div class="title">Reports &amp; dashboard</div><p>University Admin tracks network, budget, programs, users, and reports.</p></div>
+        </div>
+        <div class="flow-branches">
+          <div class="flow-node-card success"><div class="label">Approve path</div><div class="title">Move to nomination</div><p>Student proceeds toward partner university acceptance.</p></div>
+          <div class="flow-node-card danger"><div class="label">Reject path</div><div class="title">Stop application</div><p>Rejected status is shown and nomination is unavailable.</p></div>
+          <div class="flow-node-card warning"><div class="label">More info path</div><div class="title">Follow up</div><p>Student receives request; admin waits for missing details.</p></div>
+        </div>
+      </div>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Mobility Program Admin role</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">This role is for Mobility Office staff who run mobility operations every day. They work at the individual student and program level, not the whole tenant governance level.</p>
+      <table>
+        <thead><tr><th>Can do</th><th>Typical screens</th></tr></thead>
+        <tbody>
+          <tr><td>Review applications, documents, GPA, eligibility, and review notes.</td><td>Approval Queue · Application Detail · Student Detail</td></tr>
+          <tr><td>Approve, reject, or request more information from applicants.</td><td>Application Detail · Student Detail</td></tr>
+          <tr><td>Nominate approved students to partner universities.</td><td>Nomination Hub</td></tr>
+          <tr><td>Manage day-to-day program and partner information.</td><td>Programs · Program Detail · Partner Universities · Partner Detail</td></tr>
+          <tr><td>Generate operational mobility reports and review document summaries.</td><td>Reports · Report Detail · Documents</td></tr>
+          <tr><td>Maintain admin profile, office hours, localization, and notification preferences.</td><td>Settings · Profile · Notifications</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Institutional oversight</h4>
+      <p style="font-size:16px; color:var(--muted); margin:12px 0 0; line-height:1.55;">At university level, senior admins use the module to monitor campus network health, partner agreements, budget utilization, program portfolio, system users, and institutional reporting. This is oversight and governance; day-to-day approvals and nominations stay with Mobility Program Admins.</p>
+      <table>
+        <thead><tr><th>Institutional view</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><b>Dashboard</b></td><td>Total students (4,500), mobility students (142), partners (45), programs (12), annual budget (EUR 2.4M), budget utilization (78%), campus network summary, recent reports, and quick actions.</td></tr>
+          <tr><td><b>Campus network</b></td><td>Partner universities with agreement type, active/under-review status, renewal action, student counts, contact path, and agreement health.</td></tr>
+          <tr><td><b>Reports</b></td><td>Institutional reporting with type filters, total mobility, completion rate, budget used, satisfaction, and export options.</td></tr>
+          <tr><td><b>Programs</b></td><td>Full program portfolio with enrollment progress, partner universities, and edit/manage actions.</td></tr>
+          <tr><td><b>User management</b></td><td>System user list for Mobility Program Admins, University Admins, and Students, with add-user flow where licensed.</td></tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead><tr><th>When Active</th><th>When inactive</th></tr></thead>
+        <tbody>
+          <tr><td>Mobility Program Admin role card · Mobility command center · application review · nomination hub · mobility programs · partner universities · admin documents · mobility reports · institutional oversight dashboards</td><td>No Mobility Program Admin role · no mobility application, approval, nomination, program, partner, or mobility-reporting surfaces</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Role guide:</b> Day-to-day operational flows are documented in the <a href="Intoto%20Mobility%20Program%20Admin%20Feature%20%26%20Flow%20Guide.html">Mobility Program Admin Feature &amp; Flow Guide</a>.</p>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Mobility Program turns an email-and-spreadsheet international office process into one governed lifecycle with clear admin decisions and partner nomination tracking.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Module Active → Mobility Program Admin role is available; approval and nomination screens route correctly; high-GPA priority badges, filters, decision confirmations, report exports, and partner/program detail links work. Inactive → all mobility surfaces hidden.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Run exchange applications, approvals, nominations, programs, partners, and reports from one academic mobility workspace."</p></div>
+      </div>
+    </article>
+
     <section class="sec" id="roles">
       <div class="kicker"><span class="sq"></span>Roles &amp; responsibilities</div>
       <h2>Who provisions vs who views</h2>
@@ -505,10 +620,13 @@
       <div class="faq">
 
         <details><summary><span>What paid features does Intoto offer universities?</span><span class="pls"></span></summary>
-        <div class="ans">Six standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, and <b>User Management</b>. Each can be purchased independently with its own contract dates and Active state.</div></details>
+        <div class="ans">Seven standalone modules: <b>Ambassador Management</b>, <b>Travel Plan</b>, <b>Community</b>, <b>Chat</b>, <b>Event Management</b>, <b>User Management</b>, and <b>Mobility Program</b>. Each can be purchased independently with its own contract dates and Active state.</div></details>
 
         <details><summary><span>Can a university buy only one or two features?</span><span class="pls"></span></summary>
-        <div class="ans">Yes. Intoto is <b>à la carte</b> — a university can subscribe to one module, several, or all six, and add more at any time. There is no requirement to buy the full platform.</div></details>
+        <div class="ans">Yes. Intoto is <b>à la carte</b> — a university can subscribe to one module, several, or all seven, and add more at any time. There is no requirement to buy the full platform.</div></details>
+
+        <details><summary><span>What is the Mobility Program feature?</span><span class="pls"></span></summary>
+        <div class="ans"><b>Mobility Program</b> is the academic exchange and international-office module. It gives Mobility Program Admins tools for application review, approval decisions, partner nominations, program and partner management, documents, reports, settings, and notifications. It also gives university leadership oversight of campus network, budget, programs, users, and institutional reports.</div></details>
 
         <details><summary><span>Who turns features on for a university?</span><span class="pls"></span></summary>
         <div class="ans"><b>Intoto Admin</b> provisions modules during tenant onboarding or when sales requests a change. The University Super Admin sees the result on <b>My University → Features</b> but cannot toggle modules themselves.</div></details>
@@ -529,7 +647,7 @@
         <div class="ans">No. Students simply see the experiences their university has purchased — ambassadors, chat, communities, events, travel forms — without any subscription UI. Missing modules mean those areas of the app are not available.</div></details>
 
         <details><summary><span>Which module should a university buy first?</span><span class="pls"></span></summary>
-        <div class="ans">Most tenants start with <b>User Management</b> (required to invite anyone) and often add <b>Chat</b> early. <b>Travel Plan</b> and <b>Ambassador Management</b> are common before intake season; <b>Community</b> and <b>Event Management</b> follow as engagement programs grow. The mix is entirely up to the institution.</div></details>
+        <div class="ans">Most tenants start with <b>User Management</b> (required to invite anyone) and often add <b>Chat</b> early. <b>Travel Plan</b> and <b>Ambassador Management</b> are common before intake season; <b>Community</b> and <b>Event Management</b> follow as engagement programs grow. <b>Mobility Program</b> is the right starting point for institutions that want to run exchange applications, approvals, nominations, partner programs, and mobility reporting in Intoto. The mix is entirely up to the institution.</div></details>
 
       </div>
     </section>

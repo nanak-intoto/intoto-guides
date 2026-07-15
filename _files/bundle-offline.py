@@ -347,6 +347,34 @@ def patch_hub_for_all_in_one(html: str) -> str:
             '<a class="cta" href="javascript:void(0)" data-guide="features">Open catalog →</a>',
         ),
         (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-ambassador">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-ambassador">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-travel">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-travel">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-community">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-community">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-chat">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-chat">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-events">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-events">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-usermgmt">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-usermgmt">',
+        ),
+        (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-mobility">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-mobility">',
+        ),
+        (
             '<a class="role-card" data-group="platform" href="Intoto%20Intoto%20Admin%20Feature%20%26%20Flow%20Guide.html">',
             '<a class="role-card" data-group="platform" href="javascript:void(0)" data-guide="admin">',
         ),
@@ -369,6 +397,10 @@ def patch_hub_for_all_in_one(html: str) -> str:
         (
             '<a class="role-card" data-group="staff" href="Intoto%20Event%20Coordinator%20Feature%20%26%20Flow%20Guide.html">',
             '<a class="role-card" data-group="staff" href="javascript:void(0)" data-guide="event">',
+        ),
+        (
+            '<a class="role-card" data-group="staff" href="Intoto%20Mobility%20Program%20Admin%20Feature%20%26%20Flow%20Guide.html">',
+            '<a class="role-card" data-group="staff" href="javascript:void(0)" data-guide="mobility">',
         ),
         (
             '<a class="role-card" data-group="staff" href="Intoto%20University%20Super%20Admin%20Feature%20%26%20Flow%20Guide.html">',
@@ -394,11 +426,126 @@ def patch_hub_for_all_in_one(html: str) -> str:
 
 def patch_inline_guide_links(html: str) -> str:
     """Convert standalone file hrefs to in-page data-guide navigation (nav only)."""
+    html = re.sub(
+        r'href="Intoto%20Paid%20Features%20Guide\.html#([^"]+)"',
+        lambda m: f'href="javascript:void(0)" data-guide="features" data-anchor="pf-{m.group(1)}"',
+        html,
+    )
     html = html.replace(
         'href="Intoto%20Paid%20Features%20Guide.html"',
         'href="javascript:void(0)" data-guide="features"',
     )
     return html
+
+
+def ensure_anchor_navigation(html: str) -> str:
+    """Allow All-in-One tabs, data-guide links, and anchored guide jumps."""
+    if "function applyRoleFilter(filter)" in html:
+        return html
+
+    legacy_script = """<script>
+(function(){
+  function showView(name){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    window.scrollTo(0,0);
+    try{ history.replaceState(null,"", name==="hub" ? location.pathname : "#g="+name); }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)/);
+  if(m){ showView(m[1]); }
+})();
+</script>"""
+
+    anchored_script = """<script>
+(function(){
+  function findAnchor(anchor){
+    if(!anchor){ return null; }
+    var clean = anchor.charAt(0)==="#" ? anchor.slice(1) : anchor;
+    return document.getElementById(clean);
+  }
+  function showView(name, anchor){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    var target = findAnchor(anchor);
+    if(target){ setTimeout(function(){ target.scrollIntoView({block:"start"}); }, 0); }
+    else{ window.scrollTo(0,0); }
+    try{
+      var hash = name==="hub" ? "" : "#g="+name+(anchor ? "&a="+encodeURIComponent(anchor.replace(/^#/,"")) : "");
+      history.replaceState(null,"", name==="hub" ? location.pathname : hash);
+    }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide"), g.getAttribute("data-anchor")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)(?:&a=([^&]+))?/);
+  if(m){ showView(m[1], m[2] ? decodeURIComponent(m[2]) : null); }
+})();
+</script>"""
+
+    new_script = """<script>
+(function(){
+  function findAnchor(anchor){
+    if(!anchor){ return null; }
+    var clean = anchor.charAt(0)==="#" ? anchor.slice(1) : anchor;
+    return document.getElementById(clean);
+  }
+  function applyRoleFilter(filter){
+    var hub = document.querySelector('.guide-view[data-view="hub"]') || document;
+    var tabs = hub.querySelectorAll('.tabs .tab');
+    var cards = hub.querySelectorAll('.roles .role-card');
+    tabs.forEach(function(tab){
+      tab.classList.toggle('active', tab.getAttribute('data-filter') === filter);
+    });
+    cards.forEach(function(card){
+      var show = filter === "all" || card.getAttribute('data-group') === filter;
+      card.classList.toggle('hide', !show);
+    });
+  }
+  function showView(name, anchor){
+    document.querySelectorAll(".guide-view").forEach(function(v){ v.hidden = (v.getAttribute("data-view") !== name); });
+    var target = findAnchor(anchor);
+    if(target){ setTimeout(function(){ target.scrollIntoView({block:"start"}); }, 0); }
+    else{ window.scrollTo(0,0); }
+    try{
+      var hash = name==="hub" ? "" : "#g="+name+(anchor ? "&a="+encodeURIComponent(anchor.replace(/^#/,"")) : "");
+      history.replaceState(null,"", name==="hub" ? location.pathname : hash);
+    }catch(e){}
+  }
+  document.addEventListener("click", function(e){
+    var tab = e.target.closest(".tabs .tab");
+    if(tab){ e.preventDefault(); applyRoleFilter(tab.getAttribute("data-filter") || "all"); return; }
+    var g = e.target.closest("[data-guide]");
+    if(g){ e.preventDefault(); showView(g.getAttribute("data-guide"), g.getAttribute("data-anchor")); return; }
+    var b = e.target.closest("[data-back]");
+    if(b){ e.preventDefault(); showView("hub"); return; }
+  });
+  var m = (location.hash||"").match(/g=([a-z]+)(?:&a=([^&]+))?/);
+  if(m){ showView(m[1], m[2] ? decodeURIComponent(m[2]) : null); }
+})();
+</script>"""
+    if legacy_script in html:
+        return html.replace(legacy_script, new_script, 1)
+    if anchored_script in html:
+        return html.replace(anchored_script, new_script, 1)
+    if '<script>\n(function(){\n  function findAnchor(anchor){' in html:
+        html = re.sub(
+            r'<script>\n\(function\(\)\{\n  function findAnchor\(anchor\)\{.*?\n\}\)\(\);\n</script>',
+            new_script,
+            html,
+            count=1,
+            flags=re.DOTALL,
+        )
+        if "function applyRoleFilter(filter)" in html:
+            return html
+        raise SystemExit("All-in-One navigation script not found")
+    raise SystemExit("All-in-One navigation script not found")
 
 
 def ensure_features_section(html: str, features_body: str) -> str:
@@ -412,6 +559,20 @@ def ensure_features_section(html: str, features_body: str) -> str:
     marker = '\n<section class="guide-view" data-view="admin" hidden>'
     if marker not in html:
         raise SystemExit("admin guide-view marker not found for features insert")
+    return html.replace(marker, block + marker, 1)
+
+
+def ensure_mobility_section(html: str, mobility_body: str) -> str:
+    if 'data-view="mobility"' in html:
+        return replace_section(html, "mobility", mobility_body)
+    block = (
+        '\n<section class="guide-view" data-view="mobility" hidden>\n'
+        '<div class="back-bar"><button data-back>← All role guides</button></div>\n'
+        f'{mobility_body}\n</section>\n'
+    )
+    marker = '\n<section class="guide-view" data-view="community" hidden>'
+    if marker not in html:
+        raise SystemExit("community guide-view marker not found for mobility insert")
     return html.replace(marker, block + marker, 1)
 
 
@@ -438,6 +599,43 @@ def ensure_pf_scoped_css(html: str) -> str:
             raise SystemExit("CSS insert marker not found for features")
         html = html.replace(marker, marker + block)
     return html
+
+
+def ensure_flow_visual_css(html: str) -> str:
+    """Shared visual flow diagram styles used by Mobility Program sections."""
+    if ".flow-visual .diagram-title" in html:
+        return html
+    block = """
+  /* Visual flow diagrams */
+  .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
+  .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
+  .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
+  .flow-node-card p{ font-size:14px; line-height:1.42; margin:8px 0 0; color:var(--muted); }
+  .flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+  .flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+  .flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+  .flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+  .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+  .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+  .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:760px; }
+  .flow-lane{ border:1px dashed var(--line); border-radius:16px; padding:14px; background:#fff; }
+  .flow-lane h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 12px; color:var(--muted); }
+  .flow-lane .flow-node-card{ margin-top:10px; min-width:0; }
+  .flow-lane .flow-node-card:first-of-type{ margin-top:0; }
+  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:760px; }
+  .flow-mini-grid .flow-node-card{ min-width:0; }
+  @media (max-width:980px){
+    .flow-visual{ padding:18px; }
+    .flow-track, .flow-branches, .flow-lanes, .flow-mini-grid{ min-width:680px; }
+  }
+"""
+    return html.replace("</style>", block + "</style>", 1)
 
 
 def sync_merged_usa_hub(html: str) -> str:
@@ -518,6 +716,9 @@ def update_all_in_one() -> str:
     pf_guide = (BASE / "Intoto Paid Features Guide.html").read_text()
     pf_body = prefix_embed(extract_guide_body(pf_guide), "pf-")
 
+    mobility_guide = (BASE / "Intoto Mobility Program Admin Feature & Flow Guide.html").read_text()
+    mobility_body = prefix_embed(extract_guide_body(mobility_guide), "mobility-")
+
     community_guide = (BASE / "Intoto Community Coordinator Feature & Flow Guide.html").read_text()
     community_body = extract_guide_body(community_guide)
 
@@ -530,6 +731,7 @@ def update_all_in_one() -> str:
     html = patch_hub_for_all_in_one(html)
     html = replace_section(html, "admin", admin_body)
     html = ensure_features_section(html, pf_body)
+    html = ensure_mobility_section(html, mobility_body)
     html = replace_section(html, "community", community_body)
     html = replace_section(html, "extamb", ext_body)
     html = replace_section(html, "usa", usa_body)
@@ -538,8 +740,10 @@ def update_all_in_one() -> str:
     html = ensure_usa_scoped_css(html)
     html = ensure_extamb_scoped_css(html)
     html = ensure_pf_scoped_css(html)
+    html = ensure_flow_visual_css(html)
     html = patch_ambplat_faq(html)
     html = patch_inline_guide_links(html)
+    html = ensure_anchor_navigation(html)
     html = ensure_share_css_link(html)
     ALL_IN_ONE.write_text(html)
     print(f"Updated {ALL_IN_ONE.name}")
@@ -634,7 +838,14 @@ def main() -> None:
     assert 'data-view="univadmin"' not in html, "univadmin section should be removed"
     assert html.count('id="usa-legend"') == 1, "duplicate usa-legend sections"
     assert 'data-view="features"' in html, "features guide-view missing"
+    assert 'data-view="mobility"' in html, "mobility guide-view missing"
     assert 'id="admin-features"' in html, "admin features section missing"
+    assert 'data-anchor="pf-feat-community"' in html, "hub feature-card anchors missing"
+    assert 'data-anchor="pf-feat-mobility"' in html, "mobility feature-card anchor missing"
+    assert 'id="mobility-overview"' in html, "mobility guide content missing"
+    assert ".flow-visual .diagram-title" in html, "flow visual styles missing"
+    assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
+    assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
     assert "Profile review" in html or "Profile Review" in html
     assert "topic-based discussions" in html or "Community feature" in html

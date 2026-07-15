@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Mobility Program Admin — Feature &amp; Flow Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<style>
+  .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
+  .plat-note b{ color:var(--ink-soft); }
+  .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
+  .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
+  .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
+  .flow-node-card p{ font-size:14px; line-height:1.42; margin:8px 0 0; color:var(--muted); }
+  .flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+  .flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+  .flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+  .flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+  .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+  .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+  .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:760px; }
+  .flow-lane{ border:1px dashed var(--line); border-radius:16px; padding:14px; background:#fff; }
+  .flow-lane h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 12px; color:var(--muted); }
+  .flow-lane .flow-node-card{ margin-top:10px; min-width:0; }
+  .flow-lane .flow-node-card:first-of-type{ margin-top:0; }
+  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:760px; }
+  .flow-mini-grid .flow-node-card{ min-width:0; }
+  @media (max-width:980px){
+    .flow-visual{ padding:18px; }
+    .flow-track, .flow-branches, .flow-lanes, .flow-mini-grid{ min-width:680px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: MOBILITY PROGRAM ADMIN</div>
+    <h1>The Mobility Program Admin Experience</h1>
+    <p class="sub">How Mobility Office staff review applications, nominate students, manage programs and partners, and report on academic mobility inside Intoto.</p>
+    <div class="badges">
+      <span class="badge b-product"><span class="dot"></span>Product</span>
+      <span class="badge b-qa"><span class="dot"></span>QA</span>
+      <span class="badge b-mktg"><span class="dot"></span>Marketing</span>
+    </div>
+    <div class="hero-meta">
+      <div><b>Role</b>Mobility Program Admin</div>
+      <div><b>Scope</b>Mobility Office operations</div>
+      <div><b>Paid feature</b>Mobility Program</div>
+      <div><b>Primary work</b>Review, approve, nominate, report</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">On this page</div>
+    <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#entry"><span class="toc-num">·</span>Platform entry flow</a>
+    <a href="#legend"><span class="toc-num">·</span>How to read this</a>
+    <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#lifecycle"><span class="toc-num">·</span>5-stage lifecycle</a>
+    <a href="#ia"><span class="toc-num">·</span>App structure</a>
+    <a href="#f1"><span class="toc-num">01</span>Command Center</a>
+    <a href="#f2"><span class="toc-num">02</span>Student management</a>
+    <a href="#f3"><span class="toc-num">03</span>Approval Queue</a>
+    <a href="#f4"><span class="toc-num">04</span>Nomination Hub</a>
+    <a href="#f5"><span class="toc-num">05</span>Programs</a>
+    <a href="#f6"><span class="toc-num">06</span>Partner universities</a>
+    <a href="#f7"><span class="toc-num">07</span>Documents</a>
+    <a href="#f8"><span class="toc-num">08</span>Reports</a>
+    <a href="#f9"><span class="toc-num">09</span>Settings &amp; notifications</a>
+    <a href="#flows"><span class="toc-num">·</span>Feature flow diagrams</a>
+    <a href="#perms"><span class="toc-num">·</span>Permissions</a>
+    <a href="#screens"><span class="toc-num">·</span>Screen map</a>
+    <a href="#faq"><span class="toc-num">·</span>FAQs</a>
+  </nav>
+
+  <main>
+
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>At a glance</div>
+      <h2>Who the Mobility Program Admin is</h2>
+      <p>The Mobility Program Admin is Mobility Office staff responsible for day-to-day academic mobility operations. They review student applications, make approval decisions, nominate accepted students to partner universities, maintain programs and partner information, and generate operational reports.</p>
+      <div class="tldr">
+        <h3>The one-paragraph version</h3>
+        <p style="margin:0; font-size:18px;">A Mobility Program Admin starts in the <b>Command Center</b>, checks pending approvals, reviews applications in detail, approves or rejects students, nominates approved students to partner universities, then uses program, partner, document, report, and settings screens to keep the exchange operation current.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">5</div><div class="l">Lifecycle stages: Application, Review, Nomination, Pre-Departure, In Mobility</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Review actions: approve, reject, request more info</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Program types in the brief: Erasmus+, Global, Nordic, Bilateral Research</div></div>
+          <div class="stat"><div class="n">5</div><div class="l">Report types: Annual, Quarterly, Evaluation, Survey, Financial</div></div>
+        </div>
+      </div>
+      <p class="plat-note"><b>Important:</b> This guide documents the Mobility Program Admin role only. It does not add or change the Student guide.</p>
+    </section>
+
+    <section class="sec" id="entry">
+      <div class="kicker"><span class="sq"></span>Platform entry</div>
+      <h2>Role selection routes each user to a tailored workspace</h2>
+      <p>The Mobility Manager prototype starts from a role selection screen. There is no authentication in v1.0; role selection is navigational. The important point for this guide is that the Mobility Program Admin route opens the <b>Command Center</b>, while Student and University Admin land in their own dashboards.</p>
+      <table>
+        <thead><tr><th>Role card</th><th>Theme</th><th>Route</th><th>Landing screen</th><th>Primary areas</th></tr></thead>
+        <tbody>
+          <tr><td><b>Student</b></td><td>Blue</td><td><span class="mono">/student</span></td><td>Home Dashboard</td><td>Journey · Tasks · Documents · Chats · Profile</td></tr>
+          <tr><td><b>Mobility Program Admin</b></td><td>Amber</td><td><span class="mono">/mobility-admin</span></td><td>Command Center</td><td>Stats · Approvals · Nominations · Programs · Partners</td></tr>
+          <tr><td><b>University Admin</b></td><td>Teal</td><td><span class="mono">/admin</span></td><td>Dashboard</td><td>Stats · Budget · Campus Network · Reports · Users</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Design rule from the brief:</b> The platform is a 430px mobile shell. Every card is tappable and every screen should lead somewhere; avoid dead-end display-only cards.</p>
+    </section>
+
+    <section class="sec" id="legend">
+      <div class="kicker"><span class="sq"></span>How to read this</div>
+      <h2>Three lenses on every feature</h2>
+      <p>Each feature below is followed by Product, QA, and Marketing notes so teams can scan the same flow from different angles.</p>
+      <div class="legend">
+        <div class="leg product"><div class="lh"><span class="dot"></span>Product</div><p>What the feature contributes to mobility operations and how it fits the admin's day.</p></div>
+        <div class="leg qa"><div class="lh"><span class="dot"></span>QA focus</div><p>The states, filters, decisions, and navigation paths to verify.</p></div>
+        <div class="leg mktg"><div class="lh"><span class="dot"></span>Marketing</div><p>Plain-language value for universities and international offices.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="journey">
+      <div class="kicker"><span class="sq"></span>A day in the role</div>
+      <h2>How the work flows</h2>
+      <p>The admin workflow follows the student mobility lifecycle from application review through nomination and operational reporting.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">1</div><div class="flow-line"></div></div><div class="flow-body"><h4>Open Command Center</h4><p>Check total students, pending approvals, active programs, partner count, recent approval activity, and quick actions.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">2</div><div class="flow-line"></div></div><div class="flow-body"><h4>Review pending applications</h4><p>Open the Approval Queue, filter the list, inspect application detail, and verify student profile, GPA, documents, and notes.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">3</div><div class="flow-line"></div></div><div class="flow-body"><h4>Decide on the application</h4><p>Approve, reject, or request more info. The decision determines whether the student becomes eligible for nomination.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Nominate approved students</h4><p>Use the Nomination Hub to select eligible students and assign them to partner universities.</p></div></div>
+        <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Maintain operations</h4><p>Review programs, partner universities, documents, reports, notifications, and settings so the office stays current.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="lifecycle">
+      <div class="kicker"><span class="sq"></span>Mobility lifecycle</div>
+      <h2>The admin owns Review and Nomination in a 5-stage process</h2>
+      <p>The full mobility journey runs from application through exchange semester completion. This role is most responsible for the middle operational stages: reviewing applications and nominating approved students to partner universities.</p>
+      <div class="flow-visual">
+        <div class="diagram-title">5-stage mobility lifecycle</div>
+        <div class="flow-track">
+          <div class="flow-node-card student"><div class="label">Stage 1 · Student</div><div class="title">Application</div><p>Student submits application form, statement of purpose, and transcripts.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Stage 2 · Admin</div><div class="title">Review</div><p>Mobility Program Admin reviews GPA, documents, eligibility, and notes.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Stage 3 · Admin</div><div class="title">Nomination</div><p>Approved student is nominated to a selected partner university.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Stage 4 · Student</div><div class="title">Pre-Departure</div><p>Student completes visa, passport, insurance, housing, and orientation tasks.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Stage 5 · Student</div><div class="title">In Mobility</div><p>Student arrives, enrolls in courses, and begins the exchange semester.</p></div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Stage</th><th>Owner</th><th>What happens</th><th>Exit criteria</th><th>Admin-relevant screens</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Application</b></td><td>Student</td><td>Student submits application form, statement of purpose, and transcripts.</td><td>All required documents submitted.</td><td>Student directory · Documents</td></tr>
+          <tr><td><b>2. Review</b></td><td>Mobility Program Admin</td><td>Admin reviews GPA, documents, eligibility, and notes, then approves or rejects.</td><td>Application approved or rejected.</td><td>ApprovalQueue · ApplicationDetail · StudentDetailAdmin</td></tr>
+          <tr><td><b>3. Nomination</b></td><td>Mobility Program Admin</td><td>Admin nominates an approved student to a partner university.</td><td>Partner university sends official acceptance letter.</td><td>NominationHub · StudentDetailAdmin</td></tr>
+          <tr><td><b>4. Pre-Departure</b></td><td>Student, with admin support</td><td>Student completes orientation, visa, passport, health insurance, housing, and travel preparation.</td><td>Required pre-departure tasks complete and visa approved.</td><td>Documents · Reports · Notifications</td></tr>
+          <tr><td><b>5. In Mobility</b></td><td>Student, monitored by admins</td><td>Student arrives, enrolls in courses, and begins the exchange semester.</td><td>Semester completed and student returns.</td><td>Reports · Partner/program metrics</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="ia">
+      <div class="kicker"><span class="sq"></span>Structure</div>
+      <h2>How the app is organised</h2>
+      <p>The brief describes a mobile-first web shell. The Mobility Program Admin gets a role-specific bottom navigation with operational work grouped into five areas.</p>
+      <div class="ia">
+        <div class="ia-card"><div class="tag">Tab 01</div><div class="t">Home</div><p>Command Center with stats, activity feed, quick actions, and pending approvals.</p></div>
+        <div class="ia-card"><div class="tag">Tab 02</div><div class="t">Students</div><p>Student directory, student detail, application status, profile data, and actions.</p></div>
+        <div class="ia-card"><div class="tag">Tab 03</div><div class="t">Programs</div><p>Program catalog, program detail, partner lists, and enrollment or funding context.</p></div>
+        <div class="ia-card"><div class="tag">Tab 04</div><div class="t">Partners</div><p>Partner university directory, partner detail, agreement status, active programs, and rankings.</p></div>
+        <div class="ia-card"><div class="tag">Tab 05</div><div class="t">Reports</div><p>Report catalog, generated reports, key metrics, and export actions.</p></div>
+        <div class="ia-card"><div class="tag">Support</div><div class="t">Profile &amp; Settings</div><p>Admin profile, office hours, localization, notification toggles, and logout.</p></div>
+      </div>
+    </section>
+
+    <article class="feature" id="f1">
+      <div class="feat-head"><span class="feat-num">01</span><h3>Command Center</h3></div>
+      <p class="feat-lead">The first screen for daily mobility operations.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Show the admin name and title in the header.</li>
+          <li>Present a 2x2 stat grid: total students, pending approvals, active programs, total partners.</li>
+          <li>Show recent approval activity: approved, nominated, rejected, reviewed.</li>
+          <li>Surface quick actions and a pending approvals summary with one-tap access to the queue.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Command Center keeps operational attention on the next decision, especially pending approvals.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Stats match source lists, quick actions route correctly, and pending approvals open the Approval Queue.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Your international office starts each day with approvals, programs, partners, and student movement in one view."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f2">
+      <div class="feat-head"><span class="feat-num">02</span><h3>Student management</h3></div>
+      <p class="feat-lead">Search, filter, and inspect mobility students before making decisions.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the student directory with all mobility students.</li>
+          <li>Search by name and filter by status: All, Approved, Pending, Rejected.</li>
+          <li>Tap a student card to open full profile and mobility information.</li>
+          <li>Review GPA, year, major, program, destination, and current stage.</li>
+          <li>Use action buttons to approve, request more info, or reject where the workflow allows.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Student management gives the admin a single operational directory instead of scattered spreadsheets.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search, filters, status badges, card taps, and student detail actions must stay in sync.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Find every mobility student, understand their stage, and act without leaving the app."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f3">
+      <div class="feat-head"><span class="feat-num">03</span><h3>Approval Queue</h3></div>
+      <p class="feat-lead">The decision queue for submitted mobility applications.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open a filterable queue of applications.</li>
+          <li>Highlight high-GPA applications with a priority badge when GPA is 3.8 or higher.</li>
+          <li>Tap an application to open Application Detail.</li>
+          <li>Review student info, documents, review notes, and eligibility context.</li>
+          <li>Choose approve, reject, or request more info.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Decision</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><b>Approve</b></td><td>Student becomes eligible for nomination to a partner university.</td></tr>
+          <tr><td><b>Reject</b></td><td>Application is declined and should no longer proceed to nomination.</td></tr>
+          <tr><td><b>Request more info</b></td><td>Application remains unresolved until the missing detail is supplied.</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>The queue makes Review an explicit lifecycle stage owned by the admin.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Priority badge threshold, filters, decision buttons, and post-decision status changes are key test points.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Turn application review into a clear queue with traceable decisions."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f4">
+      <div class="feat-head"><span class="feat-num">04</span><h3>Nomination Hub</h3></div>
+      <p class="feat-lead">Where approved students are assigned to partner universities.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open Nomination Hub after applications are approved.</li>
+          <li>Review nominated versus pending counts.</li>
+          <li>See eligible approved students in the list.</li>
+          <li>Select a partner university from the dropdown.</li>
+          <li>Use the nominate toggle next to the student to assign the nomination.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Nomination is the handoff from internal approval to partner university acceptance.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Only approved students should be eligible; partner selection must be required before nomination.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Move approved students from decision to destination with a controlled nomination flow."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f5">
+      <div class="feat-head"><span class="feat-num">05</span><h3>Programs</h3></div>
+      <p class="feat-lead">The catalog of mobility opportunities the office manages.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the program catalog.</li>
+          <li>Review cards for type, duration, deadline, enrollment, and status.</li>
+          <li>Tap a program for detail: description, funding, partner universities, and stats.</li>
+          <li>Use the program view to confirm what is available before advising or nominating students.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Program examples from the brief</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><b>Erasmus+</b></td><td>Structured European mobility program.</td></tr>
+          <tr><td><b>Global Exchange</b></td><td>Broader exchange opportunities across partner institutions.</td></tr>
+          <tr><td><b>Nordic Exchange</b></td><td>Regional exchange program.</td></tr>
+          <tr><td><b>Bilateral Research</b></td><td>Research-oriented bilateral mobility.</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Program data gives approvals and nominations context, not just student status.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Program cards, detail pages, partner lists, deadlines, and status indicators should match the catalog data.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep every mobility opportunity, deadline, partner, and funding note visible to the office."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f6">
+      <div class="feat-head"><span class="feat-num">06</span><h3>Partner universities</h3></div>
+      <p class="feat-lead">The directory of institutions that receive mobility nominations.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the partner university directory.</li>
+          <li>Search partner universities and review country, city, student count, agreement status, and QS ranking.</li>
+          <li>Tap a partner card for stats, description, website, agreement status, and active programs.</li>
+          <li>Use partner detail to choose the right destination during nomination.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Partner data links nominations to real institutional agreements and program availability.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Search, detail navigation, agreement status, active program lists, and external website links should be verified.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Give the mobility office a live map of partner universities and active agreements."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f7">
+      <div class="feat-head"><span class="feat-num">07</span><h3>Documents</h3></div>
+      <p class="feat-lead">A document view for admin review and status visibility.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the admin document view.</li>
+          <li>Review summary stats: total, approved, pending.</li>
+          <li>Filter documents by category.</li>
+          <li>Use document state to support application decisions and follow-up requests.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Document status keeps application review grounded in required evidence.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Category filters and approval/pending counts should agree with the document list.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Know which documents are ready, pending, or blocking the next decision."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f8">
+      <div class="feat-head"><span class="feat-num">08</span><h3>Reports</h3></div>
+      <p class="feat-lead">Operational reporting for the mobility office.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open the Reports catalog.</li>
+          <li>Browse annual, quarterly, evaluation, survey, and financial reports.</li>
+          <li>Tap a report to see summary, author, date, and key metrics.</li>
+          <li>Use download or export actions where available.</li>
+          <li>For draft reports, use <b>Finalize</b> before distributing the report.</li>
+          <li>Generate a report when operational reporting needs a fresh output.</li>
+        </ol>
+      </div>
+      <table>
+        <thead><tr><th>Report type</th><th>Use case</th></tr></thead>
+        <tbody>
+          <tr><td><b>Annual</b></td><td>Yearly mobility overview for leadership and planning.</td></tr>
+          <tr><td><b>Quarterly</b></td><td>Periodic operational breakdown.</td></tr>
+          <tr><td><b>Evaluation</b></td><td>Partner performance and program quality review.</td></tr>
+          <tr><td><b>Survey</b></td><td>Student satisfaction and experience feedback.</td></tr>
+          <tr><td><b>Financial</b></td><td>Budget utilization and funding reporting.</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Reports turn mobility operations into evidence for reviews, planning, and leadership updates.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Report type filters, detail pages, key metrics, and export actions need click-through verification.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Export mobility outcomes, partner performance, surveys, and financial views without rebuilding spreadsheets."</p></div>
+      </div>
+    </article>
+
+    <article class="feature" id="f9">
+      <div class="feat-head"><span class="feat-num">09</span><h3>Settings, profile &amp; notifications</h3></div>
+      <p class="feat-lead">Admin account controls and notification preferences.</p>
+      <div class="how">
+        <ol class="steps">
+          <li>Open settings to manage notification toggles, localization, office hours, and contact info.</li>
+          <li>Open profile to view admin department, phone, office, and logout action.</li>
+          <li>Use notifications to manage read/unread activity updates.</li>
+        </ol>
+      </div>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Settings make the office reachable and keep alerts aligned to the admin's work.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Notification toggles, read/unread state, localization fields, and logout should persist or route as designed.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep the mobility office profile and alert preferences current without support tickets."</p></div>
+      </div>
+    </article>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Feature flow diagrams</div>
+      <h2>How the key mobility workflows connect</h2>
+      <p>These diagrams show the admin-relevant mobility flows as connected steps, decision branches, and tap destinations.</p>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Application submission &amp; approval</h3>
+      <div class="flow-visual">
+        <div class="diagram-title">Student application enters admin review</div>
+        <div class="flow-track">
+          <div class="flow-node-card student"><div class="label">Student side</div><div class="title">Submit application</div><p>Student submits application form and required documents.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Admin queue</div><div class="title">Approval Queue</div><p>Application appears with status filters and priority badge when GPA is 3.8+.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Review screen</div><div class="title">Application Detail</div><p>Admin checks GPA, documents, eligibility, and review notes.</p></div>
+        </div>
+        <div class="flow-branches">
+          <div class="flow-node-card success"><div class="label">Decision 1</div><div class="title">Approve</div><p>Student becomes eligible for nomination.</p></div>
+          <div class="flow-node-card danger"><div class="label">Decision 2</div><div class="title">Reject</div><p>Student sees rejected status and does not proceed.</p></div>
+          <div class="flow-node-card warning"><div class="label">Decision 3</div><div class="title">Request info</div><p>Student gets a follow-up notification; review stays open.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Nomination &amp; acceptance</h3>
+      <div class="flow-visual">
+        <div class="diagram-title">Approved student moves to partner nomination</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin"><div class="label">Eligible list</div><div class="title">Nomination Hub</div><p>Shows approved but not yet nominated students.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Assignment</div><div class="title">Select partner</div><p>Admin chooses a partner university from the dropdown.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Action</div><div class="title">Tap Nominate</div><p>Nominate toggle sends the nomination for that student.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Student state</div><div class="title">Nomination stage</div><p>Journey updates and the student waits for partner acceptance.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card success"><div class="label">Partner accepts</div><div class="title">Invitation appears</div><p>Student sees program, university, semester, funding, deadline, and housing options.</p></div>
+          <div class="flow-node-card warning"><div class="label">Student response</div><div class="title">Accept or decline</div><p>Accept begins Pre-Departure. Decline triggers Mobility Office follow-up.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Admin Command Center</h3>
+      <div class="flow-visual">
+        <div class="diagram-title">One dashboard routes the admin to daily work</div>
+        <div class="flow-mini-grid">
+          <div class="flow-node-card admin"><div class="label">Stats grid</div><div class="title">2x2 metrics</div><p>Total students, pending approvals, active programs, total partners.</p></div>
+          <div class="flow-node-card admin"><div class="label">Activity feed</div><div class="title">Recent actions</div><p>Approved, nominated, rejected, and reviewed records.</p></div>
+          <div class="flow-node-card admin"><div class="label">Quick actions</div><div class="title">Shortcut grid</div><p>Review apps, nominate students, manage programs, view reports.</p></div>
+          <div class="flow-node-card warning"><div class="label">Pending summary</div><div class="title">Needs review</div><p>One-tap access to applications waiting in the queue.</p></div>
+        </div>
+        <div class="flow-track" style="margin-top:14px;">
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Approval Queue</div><p>Review submitted applications.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Nomination Hub</div><p>Nominate approved students.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Programs / Reports</div><p>Maintain programs and generate reporting outputs.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Report generation</h3>
+      <div class="flow-visual">
+        <div class="diagram-title">Report list to final export</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin"><div class="label">Reports screen</div><div class="title">Filter by type</div><p>All, Annual, Quarterly, Evaluation, Survey, Financial.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Report card</div><div class="title">Open detail</div><p>Tap a report to inspect summary, author, date, and status.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card university"><div class="label">Detail page</div><div class="title">Key metrics</div><p>Total mobility, completion rate, budget used, satisfaction score.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card success"><div class="label">Output</div><div class="title">Export / finalize</div><p>Download PDF, Export CSV, Share, or Finalize draft.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card admin"><div class="label">Generate report</div><div class="title">Fresh output</div><p>Generate action shows a visible creation state before the report appears.</p></div>
+          <div class="flow-node-card warning"><div class="label">Draft report</div><div class="title">Finalize first</div><p>Drafts show a Finalize action before external distribution.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="perms">
+      <div class="kicker"><span class="sq"></span>Boundaries</div>
+      <h2>What this role can and cannot do</h2>
+      <table>
+        <thead><tr><th>Can do</th><th>Cannot do</th></tr></thead>
+        <tbody>
+          <tr><td>Review mobility applications and supporting documents</td><td>Own platform-level tenant provisioning like Intoto Admin</td></tr>
+          <tr><td>Approve, reject, or request more info for applications</td><td>Manage unrelated Intoto modules such as Communities or Events unless also assigned those roles</td></tr>
+          <tr><td>Nominate approved students to partner universities</td><td>Replace University Super Admin governance over the whole university</td></tr>
+          <tr><td>Maintain program and partner information for mobility operations</td><td>Act as the Student role or edit the Student guide content</td></tr>
+          <tr><td>Generate operational reports and review document summaries</td><td>Control commercial entitlement or paid feature activation</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="screens">
+      <div class="kicker"><span class="sq"></span>Reference</div>
+      <h2>Where each surface lives</h2>
+      <table>
+        <thead><tr><th>Surface</th><th>Purpose</th><th>Route / screen from brief</th></tr></thead>
+        <tbody>
+          <tr><td>Command Center</td><td>Daily admin dashboard</td><td><span class="mono">/mobility-admin</span> · MobilityCommandCenter</td></tr>
+          <tr><td>Student directory</td><td>Search and filter mobility students</td><td>StudentSelection</td></tr>
+          <tr><td>Student detail</td><td>Review student profile, program, destination, stage, and actions</td><td>StudentDetailAdmin</td></tr>
+          <tr><td>Approval Queue</td><td>Review submitted applications</td><td>ApprovalQueue</td></tr>
+          <tr><td>Application Detail</td><td>Decision screen for approve/reject/request more info</td><td>ApplicationDetail</td></tr>
+          <tr><td>Nomination Hub</td><td>Nominate approved students to partner universities</td><td>NominationHub</td></tr>
+          <tr><td>Programs</td><td>Mobility program catalog</td><td>ProgramsPage · ProgramDetail</td></tr>
+          <tr><td>Partner Universities</td><td>Partner directory and details</td><td>PartnerUniversities · PartnerDetail</td></tr>
+          <tr><td>Documents</td><td>Admin document summary and filters</td><td>DocumentsPage</td></tr>
+          <tr><td>Reports</td><td>Report catalog and detail/export</td><td>ReportsPage · ReportDetail</td></tr>
+          <tr><td>Settings/Profile/Notifications</td><td>Admin preferences and account surfaces</td><td>DomesticSettings · AdminProfile · AdminNotifications</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>Common questions</div>
+      <h2>Mobility Program Admin FAQs</h2>
+      <div class="faq">
+        <details><summary><span>What is the Mobility Program Admin role?</span><span class="pls"></span></summary>
+        <div class="ans">It is the Mobility Office role that manages day-to-day mobility operations: reviewing applications, approving or rejecting them, nominating students to partner universities, maintaining programs and partners, reviewing documents, and generating reports.</div></details>
+
+        <details><summary><span>Is Mobility Program a paid feature?</span><span class="pls"></span></summary>
+        <div class="ans">Yes. Mobility Program is a standalone paid module in the Paid Features catalog. When it is Active, the Mobility Program Admin role and related approval, nomination, program, partner, document, and reporting screens are available.</div></details>
+
+        <details><summary><span>What is the difference between Mobility Program Admin and University Super Admin?</span><span class="pls"></span></summary>
+        <div class="ans">The Mobility Program Admin runs operational mobility workflows at the student, application, program, and partner level. The University Super Admin governs the broader university tenant, users, configuration, and entitlement visibility. They can be assigned separately depending on how the university staffs its teams.</div></details>
+
+        <details><summary><span>What application decisions can this admin make?</span><span class="pls"></span></summary>
+        <div class="ans">The brief defines three actions: approve, reject, and request more info. Approved students become eligible for nomination; rejected applications stop; request-more-info keeps the application unresolved until missing details are provided.</div></details>
+
+        <details><summary><span>How does nomination work?</span><span class="pls"></span></summary>
+        <div class="ans">After approval, the admin opens Nomination Hub, reviews eligible students, chooses a partner university, and nominates the student. This moves the process from internal review toward partner university acceptance.</div></details>
+
+        <details><summary><span>What reports are included?</span><span class="pls"></span></summary>
+        <div class="ans">The brief lists Annual, Quarterly, Evaluation, Survey, and Financial reports. Each report can have a detail page with summary, key metrics, and download or export actions.</div></details>
+
+        <details><summary><span>Does this update change the Student guide?</span><span class="pls"></span></summary>
+        <div class="ans">No. This guide only documents the Mobility Program Admin role. Student-facing mobility details are intentionally not added to the Student guide in this update.</div></details>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="shell" style="grid-template-columns:1fr;">
+  <footer style="max-width:1180px; margin:0 auto;">
+    <span>Intoto · Mobility Program Admin Feature &amp; Flow Guide · v1.0</span>
+    <span>For Product, QA &amp; Marketing</span>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <rect x="280" y="210" width="640" height="84" rx="14" fill="none" stroke="#6FA4EE" stroke-width="6"/>
+    <rect x="280" y="330" width="290" height="190" rx="14" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <rect x="630" y="330" width="290" height="190" rx="14" fill="none" stroke="#8E76E6" stroke-width="6"/>
+    <circle cx="600" cy="590" r="26" fill="#6FA4EE"/>
+  </svg>
+</template>
+</body>
+</html>
