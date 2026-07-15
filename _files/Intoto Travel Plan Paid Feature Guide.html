@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Travel Plan Paid Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<link href="feature-page.css" rel="stylesheet">
+</head>
+<body class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · TRAVEL PLAN</div>
+    <h1>Travel Plan: know who is arriving, in transit, and on campus.</h1>
+    <p class="sub">A travel and arrival visibility module for international intake teams. Students submit arrival details; university staff monitor travel status and prepare support before students reach campus.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Incoming students · Arrival coordinators</div>
+      <div><b>Admin owner</b>University Super Admin / coordinator team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="Intoto%20Paid%20Features%20Guide.html#feat-travel">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Travel</div>
+    <a href="#overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Arrival operations without spreadsheet chasing.</h2>
+      <p class="sec-lead">Travel Plan gives universities a clean view of student arrival details, travel timelines, and campus arrival status. Staff can see who has submitted details, who is in transit, and who needs follow-up.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks Travel Plan dashboard cards, sidebar navigation, campus travel lists, status filters, student travel records, and arrival monitoring. When inactive, travel screens and campus travel tabs are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">3</div><div class="l">Typical states: not submitted, in transit, arrived</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Campus travel view for arrival teams</div></div>
+          <div class="stat"><div class="n">0</div><div class="l">Need for separate intake spreadsheets</div></div>
+          <div class="stat"><div class="n">Live</div><div class="l">Status visibility during arrival window</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Travel details become operational data.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Student</div><h4>Submit travel information</h4><p>Students enter arrival date, time, airport/station, transport mode, flight/train details, and emergency notes where required.</p></div>
+        <div class="cap-card"><div class="cap-label">Status</div><h4>Track travel states</h4><p>Staff can distinguish missing details, submitted plans, in-transit students, and arrived students.</p></div>
+        <div class="cap-card"><div class="cap-label">Campus</div><h4>Campus travel tab</h4><p>Travel data can be viewed by campus so local teams know who is arriving to their location.</p></div>
+        <div class="cap-card"><div class="cap-label">Follow up</div><h4>Identify gaps</h4><p>Students with missing or incomplete travel plans can be contacted before the arrival rush.</p></div>
+        <div class="cap-card"><div class="cap-label">Prepare</div><h4>Coordinate arrival support</h4><p>Arrival teams can plan pickups, check-in staffing, orientation support, or emergency response based on expected arrival windows.</p></div>
+        <div class="cap-card"><div class="cap-label">Report</div><h4>See intake readiness</h4><p>Travel status gives leadership an intake readiness signal before the semester starts.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How arrival information is collected and reviewed.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Travel plan submission and arrival tracking flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student" data-info="Arrival date/time, destination campus, airport or station, flight/train number, transport mode, accommodation/check-in notes, and emergency contact." data-review="App checks required fields and saves the student's latest travel plan." data-result="Travel plan status changes from missing to submitted."><div class="label">Submit</div><div class="title">Enter travel details</div><p>Student provides arrival information before travel.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Arrival coordinator" data-info="Student name, program, campus, arrival date/time, transport details, missing fields, and risk notes." data-review="Coordinator checks completeness, arrival window, campus ownership, and whether follow-up is needed." data-result="Coordinator can plan support or contact the student for corrections."><div class="label">Review</div><div class="title">Travel list check</div><p>Staff review incoming student plans.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card warning" data-actor="Arrival coordinator" data-info="Incomplete travel fields, delayed arrival, missing contact, or unclear destination." data-review="Coordinator identifies records that could create arrival-day confusion." data-result="Student receives follow-up before travel day."><div class="label">Follow up</div><div class="title">Fix missing details</div><p>Incomplete plans are resolved before arrival.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Arrival coordinator" data-info="Arrival confirmation, timestamp, campus destination, and student status." data-review="Staff confirm the student has reached campus or completed the arrival checkpoint." data-result="Travel status changes to arrived and intake tracking is complete."><div class="label">Arrive</div><div class="title">Mark arrived</div><p>Campus team closes the arrival loop.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Travel Plan questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>What information does the student provide?</span><span class="pls"></span></summary><div class="ans">Typical travel details include arrival date/time, campus, airport or station, flight/train number, transport mode, accommodation or check-in notes, and emergency contact information.</div></details>
+        <details><summary><span>Can staff see students who have not submitted plans?</span><span class="pls"></span></summary><div class="ans">Yes. The value of the module is visibility into both submitted plans and missing plans, so teams can follow up early.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Travel Plan cards, sidebar entries, travel lists, campus travel tabs, and arrival-status workflows are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Travel Plan Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0E1623"/><path d="M230 460c150-220 590-220 740 0" fill="none" stroke="#8E76E6" stroke-width="8"/><circle cx="230" cy="460" r="36" fill="none" stroke="#5C95E8" stroke-width="6"/><circle cx="600" cy="300" r="36" fill="none" stroke="#E9B949" stroke-width="6"/><circle cx="970" cy="460" r="36" fill="none" stroke="#46B07C" stroke-width="6"/></svg>
+</template>
+<script src="feature-flow.js"></script>
+</body>
+</html>

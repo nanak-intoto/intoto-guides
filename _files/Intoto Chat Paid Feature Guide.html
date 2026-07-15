@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Chat Paid Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<link href="feature-page.css" rel="stylesheet">
+</head>
+<body class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · CHAT</div>
+    <h1>Chat: one secure inbox for students, mentors, and staff.</h1>
+    <p class="sub">A communication layer for 1:1 and group messaging across students, ambassadors, coordinators, and university staff, keeping support conversations inside the Intoto ecosystem.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Staff · Ambassadors · Coordinators</div>
+      <div><b>Admin owner</b>University Super Admin / support team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="Intoto%20Paid%20Features%20Guide.html#feat-chat">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Chat</div>
+    <a href="#overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Support conversations without personal phone numbers.</h2>
+      <p class="sec-lead">Chat gives universities controlled messaging across their Intoto community. Students can contact the right person, staff can create groups, and conversations stay attached to university roles instead of scattered across personal apps.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, Chat unlocks mobile Chats tab, web Chat sidebar, direct messaging, group creation, inboxes, message threads, read/unread states, and contextual sharing where other modules allow it. When inactive, chat surfaces are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1:1</div><div class="l">Direct support conversations</div></div>
+          <div class="stat"><div class="n">Group</div><div class="l">Staff-created or role-based group messaging</div></div>
+          <div class="stat"><div class="n">Live</div><div class="l">Conversation history in one product</div></div>
+          <div class="stat"><div class="n">Safe</div><div class="l">No need for personal contact sharing</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Chat supports the conversations around every other feature.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Inbox</div><h4>View conversations</h4><p>Users open a Chats tab or sidebar to see conversations, unread badges, participants, and recent messages.</p></div>
+        <div class="cap-card"><div class="cap-label">Message</div><h4>Send direct messages</h4><p>Students, staff, ambassadors, and coordinators can send role-appropriate messages where permissions allow.</p></div>
+        <div class="cap-card"><div class="cap-label">Groups</div><h4>Create group conversations</h4><p>Web users can create groups for cohorts, events, support teams, ambassador groups, or operational follow-up.</p></div>
+        <div class="cap-card"><div class="cap-label">Context</div><h4>Share module content</h4><p>Community posts, events, or support context can be shared into conversations where those modules allow sharing.</p></div>
+        <div class="cap-card"><div class="cap-label">Support</div><h4>Centralize help</h4><p>Students get one place for support, academic questions, buddy conversations, financial aid, or group updates.</p></div>
+        <div class="cap-card"><div class="cap-label">Control</div><h4>Entitlement-based access</h4><p>If Chat is not Active, messaging routes and tabs are hidden even if another feature references people or profiles.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How a conversation starts and stays inside Intoto.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Direct and group chat flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student or staff user" data-info="Selected contact or group, sender identity, recipient role, message text, attachment/share context where available." data-review="App checks Chat entitlement and whether the sender can message the target." data-result="Message draft is sent into the correct conversation thread."><div class="label">Compose</div><div class="title">Write message</div><p>User starts a message from inbox, profile, or shared context.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Chat system" data-info="Message body, sender, recipients, timestamp, read/unread state, and conversation ID." data-review="System stores the message and updates inbox ordering and unread indicators." data-result="Recipient sees the conversation and unread state."><div class="label">Deliver</div><div class="title">Update inbox</div><p>The message appears in the recipient inbox.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Recipient" data-info="Thread history, participant details, latest message, shared context, and reply box." data-review="Recipient reviews context and writes the next response." data-result="Conversation continues with history preserved."><div class="label">Reply</div><div class="title">Continue thread</div><p>Both sides keep context in one place.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="University staff" data-info="Group name, participants, roles, cohort/event/community context, and purpose." data-review="Staff confirms the right people are included before creating or using the group." data-result="Group chat supports broadcast and coordination without external channels."><div class="label">Group</div><div class="title">Coordinate at scale</div><p>Groups support cohorts, events, or support teams.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Chat questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is Chat required for Community or Ambassador conversations?</span><span class="pls"></span></summary><div class="ans">Those modules can expose people and profiles, but in-product messaging requires Chat to be Active.</div></details>
+        <details><summary><span>Can staff create group conversations?</span><span class="pls"></span></summary><div class="ans">Yes. Web chat supports group creation for relevant users and operational groups where permitted.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Chat sidebar, mobile Chats tab, compose paths, inboxes, group creation, and in-product messaging are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Chat Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0E1623"/><rect x="260" y="250" width="280" height="160" rx="26" fill="none" stroke="#5C95E8" stroke-width="6"/><rect x="660" y="390" width="280" height="160" rx="26" fill="none" stroke="#8E76E6" stroke-width="6"/><path d="M540 360h120" stroke="#46B07C" stroke-width="8" stroke-linecap="round"/></svg>
+</template>
+<script src="feature-flow.js"></script>
+</body>
+</html>

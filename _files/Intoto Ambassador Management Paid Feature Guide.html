@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Ambassador Management Paid Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<link href="feature-page.css" rel="stylesheet">
+</head>
+<body class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · AMBASSADOR MANAGEMENT</div>
+    <h1>Ambassador Management: peer guidance before and after arrival.</h1>
+    <p class="sub">A structured ambassador program for internal student mentors and external ambassadors, helping prospects and incoming students connect with trusted people instead of searching alone.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Ambassadors · External Ambassadors</div>
+      <div><b>Admin owner</b>University Super Admin / Ambassador team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="Intoto%20Paid%20Features%20Guide.html#feat-ambassador">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Ambassadors</div>
+    <a href="#overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Turn student experience into a guided support network.</h2>
+      <p class="sec-lead">Ambassador Management lets a university invite, manage, and showcase ambassadors. Students discover mentors in the mobile app, while external ambassador flows support web-based prospect engagement where configured.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks ambassador dashboard cards, sidebar lists, invite flows, ambassador detail profiles, mobile ambassador carousel, and external ambassador discovery where enabled. When inactive, ambassador tools and discovery surfaces are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">2</div><div class="l">Ambassador types: internal and external</div></div>
+          <div class="stat"><div class="n">1:1</div><div class="l">Guidance path from student to mentor</div></div>
+          <div class="stat"><div class="n">360</div><div class="l">Profile context: campus, course, language, interests</div></div>
+          <div class="stat"><div class="n">On</div><div class="l">Discovery only when the module is Active</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> Universities can show prospects and incoming students real people who can answer practical questions about campus life, admissions, culture, housing, and onboarding.</p>
+    </section>
+
+    <section class="sec" id="capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Ambassador programs become visible, searchable, and governable.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Invite</div><h4>Add ambassadors</h4><p>Admins invite student ambassadors or external ambassadors depending on the university's package and operating model.</p></div>
+        <div class="cap-card"><div class="cap-label">Profile</div><h4>Maintain mentor profiles</h4><p>Ambassador profiles show useful matching context such as program, campus, interests, languages, and introduction details.</p></div>
+        <div class="cap-card"><div class="cap-label">Discover</div><h4>Student discovery carousel</h4><p>Students browse ambassador cards in the mobile experience and open profiles to choose a relevant mentor.</p></div>
+        <div class="cap-card"><div class="cap-label">Connect</div><h4>Start a conversation</h4><p>Where Chat is Active, students can reach ambassadors directly without sharing personal phone numbers.</p></div>
+        <div class="cap-card"><div class="cap-label">External</div><h4>Prospect-facing ambassadors</h4><p>External ambassador surfaces support recruitment conversations before students are fully enrolled in the app.</p></div>
+        <div class="cap-card"><div class="cap-label">Control</div><h4>Govern visibility</h4><p>Admins can keep ambassador visibility tied to entitlement, role assignment, and university policies.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How a student finds and connects with an ambassador.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Ambassador setup and discovery flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card university" data-actor="University Super Admin" data-info="Ambassador name, email, role type, campus, program, language, interests, and capacity context." data-review="Admin confirms the person should represent the university and has the right role." data-result="Ambassador invitation is sent and the record is created."><div class="label">Setup</div><div class="title">Invite ambassador</div><p>Admin adds internal or external ambassadors.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Ambassador" data-info="Profile photo, bio, program, experience, languages, interests, and availability details." data-review="Profile details make the ambassador useful for matching and discovery." data-result="Ambassador profile becomes ready for student/prospect discovery."><div class="label">Profile</div><div class="title">Complete profile</div><p>Ambassador adds context students need.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Student" data-info="Carousel card, profile details, shared interests, program/campus fit, and contact option." data-review="Student compares ambassadors and chooses the most relevant person." data-result="Student opens a profile and can connect where messaging is enabled."><div class="label">Discover</div><div class="title">Browse ambassador carousel</div><p>Students find the right mentor.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Student and Ambassador" data-info="Selected ambassador, student question, chat or contact context, and conversation history." data-review="Conversation gives practical support while keeping context inside Intoto." data-result="Student receives guidance and the university improves onboarding confidence."><div class="label">Connect</div><div class="title">Ask questions</div><p>Mentor relationship starts inside the platform.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Ambassador Management questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is this only for enrolled students?</span><span class="pls"></span></summary><div class="ans">No. Internal ambassadors support enrolled or incoming students in the app, while external ambassador surfaces can support prospect engagement where enabled.</div></details>
+        <details><summary><span>Does Chat need to be active?</span><span class="pls"></span></summary><div class="ans">Ambassador discovery can exist as a module, but direct messaging uses the Chat module when the university wants in-product conversations.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Ambassador menus, invite paths, profiles, carousel discovery, and external ambassador access are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Ambassador Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0E1623"/><circle cx="420" cy="340" r="78" fill="none" stroke="#5C95E8" stroke-width="6"/><circle cx="600" cy="340" r="78" fill="none" stroke="#8E76E6" stroke-width="6"/><circle cx="780" cy="340" r="78" fill="none" stroke="#46B07C" stroke-width="6"/><path d="M420 460h360" stroke="#BCA9F0" stroke-width="8" stroke-linecap="round"/></svg>
+</template>
+<script src="feature-flow.js"></script>
+</body>
+</html>
