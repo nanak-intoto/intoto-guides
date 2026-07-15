@@ -11,6 +11,102 @@
 <style>
   .plat-note{ font-size:16px; color:var(--muted); margin-top:18px; line-height:1.5; padding:14px 18px; background:var(--surface-2); border-radius:10px; border:1px solid var(--line-soft); }
   .plat-note b{ color:var(--ink-soft); }
+  .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
+  .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
+  .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
+  .flow-node-card p{ font-size:14px; line-height:1.42; margin:8px 0 0; color:var(--muted); }
+  .flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+  .flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+  .flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+  .flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+  .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+  .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+  .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:760px; }
+  .flow-lane{ border:1px dashed var(--line); border-radius:16px; padding:14px; background:#fff; }
+  .flow-lane h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 12px; color:var(--muted); }
+  .flow-lane .flow-node-card{ margin-top:10px; min-width:0; }
+  .flow-lane .flow-node-card:first-of-type{ margin-top:0; }
+  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:760px; }
+  .flow-mini-grid .flow-node-card{ min-width:0; }
+  .flow-visual[data-flow-animated]{ position:relative; }
+  .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:720px; }
+  .flow-story-panel{ display:grid; grid-template-columns:minmax(170px,.35fr) 1fr; gap:16px; min-width:720px; margin:0 0 18px; border:1px solid var(--line); border-radius:16px; padding:16px; background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%); box-shadow:0 18px 48px -36px rgba(22,28,38,.42); }
+  .flow-story-actor{ border-radius:14px; padding:14px; background:var(--bg-dark); color:#fff; }
+  .flow-story-actor .eyebrow{ display:block; color:rgba(255,255,255,.72); font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 8px; }
+  .flow-story-actor strong{ display:block; font-family:var(--font-display); font-size:22px; line-height:1.1; }
+  .flow-story-actor small{ display:block; margin-top:8px; color:rgba(255,255,255,.75); font-size:13px; line-height:1.35; }
+  .flow-story-body{ align-self:center; }
+  .flow-story-kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-story-title{ font-family:var(--font-display); font-size:24px; line-height:1.16; margin:6px 0 0; color:var(--ink); }
+  .flow-story-copy{ margin:8px 0 0; font-size:15px; line-height:1.5; color:var(--muted); }
+  .flow-story-outcome{ margin:10px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+  .flow-story-details{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+  .flow-detail-card{ border:1px solid var(--line-soft); border-radius:12px; padding:12px; background:#fff; }
+  .flow-detail-card b{ display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .flow-detail-card span{ display:block; font-size:13px; line-height:1.38; color:var(--ink-soft); }
+  .flow-progress{ flex:1; height:8px; border-radius:999px; background:var(--line-soft); overflow:hidden; min-width:140px; }
+  .flow-progress-bar{ height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg,var(--product),var(--qa),var(--plat)); transition:width .48s ease; }
+  .flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
+  .flow-legend span{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:var(--surface-2); color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+  .flow-legend span::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); }
+  .flow-legend .student::before{ background:var(--product); }
+  .flow-legend .admin::before{ background:var(--qa); }
+  .flow-legend .university::before{ background:var(--plat); }
+  .flow-legend .decision::before{ background:#E9B949; }
+  .flow-play{ border:0; border-radius:999px; background:var(--bg-dark); color:#fff; padding:10px 16px; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 12px 30px -20px rgba(22,28,38,.65); transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease; white-space:nowrap; }
+  .flow-play:hover{ transform:translateY(-1px); box-shadow:0 18px 34px -22px rgba(22,28,38,.75); }
+  .flow-play:focus-visible{ outline:3px solid var(--product-line); outline-offset:3px; }
+  .flow-visual[data-flow-ready] .flow-node-card,
+  .flow-visual[data-flow-ready] .flow-arrow{ opacity:.36; transform:translateY(10px) scale(.985); filter:saturate(.75); transition:opacity .42s ease, transform .42s ease, filter .42s ease, box-shadow .42s ease, border-color .42s ease; }
+  .flow-visual[data-flow-ready] .flow-node-card.flow-seen,
+  .flow-visual[data-flow-ready] .flow-arrow.flow-seen{ opacity:1; transform:translateY(0) scale(1); filter:saturate(1); }
+  .flow-node-card[data-flow-role-label]::before{ content:attr(data-flow-role-label); display:inline-flex; margin:0 0 10px; border-radius:999px; padding:4px 8px; background:#fff; color:var(--muted); font-family:var(--font-mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; border:1px solid var(--line-soft); }
+  .flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); transform:translateY(-3px) scale(1.015); }
+  .flow-node-card.flow-active::after{ content:""; position:absolute; inset:-4px; border:2px solid rgba(42,111,219,.38); border-radius:18px; pointer-events:none; animation:flowPulse 1s ease-out; }
+  .flow-node-card.admin.flow-active::after{ border-color:rgba(31,138,91,.4); }
+  .flow-node-card.university.flow-active::after{ border-color:rgba(14,124,134,.42); }
+  .flow-node-card.success.flow-active::after{ border-color:rgba(31,138,91,.5); }
+  .flow-node-card.warning.flow-active::after{ border-color:rgba(233,185,73,.58); }
+  .flow-node-card.danger.flow-active::after{ border-color:rgba(224,138,138,.6); }
+  .flow-arrow{ position:relative; }
+  .flow-arrow.flow-active{ animation:flowArrowPulse .75s ease; }
+  .flow-arrow.flow-active::before{ content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:#fff; box-shadow:0 0 0 4px rgba(42,111,219,.22); animation:flowPacket .72s ease; }
+  .flow-visual.flow-complete{ box-shadow:0 24px 60px -48px rgba(42,111,219,.55); }
+  @keyframes flowPulse{
+    0%{ opacity:0; transform:scale(.96); }
+    34%{ opacity:1; }
+    100%{ opacity:0; transform:scale(1.08); }
+  }
+  @keyframes flowArrowPulse{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(0) scale(1.16); box-shadow:0 0 0 8px rgba(14,22,35,.12); }
+  }
+  @keyframes flowPacket{
+    0%{ transform:translateX(-18px) scale(.8); opacity:0; }
+    20%{ opacity:1; }
+    100%{ transform:translateX(18px) scale(1); opacity:0; }
+  }
+  @media (max-width:980px){
+    .flow-visual{ padding:18px; }
+    .flow-track, .flow-branches, .flow-lanes, .flow-mini-grid, .flow-controls, .flow-story-panel{ min-width:680px; }
+    .flow-story-panel{ grid-template-columns:1fr; }
+    .flow-story-details{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .flow-play{ display:none; }
+    .flow-visual[data-flow-ready] .flow-node-card,
+    .flow-visual[data-flow-ready] .flow-arrow{ opacity:1; transform:none; filter:none; transition:none; }
+    .flow-node-card.flow-active::after,
+    .flow-arrow.flow-active,
+    .flow-arrow.flow-active::before{ animation:none; }
+    .flow-progress-bar{ transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -19,7 +115,7 @@
   <div class="hero-inner">
     <div class="eyebrow"><span class="sq"></span>FEATURE &amp; FLOW GUIDE · ROLE: MOBILITY PROGRAM ADMIN</div>
     <h1>The Mobility Program Admin Experience</h1>
-    <p class="sub">How International Office staff review applications, nominate students, manage programs and partners, and report on academic mobility inside Intoto.</p>
+    <p class="sub">How Mobility Office staff review applications, nominate students, manage programs and partners, and report on academic mobility inside Intoto.</p>
     <div class="badges">
       <span class="badge b-product"><span class="dot"></span>Product</span>
       <span class="badge b-qa"><span class="dot"></span>QA</span>
@@ -27,7 +123,7 @@
     </div>
     <div class="hero-meta">
       <div><b>Role</b>Mobility Program Admin</div>
-      <div><b>Scope</b>International Office operations</div>
+      <div><b>Scope</b>Mobility Office operations</div>
       <div><b>Paid feature</b>Mobility Program</div>
       <div><b>Primary work</b>Review, approve, nominate, report</div>
     </div>
@@ -38,8 +134,10 @@
   <nav class="toc">
     <div class="toc-h">On this page</div>
     <a href="#overview"><span class="toc-num">00</span>At a glance</a>
+    <a href="#entry"><span class="toc-num">·</span>Platform entry flow</a>
     <a href="#legend"><span class="toc-num">·</span>How to read this</a>
     <a href="#journey"><span class="toc-num">·</span>A day in the role</a>
+    <a href="#lifecycle"><span class="toc-num">·</span>5-stage lifecycle</a>
     <a href="#ia"><span class="toc-num">·</span>App structure</a>
     <a href="#f1"><span class="toc-num">01</span>Command Center</a>
     <a href="#f2"><span class="toc-num">02</span>Student management</a>
@@ -50,6 +148,7 @@
     <a href="#f7"><span class="toc-num">07</span>Documents</a>
     <a href="#f8"><span class="toc-num">08</span>Reports</a>
     <a href="#f9"><span class="toc-num">09</span>Settings &amp; notifications</a>
+    <a href="#flows"><span class="toc-num">·</span>Feature flow diagrams</a>
     <a href="#perms"><span class="toc-num">·</span>Permissions</a>
     <a href="#screens"><span class="toc-num">·</span>Screen map</a>
     <a href="#faq"><span class="toc-num">·</span>FAQs</a>
@@ -60,7 +159,7 @@
     <section class="sec" id="overview">
       <div class="kicker"><span class="sq"></span>At a glance</div>
       <h2>Who the Mobility Program Admin is</h2>
-      <p>The Mobility Program Admin is International Office staff responsible for day-to-day academic mobility operations. They review student applications, make approval decisions, nominate accepted students to partner universities, maintain programs and partner information, and generate operational reports.</p>
+      <p>The Mobility Program Admin is Mobility Office staff responsible for day-to-day academic mobility operations. They review student applications, make approval decisions, nominate accepted students to partner universities, maintain programs and partner information, and generate operational reports.</p>
       <div class="tldr">
         <h3>The one-paragraph version</h3>
         <p style="margin:0; font-size:18px;">A Mobility Program Admin starts in the <b>Command Center</b>, checks pending approvals, reviews applications in detail, approves or rejects students, nominates approved students to partner universities, then uses program, partner, document, report, and settings screens to keep the exchange operation current.</p>
@@ -72,6 +171,21 @@
         </div>
       </div>
       <p class="plat-note"><b>Important:</b> This guide documents the Mobility Program Admin role only. It does not add or change the Student guide.</p>
+    </section>
+
+    <section class="sec" id="entry">
+      <div class="kicker"><span class="sq"></span>Platform entry</div>
+      <h2>Role selection routes each user to a tailored workspace</h2>
+      <p>The Mobility Manager prototype starts from a role selection screen. There is no authentication in v1.0; role selection is navigational. The important point for this guide is that the Mobility Program Admin route opens the <b>Command Center</b>, while Student and University Admin land in their own dashboards.</p>
+      <table>
+        <thead><tr><th>Role card</th><th>Theme</th><th>Route</th><th>Landing screen</th><th>Primary areas</th></tr></thead>
+        <tbody>
+          <tr><td><b>Student</b></td><td>Blue</td><td><span class="mono">/student</span></td><td>Home Dashboard</td><td>Journey · Tasks · Documents · Chats · Profile</td></tr>
+          <tr><td><b>Mobility Program Admin</b></td><td>Amber</td><td><span class="mono">/mobility-admin</span></td><td>Command Center</td><td>Stats · Approvals · Nominations · Programs · Partners</td></tr>
+          <tr><td><b>University Admin</b></td><td>Teal</td><td><span class="mono">/admin</span></td><td>Dashboard</td><td>Stats · Budget · Campus Network · Reports · Users</td></tr>
+        </tbody>
+      </table>
+      <p class="plat-note"><b>Design rule from the brief:</b> The platform is a 430px mobile shell. Every card is tappable and every screen should lead somewhere; avoid dead-end display-only cards.</p>
     </section>
 
     <section class="sec" id="legend">
@@ -96,6 +210,36 @@
         <div class="flow-step"><div class="flow-rail"><div class="flow-node">4</div><div class="flow-line"></div></div><div class="flow-body"><h4>Nominate approved students</h4><p>Use the Nomination Hub to select eligible students and assign them to partner universities.</p></div></div>
         <div class="flow-step"><div class="flow-rail"><div class="flow-node">5</div></div><div class="flow-body"><h4>Maintain operations</h4><p>Review programs, partner universities, documents, reports, notifications, and settings so the office stays current.</p></div></div>
       </div>
+    </section>
+
+    <section class="sec" id="lifecycle">
+      <div class="kicker"><span class="sq"></span>Mobility lifecycle</div>
+      <h2>The admin owns Review and Nomination in a 5-stage process</h2>
+      <p>The full mobility journey runs from application through exchange semester completion. This role is most responsible for the middle operational stages: reviewing applications and nominating approved students to partner universities.</p>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">5-stage mobility lifecycle</div>
+        <div class="flow-track">
+          <div class="flow-node-card student"><div class="label">Stage 1 · Student</div><div class="title">Application</div><p>Student submits application form, statement of purpose, and transcripts.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Stage 2 · Admin</div><div class="title">Review</div><p>Mobility Program Admin reviews GPA, documents, eligibility, and notes.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Stage 3 · Admin</div><div class="title">Nomination</div><p>Approved student is nominated to a selected partner university.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Stage 4 · Student</div><div class="title">Pre-Departure</div><p>Student completes visa, passport, insurance, housing, and orientation tasks.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Stage 5 · Student</div><div class="title">In Mobility</div><p>Student arrives, enrolls in courses, and begins the exchange semester.</p></div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Stage</th><th>Owner</th><th>What happens</th><th>Exit criteria</th><th>Admin-relevant screens</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Application</b></td><td>Student</td><td>Student submits application form, statement of purpose, and transcripts.</td><td>All required documents submitted.</td><td>Student directory · Documents</td></tr>
+          <tr><td><b>2. Review</b></td><td>Mobility Program Admin</td><td>Admin reviews GPA, documents, eligibility, and notes, then approves or rejects.</td><td>Application approved or rejected.</td><td>ApprovalQueue · ApplicationDetail · StudentDetailAdmin</td></tr>
+          <tr><td><b>3. Nomination</b></td><td>Mobility Program Admin</td><td>Admin nominates an approved student to a partner university.</td><td>Partner university sends official acceptance letter.</td><td>NominationHub · StudentDetailAdmin</td></tr>
+          <tr><td><b>4. Pre-Departure</b></td><td>Student, with admin support</td><td>Student completes orientation, visa, passport, health insurance, housing, and travel preparation.</td><td>Required pre-departure tasks complete and visa approved.</td><td>Documents · Reports · Notifications</td></tr>
+          <tr><td><b>5. In Mobility</b></td><td>Student, monitored by admins</td><td>Student arrives, enrolls in courses, and begins the exchange semester.</td><td>Semester completed and student returns.</td><td>Reports · Partner/program metrics</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="sec" id="ia">
@@ -267,9 +411,20 @@
           <li>Browse annual, quarterly, evaluation, survey, and financial reports.</li>
           <li>Tap a report to see summary, author, date, and key metrics.</li>
           <li>Use download or export actions where available.</li>
+          <li>For draft reports, use <b>Finalize</b> before distributing the report.</li>
           <li>Generate a report when operational reporting needs a fresh output.</li>
         </ol>
       </div>
+      <table>
+        <thead><tr><th>Report type</th><th>Use case</th></tr></thead>
+        <tbody>
+          <tr><td><b>Annual</b></td><td>Yearly mobility overview for leadership and planning.</td></tr>
+          <tr><td><b>Quarterly</b></td><td>Periodic operational breakdown.</td></tr>
+          <tr><td><b>Evaluation</b></td><td>Partner performance and program quality review.</td></tr>
+          <tr><td><b>Survey</b></td><td>Student satisfaction and experience feedback.</td></tr>
+          <tr><td><b>Financial</b></td><td>Budget utilization and funding reporting.</td></tr>
+        </tbody>
+      </table>
       <div class="lens-row">
         <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Reports turn mobility operations into evidence for reviews, planning, and leadership updates.</p></div>
         <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Report type filters, detail pages, key metrics, and export actions need click-through verification.</p></div>
@@ -293,6 +448,83 @@
         <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"Keep the mobility office profile and alert preferences current without support tickets."</p></div>
       </div>
     </article>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Feature flow diagrams</div>
+      <h2>How the key mobility workflows connect</h2>
+      <p>These diagrams show the admin-relevant mobility flows as connected steps, decision branches, and tap destinations.</p>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Application submission &amp; approval</h3>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Student application enters admin review</div>
+        <div class="flow-track">
+          <div class="flow-node-card student"><div class="label">Student side</div><div class="title">Submit application</div><p>Student submits application form and required documents.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Admin queue</div><div class="title">Approval Queue</div><p>Application appears with status filters and priority badge when GPA is 3.8+.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Review screen</div><div class="title">Application Detail</div><p>Admin checks GPA, documents, eligibility, and review notes.</p></div>
+        </div>
+        <div class="flow-branches">
+          <div class="flow-node-card success"><div class="label">Decision 1</div><div class="title">Approve</div><p>Student becomes eligible for nomination.</p></div>
+          <div class="flow-node-card danger"><div class="label">Decision 2</div><div class="title">Reject</div><p>Student sees rejected status and does not proceed.</p></div>
+          <div class="flow-node-card warning"><div class="label">Decision 3</div><div class="title">Request info</div><p>Student gets a follow-up notification; review stays open.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Nomination &amp; acceptance</h3>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Approved student moves to partner nomination</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin"><div class="label">Eligible list</div><div class="title">Nomination Hub</div><p>Shows approved but not yet nominated students.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Assignment</div><div class="title">Select partner</div><p>Admin chooses a partner university from the dropdown.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Action</div><div class="title">Tap Nominate</div><p>Nominate toggle sends the nomination for that student.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card student"><div class="label">Student state</div><div class="title">Nomination stage</div><p>Journey updates and the student waits for partner acceptance.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card success"><div class="label">Partner accepts</div><div class="title">Invitation appears</div><p>Student sees program, university, semester, funding, deadline, and housing options.</p></div>
+          <div class="flow-node-card warning"><div class="label">Student response</div><div class="title">Accept or decline</div><p>Accept begins Pre-Departure. Decline triggers Mobility Office follow-up.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Admin Command Center</h3>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">One dashboard routes the admin to daily work</div>
+        <div class="flow-mini-grid">
+          <div class="flow-node-card admin"><div class="label">Stats grid</div><div class="title">2x2 metrics</div><p>Total students, pending approvals, active programs, total partners.</p></div>
+          <div class="flow-node-card admin"><div class="label">Activity feed</div><div class="title">Recent actions</div><p>Approved, nominated, rejected, and reviewed records.</p></div>
+          <div class="flow-node-card admin"><div class="label">Quick actions</div><div class="title">Shortcut grid</div><p>Review apps, nominate students, manage programs, view reports.</p></div>
+          <div class="flow-node-card warning"><div class="label">Pending summary</div><div class="title">Needs review</div><p>One-tap access to applications waiting in the queue.</p></div>
+        </div>
+        <div class="flow-track" style="margin-top:14px;">
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Approval Queue</div><p>Review submitted applications.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Nomination Hub</div><p>Nominate approved students.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Tap destination</div><div class="title">Programs / Reports</div><p>Maintain programs and generate reporting outputs.</p></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display); font-size:24px; margin:34px 0 0; font-weight:600;">Report generation</h3>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Report list to final export</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin"><div class="label">Reports screen</div><div class="title">Filter by type</div><p>All, Annual, Quarterly, Evaluation, Survey, Financial.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card admin"><div class="label">Report card</div><div class="title">Open detail</div><p>Tap a report to inspect summary, author, date, and status.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card university"><div class="label">Detail page</div><div class="title">Key metrics</div><p>Total mobility, completion rate, budget used, satisfaction score.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node-card success"><div class="label">Output</div><div class="title">Export / finalize</div><p>Download PDF, Export CSV, Share, or Finalize draft.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card admin"><div class="label">Generate report</div><div class="title">Fresh output</div><p>Generate action shows a visible creation state before the report appears.</p></div>
+          <div class="flow-node-card warning"><div class="label">Draft report</div><div class="title">Finalize first</div><p>Drafts show a Finalize action before external distribution.</p></div>
+        </div>
+      </div>
+    </section>
 
     <section class="sec" id="perms">
       <div class="kicker"><span class="sq"></span>Boundaries</div>
@@ -335,7 +567,7 @@
       <h2>Mobility Program Admin FAQs</h2>
       <div class="faq">
         <details><summary><span>What is the Mobility Program Admin role?</span><span class="pls"></span></summary>
-        <div class="ans">It is the International Office role that manages day-to-day mobility operations: reviewing applications, approving or rejecting them, nominating students to partner universities, maintaining programs and partners, reviewing documents, and generating reports.</div></details>
+        <div class="ans">It is the Mobility Office role that manages day-to-day mobility operations: reviewing applications, approving or rejecting them, nominating students to partner universities, maintaining programs and partners, reviewing documents, and generating reports.</div></details>
 
         <details><summary><span>Is Mobility Program a paid feature?</span><span class="pls"></span></summary>
         <div class="ans">Yes. Mobility Program is a standalone paid module in the Paid Features catalog. When it is Active, the Mobility Program Admin role and related approval, nomination, program, partner, document, and reporting screens are available.</div></details>
@@ -376,5 +608,339 @@
     <circle cx="600" cy="590" r="26" fill="#6FA4EE"/>
   </svg>
 </template>
+<script>
+(function(){
+  if (window.__intotoFlowAnimations) return;
+  window.__intotoFlowAnimations = true;
+
+  var reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches:false };
+  var timerMap = new WeakMap();
+  var roleMeta = {
+    student:{ actor:'Student', badge:'Student action', note:'User-facing step in the student journey.' },
+    admin:{ actor:'Mobility Admin', badge:'Admin action', note:'Operational step handled by Mobility Office staff.' },
+    university:{ actor:'University Admin', badge:'Oversight action', note:'Institutional monitoring and reporting layer.' },
+    decision:{ actor:'Decision Point', badge:'Decision path', note:'The workflow branches based on this outcome.' },
+    flow:{ actor:'System Handoff', badge:'Information moves', note:'The output from one step becomes input for the next.' },
+    step:{ actor:'Workflow Step', badge:'Process step', note:'Part of the end-to-end mobility flow.' }
+  };
+
+  function itemsFor(diagram){
+    return Array.prototype.slice.call(diagram.querySelectorAll('.flow-node-card, .flow-arrow'));
+  }
+
+  function roleFor(item){
+    if (item.classList.contains('flow-arrow')) return 'flow';
+    if (item.classList.contains('student')) return 'student';
+    if (item.classList.contains('admin')) return 'admin';
+    if (item.classList.contains('university')) return 'university';
+    if (item.classList.contains('success') || item.classList.contains('warning') || item.classList.contains('danger')) return 'decision';
+    return 'step';
+  }
+
+  function text(item, selector, fallback){
+    var found = item ? item.querySelector(selector) : null;
+    return found && found.textContent ? found.textContent.trim() : fallback;
+  }
+
+  function nearbyCard(items, index, direction){
+    for (var i = index + direction; i >= 0 && i < items.length; i += direction) {
+      if (items[i].classList.contains('flow-node-card')) return items[i];
+    }
+    return null;
+  }
+
+  function labelFor(item, role){
+    if (role === 'flow') return 'Information moves to the next step';
+    var title = item.querySelector('.title');
+    var label = item.querySelector('.label');
+    return (label ? label.textContent + ': ' : '') + (title ? title.textContent : 'Workflow step');
+  }
+
+  function outcomeFor(item, role){
+    if (item.classList.contains('success')) return 'Outcome: the approved path continues and the next action becomes available.';
+    if (item.classList.contains('danger')) return 'Outcome: the workflow stops here or requires a restart outside this path.';
+    if (item.classList.contains('warning')) return 'Outcome: the team waits for missing details, a draft action, or follow-up.';
+    if (role === 'student') return 'Outcome: the student record, journey stage, or visible app status changes.';
+    if (role === 'admin') return 'Outcome: the admin action updates the operational mobility record.';
+    if (role === 'university') return 'Outcome: leadership sees the effect in dashboards, reports, or oversight views.';
+    if (role === 'flow') return 'Outcome: the next person or screen receives the information needed to continue.';
+    return 'Outcome: the flow advances to the next visible step.';
+  }
+
+  function detailFor(item, role){
+    var title = text(item, '.title', '').toLowerCase();
+    var label = text(item, '.label', '').toLowerCase();
+    if (role === 'flow') {
+      return {
+        info:'Status, documents, notes, and selected records move forward.',
+        review:'Next screen uses the previous step as context.',
+        result:'The next actor can continue without re-entering data.'
+      };
+    }
+    if (title.indexOf('application') >= 0 && (title.indexOf('document') >= 0 || label.indexOf('student') >= 0)) {
+      return {
+        info:'Application form, statement of purpose, transcripts, passport or required documents.',
+        review:'System stores the submission and sends it to the admin queue.',
+        result:'Student enters Application stage and waits for review.'
+      };
+    }
+    if (title.indexOf('approval queue') >= 0) {
+      return {
+        info:'Submitted applications, student name, status, GPA, document state, priority badge.',
+        review:'Admin filters pending items and opens the right application for detail review.',
+        result:'Selected application moves into detailed eligibility review.'
+      };
+    }
+    if (title.indexOf('application detail') >= 0 || title.indexOf('review') >= 0) {
+      return {
+        info:'Student profile, GPA, year, major, destination, documents, eligibility, review notes.',
+        review:'Admin checks completeness, GPA threshold, document validity, and program fit.',
+        result:'Admin is ready to approve, reject, or request more information.'
+      };
+    }
+    if (title.indexOf('approve') >= 0 || title.indexOf('decision') >= 0) {
+      return {
+        info:'Decision action, review notes, application status, and eligibility outcome.',
+        review:'Admin confirms whether requirements are met or whether information is missing.',
+        result:'Approve unlocks nomination. Reject stops the path. Request info keeps review open.'
+      };
+    }
+    if (title.indexOf('reject') >= 0) {
+      return {
+        info:'Rejected status, rejection reason, and applicant record.',
+        review:'Admin confirms the application should not proceed to nomination.',
+        result:'Student sees rejected status and nomination remains unavailable.'
+      };
+    }
+    if (title.indexOf('request') >= 0 || title.indexOf('follow') >= 0) {
+      return {
+        info:'Missing detail, document gap, or clarification request.',
+        review:'Admin pauses final decision until the student responds.',
+        result:'Student receives follow-up notification and review stays open.'
+      };
+    }
+    if (title.indexOf('nomination hub') >= 0 || title.indexOf('eligible') >= 0) {
+      return {
+        info:'Approved students, nominated vs pending counts, partner selection, student eligibility.',
+        review:'Admin checks the student is approved and has not already been nominated.',
+        result:'Student is ready for assignment to a partner university.'
+      };
+    }
+    if (title.indexOf('select partner') >= 0 || title.indexOf('partner') >= 0) {
+      return {
+        info:'Partner university, agreement status, active programs, destination context.',
+        review:'Admin chooses the correct receiving university for the approved student.',
+        result:'Partner destination becomes attached to the nomination.'
+      };
+    }
+    if (title.indexOf('nominate') >= 0) {
+      return {
+        info:'Approved student, selected partner university, nomination action.',
+        review:'Admin confirms the assignment before sending the nomination.',
+        result:'Student journey updates to Nomination and awaits partner acceptance.'
+      };
+    }
+    if (title.indexOf('invitation') >= 0 || title.indexOf('accept') >= 0 || title.indexOf('decline') >= 0) {
+      return {
+        info:'Program, university, semester, funding, deadline, housing choices, response.',
+        review:'Student reviews the offer and confirms whether to continue.',
+        result:'Accept starts Pre-Departure. Decline triggers Mobility Office follow-up.'
+      };
+    }
+    if (title.indexOf('metrics') >= 0 || title.indexOf('stats') >= 0 || title.indexOf('reports') >= 0 || title.indexOf('dashboard') >= 0) {
+      return {
+        info:'Students, pending approvals, programs, partners, budget, completion, satisfaction.',
+        review:'Admins inspect operational health and leadership-level indicators.',
+        result:'Teams can plan follow-up actions and export reporting evidence.'
+      };
+    }
+    return {
+      info:'Relevant record details for this workflow step.',
+      review:'The current actor checks status, completeness, and next action.',
+      result:'The workflow updates and moves to the next step.'
+    };
+  }
+
+  function storyFor(diagram, item, index, total){
+    var role = roleFor(item);
+    var meta = roleMeta[role] || roleMeta.step;
+    var details = detailFor(item, role);
+    if (role === 'flow') {
+      var items = itemsFor(diagram);
+      var previous = nearbyCard(items, index, -1);
+      var next = nearbyCard(items, index, 1);
+      var from = text(previous, '.title', 'previous step');
+      var to = text(next, '.title', 'next step');
+      return {
+        actor:meta.actor,
+        badge:meta.badge,
+        note:meta.note,
+        kicker:'Step ' + (index + 1) + ' of ' + total,
+        title:'Handoff from ' + from + ' to ' + to,
+        copy:'The information created in "' + from + '" becomes the input for "' + to + '".',
+        outcome:outcomeFor(item, role),
+        details:details
+      };
+    }
+    return {
+      actor:meta.actor,
+      badge:meta.badge,
+      note:meta.note,
+      kicker:text(item, '.label', 'Step ' + (index + 1) + ' of ' + total),
+      title:text(item, '.title', 'Workflow step'),
+      copy:text(item, 'p', 'This step explains what the user or team does at this point.'),
+      outcome:outcomeFor(item, role),
+      details:details
+    };
+  }
+
+  function updateStory(diagram, item, index, total){
+    var story = storyFor(diagram, item, index, total);
+    var actor = diagram.querySelector('.flow-story-actor strong');
+    var actorNote = diagram.querySelector('.flow-story-actor small');
+    var actorEye = diagram.querySelector('.flow-story-actor .eyebrow');
+    var kicker = diagram.querySelector('.flow-story-kicker');
+    var title = diagram.querySelector('.flow-story-title');
+    var copy = diagram.querySelector('.flow-story-copy');
+    var outcome = diagram.querySelector('.flow-story-outcome');
+    var progress = diagram.querySelector('.flow-progress-bar');
+    var info = diagram.querySelector('.flow-detail-info span');
+    var review = diagram.querySelector('.flow-detail-review span');
+    var result = diagram.querySelector('.flow-detail-result span');
+    if (actor) actor.textContent = story.actor;
+    if (actorEye) actorEye.textContent = story.badge;
+    if (actorNote) actorNote.textContent = story.note;
+    if (kicker) kicker.textContent = story.kicker;
+    if (title) title.textContent = story.title;
+    if (copy) copy.textContent = story.copy;
+    if (outcome) outcome.textContent = story.outcome;
+    if (progress) progress.style.width = Math.round(((index + 1) / total) * 100) + '%';
+    if (info) info.textContent = story.details.info;
+    if (review) review.textContent = story.details.review;
+    if (result) result.textContent = story.details.result;
+  }
+
+  function clearTimers(diagram){
+    var timers = timerMap.get(diagram) || [];
+    timers.forEach(function(timer){ window.clearTimeout(timer); });
+    timerMap.set(diagram, []);
+  }
+
+  function prepare(diagram){
+    if (diagram.dataset.flowPrepared === 'true') return;
+    diagram.dataset.flowPrepared = 'true';
+    diagram.dataset.flowReady = 'true';
+
+    var title = diagram.querySelector('.diagram-title');
+    var controls = document.createElement('div');
+    controls.className = 'flow-controls';
+    controls.innerHTML = '<div class="flow-legend" aria-label="Flow role legend"><span class="student">Student</span><span class="admin">Mobility Admin</span><span class="university">University Admin</span><span class="decision">Decision</span></div><div class="flow-progress" aria-hidden="true"><div class="flow-progress-bar"></div></div><button class="flow-play" type="button">Play Story</button>';
+    if (title) {
+      title.insertAdjacentElement('afterend', controls);
+    } else {
+      diagram.insertBefore(controls, diagram.firstChild);
+    }
+    var panel = document.createElement('div');
+    panel.className = 'flow-story-panel';
+    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p><div class="flow-story-details"><div class="flow-detail-card flow-detail-info"><b>Information taken</b><span>Application, student, document, or reporting data needed for this step.</span></div><div class="flow-detail-card flow-detail-review"><b>How it is reviewed</b><span>The actor checks completeness, status, eligibility, and next action.</span></div><div class="flow-detail-card flow-detail-result"><b>Decision / result</b><span>The flow updates and moves to the next person or screen.</span></div></div></div>';
+    controls.insertAdjacentElement('afterend', panel);
+
+    var button = controls.querySelector('.flow-play');
+    button.addEventListener('click', function(){ play(diagram, true); });
+
+    itemsFor(diagram).forEach(function(item, index){
+      var role = roleFor(item);
+      var meta = roleMeta[role] || roleMeta.step;
+      item.dataset.flowStep = String(index + 1);
+      item.dataset.flowRole = role;
+      if (!item.classList.contains('flow-arrow')) item.dataset.flowRoleLabel = meta.badge;
+      item.setAttribute('aria-label', labelFor(item, role));
+      item.classList.add('flow-seen');
+    });
+    var first = itemsFor(diagram)[0];
+    if (first) updateStory(diagram, first, 0, itemsFor(diagram).length);
+  }
+
+  function finish(diagram){
+    diagram.dataset.flowPlaying = 'false';
+    diagram.classList.add('flow-complete');
+    var button = diagram.querySelector('.flow-play');
+    if (button) {
+      button.disabled = false;
+      button.textContent = 'Replay Story';
+    }
+  }
+
+  function play(diagram, manual){
+    prepare(diagram);
+    clearTimers(diagram);
+
+    var items = itemsFor(diagram);
+    var button = diagram.querySelector('.flow-play');
+    var progress = diagram.querySelector('.flow-progress-bar');
+    diagram.classList.remove('flow-complete');
+    diagram.dataset.flowPlaying = 'true';
+    if (progress) progress.style.width = '0%';
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Playing Story...';
+    }
+
+    items.forEach(function(item){
+      item.classList.remove('flow-seen', 'flow-active');
+    });
+
+    if (reducedMotion.matches) {
+      items.forEach(function(item){ item.classList.add('flow-seen'); });
+      finish(diagram);
+      return;
+    }
+
+    var timers = [];
+    items.forEach(function(item, index){
+      timers.push(window.setTimeout(function(){
+        items.forEach(function(other){ other.classList.remove('flow-active'); });
+        item.classList.add('flow-seen', 'flow-active');
+        updateStory(diagram, item, index, items.length);
+      }, 180 + index * 520));
+    });
+    timers.push(window.setTimeout(function(){
+      items.forEach(function(item){ item.classList.remove('flow-active'); });
+      finish(diagram);
+    }, 520 + items.length * 520));
+    timerMap.set(diagram, timers);
+
+    if (manual) {
+      diagram.scrollIntoView({ block:'nearest', behavior:reducedMotion.matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  function init(){
+    var diagrams = Array.prototype.slice.call(document.querySelectorAll('.flow-visual[data-flow-animated]'));
+    diagrams.forEach(prepare);
+
+    if (!('IntersectionObserver' in window)) {
+      diagrams.forEach(function(diagram){ play(diagram, false); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting || entry.target.dataset.flowAutoplayed === 'true') return;
+        entry.target.dataset.flowAutoplayed = 'true';
+        play(entry.target, false);
+      });
+    }, { threshold:.35 });
+
+    diagrams.forEach(function(diagram){ observer.observe(diagram); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>

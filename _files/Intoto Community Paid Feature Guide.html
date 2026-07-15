@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Community Paid Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<link href="feature-page.css" rel="stylesheet">
+</head>
+<body class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · COMMUNITY</div>
+    <h1>Community: groups, posts, engagement, and safe moderation.</h1>
+    <p class="sub">Client-facing feature page explaining exactly what users can do inside Community: create or request groups, join approved spaces, publish posts with text, images, video, and documents, comment, reply, share, report, and keep the experience governed by coordinators.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Community Coordinators · Third-Party Coordinators</div>
+      <div><b>Admin owner</b>Community Coordinator / University Super Admin</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="Intoto%20Paid%20Features%20Guide.html#feat-community">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Community</div>
+    <a href="#overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#capabilities"><span class="toc-num">02</span>What users can do</a>
+    <a href="#flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#governance"><span class="toc-num">04</span>Governance</a>
+    <a href="#faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+
+  <main>
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>A university-owned social layer for campus groups.</h2>
+      <p class="sec-lead">Community gives the university a governed place for students, staff, and third-party partners to discover groups, join discussions, share useful content, and build belonging without moving conversations to unmanaged public channels.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Community is Active, the app unlocks Feed, Explore, My Community, community profiles, community creation, pending request review, post creation, likes, comments, replies, sharing, report handling, and notifications. When inactive, those surfaces are hidden from students and staff.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">3</div><div class="l">Core sections: Feed, Explore, My Community</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Post formats: text, image, video, document</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Creation paths: instant staff create or user request</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Moderated campus-owned community space</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> Community helps the university sell belonging. Students do not just receive announcements; they join real groups, ask questions, post media, reply to peers, and build a campus network inside Intoto.</p>
+    </section>
+
+    <section class="sec" id="capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Every visible action in the Community feature.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Discover</div><h4>Explore approved communities</h4><p>Users browse available university communities, open community profiles, read descriptions and rules, view member counts, and join relevant groups.</p></div>
+        <div class="cap-card"><div class="cap-label">Create</div><h4>Create or request a community</h4><p>Coordinators and Super Admins can publish communities instantly. Students and Third-Party Coordinators submit requests that wait for approval.</p></div>
+        <div class="cap-card"><div class="cap-label">Post</div><h4>Publish content in joined groups</h4><p>Members can create text posts, image posts, video posts, document posts, and event-style share cards inside active communities.</p></div>
+        <div class="cap-card"><div class="cap-label">Engage</div><h4>Like, comment, and reply</h4><p>Users like posts, open like lists, comment, like comments, reply to comments, like replies, and continue discussions inside the community thread.</p></div>
+        <div class="cap-card"><div class="cap-label">Share</div><h4>Share posts and community content</h4><p>Content can be shared to eligible community or chat contexts where sharing is available, helping useful posts travel without losing source context.</p></div>
+        <div class="cap-card"><div class="cap-label">Protect</div><h4>Report and moderate content</h4><p>Users can report posts from the three-dot menu. Coordinators review reports, remove inappropriate content, and keep community standards clear.</p></div>
+      </div>
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Detailed functionality map</h4>
+      <table>
+        <thead><tr><th>Area</th><th>Detailed functionality</th><th>What the client can explain</th></tr></thead>
+        <tbody>
+          <tr><td><b>Community profile</b></td><td>Community name, description, rules, members/followers, posts, creator/admin context, and join state.</td><td>Every community has a clear home page, not only a feed item.</td></tr>
+          <tr><td><b>Join flow</b></td><td>Users discover approved communities, review details, and join so the group's posts appear in their Feed.</td><td>Students control which conversations they follow.</td></tr>
+          <tr><td><b>Staff creation</b></td><td>Community Coordinators and University Super Admins create official groups that publish immediately.</td><td>Official university spaces can be launched quickly for intake, clubs, cohorts, or services.</td></tr>
+          <tr><td><b>User request</b></td><td>Students and Third-Party Coordinators submit name, topic, description, audience, and purpose for approval.</td><td>Student-led communities are encouraged but governed.</td></tr>
+          <tr><td><b>Post creation</b></td><td>Members post text, single image, multiple images, video, document attachments, and shared event cards where enabled.</td><td>The community is media-rich enough for real campus communication.</td></tr>
+          <tr><td><b>Comment threads</b></td><td>Users comment on posts, reply to comments, like comments, like replies, and keep discussions connected to the original post.</td><td>Discussion is structured, not scattered across separate messages.</td></tr>
+          <tr><td><b>Sharing</b></td><td>Users share posts to eligible chat or community destinations where the app allows sharing.</td><td>Useful content can travel while preserving its source context.</td></tr>
+          <tr><td><b>Reporting</b></td><td>Users report inappropriate posts through the post menu with the reason/context captured for review.</td><td>Students get a safety mechanism, and staff get a moderation queue.</td></tr>
+          <tr><td><b>Moderation</b></td><td>Coordinators review reports, remove content, reject community requests, archive communities, or follow up with creators.</td><td>The university owns standards and can keep the community healthy.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How Community works from request to engagement.</h2>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Community creation and approval flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student or Third-Party Coordinator" data-info="Community name, topic/category, description, audience, rules, and reason for creating the group." data-review="The request is checked for duplication, relevance to campus life, policy fit, and safety risk." data-result="A pending community request is created and routed to the coordinator/admin queue."><div class="label">User request</div><div class="title">Submit community request</div><p>A non-staff user proposes a new community from My Community.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Community Coordinator" data-info="Requested title, description, creator profile, intended members, rules, and university policy context." data-review="Coordinator checks whether the group is appropriate, unique, useful, and safe for students." data-result="Coordinator can approve, reject, or ask the requester to revise details."><div class="label">Admin queue</div><div class="title">Review pending request</div><p>The request waits in the approval queue until a coordinator acts.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Coordinator decision" data-info="Approval action, optional notes, visibility settings, and requester notification." data-review="Approval confirms the community can become discoverable to relevant users." data-result="The community becomes Active, appears in Explore, and can be joined by users."><div class="label">Approve</div><div class="title">Publish community</div><p>Approved communities become visible and joinable.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Student" data-info="Community listing, profile details, member count, rules, and join action." data-review="The user reviews whether the community matches their interest before joining." data-result="Joined-community posts start appearing in Feed."><div class="label">Engagement</div><div class="title">Join and follow posts</div><p>Users join the group and start seeing community content.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card admin" data-actor="Coordinator / Super Admin" data-info="Community title, description, category, rules, cover content, and visibility." data-review="Trusted staff creation is treated as already approved because the creator owns governance." data-result="Community publishes instantly without the pending request step."><div class="label">Staff path</div><div class="title">Instant staff-created community</div><p>Official communities can be created immediately by authorized staff.</p></div>
+          <div class="flow-node-card danger" data-actor="Coordinator decision" data-info="Rejection reason and policy or duplication note." data-review="Coordinator confirms why the community should not go live." data-result="Requester receives rejection notification; the community remains unavailable to others."><div class="label">Reject path</div><div class="title">Do not publish</div><p>Rejected requests stay hidden and cannot be joined.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Post, media, comments, replies, and moderation flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Community member" data-info="Post text, selected community, optional image, video, document, or shared event card." data-review="App checks the user is a member of an Active community and has attached supported content." data-result="The post is published in the community feed with media or document preview."><div class="label">Create post</div><div class="title">Text, image, video, or document</div><p>Members publish useful content inside joined communities.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Community members" data-info="Like tap, comment text, image-in-comment where supported, reply text, and reply like action." data-review="The thread stores engagement under the original post so context is not lost." data-result="Likes, comments, replies, and reply likes update the visible discussion."><div class="label">Engage</div><div class="title">Like, comment, and reply</div><p>Discussions grow around the original post.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Community member" data-info="Share target, source post, and the destination context such as chat or another eligible community." data-review="The app keeps the shared item tied to the original post context." data-result="The content reaches more users without copying it into unmanaged channels."><div class="label">Share</div><div class="title">Share post onward</div><p>Useful content can be reused in other eligible contexts.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Community Coordinator" data-info="Report reason, reported post/comment, reporter, creator, timestamp, and community rules." data-review="Coordinator checks whether content violates policy or requires no action." data-result="Content is removed, left visible, or followed up with the creator depending on the review."><div class="label">Moderate</div><div class="title">Review reports</div><p>Reported content is triaged by the coordinator/admin team.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="governance">
+      <div class="kicker"><span class="sq"></span>Governance</div>
+      <h2>Clear ownership keeps community safe.</h2>
+      <table>
+        <thead><tr><th>Role</th><th>Responsibility</th><th>Important boundary</th></tr></thead>
+        <tbody>
+          <tr><td><b>Student</b></td><td>Join communities, request new communities, post, like, comment, reply, share, report.</td><td>Student-created communities require approval before becoming visible.</td></tr>
+          <tr><td><b>Third-Party Coordinator</b></td><td>Request communities, join relevant groups, post and engage, receive suggestions.</td><td>Creation requests follow the same approval path as students.</td></tr>
+          <tr><td><b>Community Coordinator</b></td><td>Create official communities, approve/reject requests, moderate content, review reports, delete/archive where needed.</td><td>Owns day-to-day safety and engagement health.</td></tr>
+          <tr><td><b>University Super Admin</b></td><td>University-wide oversight, official creation, request clearing, moderation authority.</td><td>Can supervise the full tenant experience.</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Community combines social engagement with approval gates, so universities get student-led energy without losing control.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Active module exposes Community surfaces; pending groups remain hidden; approved groups are joinable; post actions work only in active/joined communities.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A safe campus social network where students create belonging and staff keep it healthy."</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Community questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Can students create their own communities?</span><span class="pls"></span></summary><div class="ans">Yes. Students can submit a community creation request with the community name, topic, description, audience, and purpose. The community is not visible to others until a Community Coordinator or University Super Admin approves it.</div></details>
+        <details><summary><span>Can staff create official groups instantly?</span><span class="pls"></span></summary><div class="ans">Yes. Community Coordinators and University Super Admins can create official communities directly because those roles are trusted governance owners. These communities can go live without waiting in the student-request queue.</div></details>
+        <details><summary><span>Can Third-Party Coordinators request communities?</span><span class="pls"></span></summary><div class="ans">Yes. Third-Party Coordinators can request a community where the university allows that role to participate. Their request follows the same approval path as a student request.</div></details>
+        <details><summary><span>What happens before a requested community is approved?</span><span class="pls"></span></summary><div class="ans">The community stays in a pending state and is not discoverable by other users. The requester and approving staff can see the request, while normal users cannot join or post in it.</div></details>
+        <details><summary><span>What can users do after joining a community?</span><span class="pls"></span></summary><div class="ans">Joined users can see that community's posts in their Feed, open the community profile, publish allowed post types, like posts, comment, reply, share, and report inappropriate content.</div></details>
+        <details><summary><span>What types of posts are supported?</span><span class="pls"></span></summary><div class="ans">Community supports text posts plus media and attachment-style posts such as single images, multiple images, videos, documents, and shareable event cards where Event Management sharing is enabled.</div></details>
+        <details><summary><span>Can users comment and reply?</span><span class="pls"></span></summary><div class="ans">Yes. Users can comment on posts, reply to comments, like comments, like replies, and keep discussions attached to the original post instead of creating disconnected conversations.</div></details>
+        <details><summary><span>Can users share a community post to Chat?</span><span class="pls"></span></summary><div class="ans">Yes, when Chat is Active and sharing is allowed. Sharing a community post into Chat keeps the post context available for private or group follow-up.</div></details>
+        <details><summary><span>Can events be shared inside communities?</span><span class="pls"></span></summary><div class="ans">Yes, where Event Management and Community are both Active and the app enables event sharing. The event can appear as a shareable event card inside the selected community.</div></details>
+        <details><summary><span>Can users see who liked a post?</span><span class="pls"></span></summary><div class="ans">The Community experience can expose like-count details so users can understand engagement around a post. Where user lists are available, tapping the like count can open profiles subject to privacy and role permissions.</div></details>
+        <details><summary><span>How is unsafe content reported?</span><span class="pls"></span></summary><div class="ans">Users report inappropriate content from the post menu. The report carries the post context and reason to the coordinator/admin review process.</div></details>
+        <details><summary><span>Who moderates community content?</span><span class="pls"></span></summary><div class="ans">Community Coordinators and University Super Admins own moderation. They can review reports, remove inappropriate content, reject requests, archive communities, and follow up where needed.</div></details>
+        <details><summary><span>Can a university have multiple Community Coordinators?</span><span class="pls"></span></summary><div class="ans">Yes. A university can staff the Community module as a team. Multiple coordinators can share responsibility for creation, approvals, reports, and moderation.</div></details>
+        <details><summary><span>How does Community help students?</span><span class="pls"></span></summary><div class="ans">Students get a university-owned place to find peers, ask questions, join interest groups, share experiences, and receive information through communities they actually care about.</div></details>
+        <details><summary><span>What happens when the Community module is inactive?</span><span class="pls"></span></summary><div class="ans">Community navigation, group discovery, create/join flows, feeds, posting, comments, replies, sharing, reporting, and moderation surfaces are hidden for that university.</div></details>
+      </div>
+    </section>
+
+    <footer>
+      <span>Intoto · Community Paid Feature Guide</span>
+      <span>Client-facing feature detail</span>
+    </footer>
+  </main>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0E1623"/>
+    <circle cx="360" cy="300" r="70" fill="none" stroke="#8E76E6" stroke-width="6"/>
+    <circle cx="600" cy="300" r="70" fill="none" stroke="#5C95E8" stroke-width="6"/>
+    <circle cx="840" cy="300" r="70" fill="none" stroke="#46B07C" stroke-width="6"/>
+    <rect x="260" y="460" width="680" height="72" rx="18" fill="none" stroke="#BCA9F0" stroke-width="6"/>
+  </svg>
+</template>
+<script src="feature-flow.js"></script>
+</body>
+</html>

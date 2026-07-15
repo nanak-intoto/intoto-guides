@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · User Management Paid Feature Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="guide.css" rel="stylesheet">
+<link href="feature-page.css" rel="stylesheet">
+</head>
+<body class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · USER MANAGEMENT</div>
+    <h1>User Management: seats, invites, roles, and profile review.</h1>
+    <p class="sub">The foundation module for onboarding people into Intoto. It controls licensed capacity, invitation flows, user directories, role assignment, profile review, and utilization visibility.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>University Super Admin · All invited users</div>
+      <div><b>Admin owner</b>University Super Admin</div>
+      <div><b>Commercial model</b>Standalone seat-based module</div>
+    </div>
+    <a class="feature-nav-link" href="Intoto%20Paid%20Features%20Guide.html#feat-usermgmt">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Users</div>
+    <a href="#overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#capacity"><span class="toc-num">04</span>Capacity</a>
+    <a href="#faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>The module every tenant needs before inviting people.</h2>
+      <p class="sec-lead">User Management lets a university control who enters Intoto and how many users are allowed under the contract. It supports individual invites, bulk invite/import, role assignment, profile review, suspension, and utilization reporting.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks Manage User, Invite Data, Profile Review, Add User, bulk invites, capacity tracking, domestic/international split where configured, and dashboard people counts. When inactive, user onboarding tools are unavailable.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">5k</div><div class="l">Example total licensed capacity</div></div>
+          <div class="stat"><div class="n">20%</div><div class="l">Example utilization visibility</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Optional domestic and international buckets</div></div>
+          <div class="stat"><div class="n">All</div><div class="l">Roles depend on invite and seat control</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> User Management is the commercial control point. It lets the university see exactly how much of the purchased capacity is used and prevents uncontrolled onboarding beyond the contract.</p>
+    </section>
+
+    <section class="sec" id="capabilities">
+      <div class="kicker"><span class="sq"></span>What admins can do</div>
+      <h2>Every invitation and role begins here.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Invite</div><h4>Add one user</h4><p>Admins invite a person with email, name, role, campus, student/staff type, and required profile fields.</p></div>
+        <div class="cap-card"><div class="cap-label">Bulk</div><h4>Upload invite data</h4><p>Bulk invite supports intake waves so universities can onboard large cohorts without manual entry.</p></div>
+        <div class="cap-card"><div class="cap-label">Roles</div><h4>Assign correct access</h4><p>Users receive role-specific access such as Student, Ambassador, Coordinator, Third-Party Coordinator, or admin roles.</p></div>
+        <div class="cap-card"><div class="cap-label">Capacity</div><h4>Enforce seat limits</h4><p>The system tracks invited users against purchased capacity and can block or warn when the limit is reached.</p></div>
+        <div class="cap-card"><div class="cap-label">Review</div><h4>Profile review</h4><p>Admins inspect submitted profiles, verify required details, and resolve incomplete or incorrect records.</p></div>
+        <div class="cap-card"><div class="cap-label">Suspend</div><h4>Control access lifecycle</h4><p>Admins can suspend or manage users when access should change after intake, graduation, or policy action.</p></div>
+      </div>
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Detailed functionality map</h4>
+      <table>
+        <thead><tr><th>Area</th><th>Detailed functionality</th><th>What the client can explain</th></tr></thead>
+        <tbody>
+          <tr><td><b>Invite data</b></td><td>Name, email, role, campus, student/staff type, domestic/international bucket, and optional cohort/program metadata.</td><td>Every user starts from controlled university-provided data.</td></tr>
+          <tr><td><b>Bulk onboarding</b></td><td>Admins upload or prepare invite batches for large student intakes, staff groups, ambassadors, or coordinators.</td><td>Large universities do not need to invite every user manually.</td></tr>
+          <tr><td><b>Role assignment</b></td><td>Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, Third-Party Coordinator, Mobility Program Admin, University Admin, and related roles where enabled.</td><td>Access is shaped by role, not by one generic user account.</td></tr>
+          <tr><td><b>Capacity enforcement</b></td><td>Total capacity and optional domestic/international limits are checked before inviting or activating more users.</td><td>The university cannot silently exceed the purchased contract.</td></tr>
+          <tr><td><b>Profile review</b></td><td>Admins check completed profiles, missing fields, wrong details, duplicate records, and suspicious or incomplete information.</td><td>Bad records can be corrected before they affect operations.</td></tr>
+          <tr><td><b>Suspension</b></td><td>Admins can suspend access when a user graduates, leaves, changes role, violates policy, or should no longer access the tenant.</td><td>User lifecycle is governed beyond initial invitation.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How user information is checked before access is granted.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Invite, capacity, and profile review flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card university" data-actor="University Super Admin" data-info="User name, email, role, campus, user type, domestic/international bucket, and invite source." data-review="Admin confirms the person belongs to the university and chooses the correct role." data-result="Invite is ready for capacity validation."><div class="label">Invite</div><div class="title">Prepare user invite</div><p>Admin creates an individual or bulk invite.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="User Management system" data-info="Total capacity, current invited count, domestic count, international count, role, and contract entitlement." data-review="System compares the new invite against purchased limits and configured buckets." data-result="Invite proceeds if capacity remains; otherwise it is blocked or requires contract update."><div class="label">Check</div><div class="title">Validate capacity</div><p>Seat usage is checked before onboarding continues.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Invited user" data-info="Invite email, profile fields, identity details, academic or staff information, and consent where required." data-review="User completes onboarding information requested by the university." data-result="Profile enters review or becomes available depending on configured process."><div class="label">Onboard</div><div class="title">Complete profile</div><p>User fills required details after receiving the invite.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="University Super Admin" data-info="Completed profile, role, campus, required fields, status, and verification notes." data-review="Admin checks profile correctness and resolves incomplete or suspicious records." data-result="Approved user receives the correct role access in Intoto."><div class="label">Approve</div><div class="title">Profile review</div><p>Admin validates user data before full operational use.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card warning" data-actor="University Super Admin" data-info="Missing field, invalid data, duplicate email, or unclear role." data-review="Admin checks what is missing and asks the user or intake owner to correct it." data-result="Profile remains pending until corrected."><div class="label">Incomplete</div><div class="title">Request correction</div><p>Bad records are fixed before approval.</p></div>
+          <div class="flow-node-card danger" data-actor="System / Admin" data-info="Current utilization, purchased capacity, and attempted invite count." data-review="System detects the university has reached the licensed limit." data-result="Invite is blocked until capacity is increased or users are removed/suspended per policy."><div class="label">Limit</div><div class="title">Capacity reached</div><p>Over-inviting is prevented.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="capacity">
+      <div class="kicker"><span class="sq"></span>Capacity model</div>
+      <h2>What the Features card shows.</h2>
+      <table>
+        <thead><tr><th>Field</th><th>Meaning</th><th>Client value</th></tr></thead>
+        <tbody>
+          <tr><td><b>Total Capacity</b></td><td>Maximum number of licensed users.</td><td>Commercial clarity before large intake periods.</td></tr>
+          <tr><td><b>Utilization</b></td><td>How many users have been invited or consumed.</td><td>Admins know remaining capacity instantly.</td></tr>
+          <tr><td><b>Domestic users</b></td><td>Bucket for domestic user allocation where configured.</td><td>Supports split pricing or operational segmentation.</td></tr>
+          <tr><td><b>International users</b></td><td>Bucket for international user allocation where configured.</td><td>Useful for universities with distinct intake groups.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>User Management questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>What is User Management?</span><span class="pls"></span></summary><div class="ans">User Management is the paid module for inviting users, assigning roles, controlling licensed capacity, reviewing profiles, and managing user access across the university tenant.</div></details>
+        <details><summary><span>Is User Management required to invite users?</span><span class="pls"></span></summary><div class="ans">Yes. It unlocks Manage User, Invite Data, Add User, bulk invite, profile review, and capacity tracking. Without it, the university cannot run normal onboarding inside Intoto.</div></details>
+        <details><summary><span>What information is used for an invite?</span><span class="pls"></span></summary><div class="ans">Invite data can include name, email, role, campus, student/staff type, domestic or international bucket, cohort, and other metadata the university needs for onboarding.</div></details>
+        <details><summary><span>Can admins invite users one by one?</span><span class="pls"></span></summary><div class="ans">Yes. The Add User flow supports inviting individual users when the university needs precise control for a student, staff member, coordinator, or ambassador.</div></details>
+        <details><summary><span>Can admins invite users in bulk?</span><span class="pls"></span></summary><div class="ans">Yes. Bulk invite or Invite Data supports large intake waves, staff groups, or cohort onboarding. This is important for universities that need to invite hundreds or thousands of users.</div></details>
+        <details><summary><span>What roles can be assigned?</span><span class="pls"></span></summary><div class="ans">Roles can include Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, Third-Party Coordinator, Third-Party Sub Coordinator, Mobility Program Admin, University Admin, and University Super Admin where the tenant has those modules enabled.</div></details>
+        <details><summary><span>How does capacity work?</span><span class="pls"></span></summary><div class="ans">Capacity is the number of users the university has licensed. The module tracks invited or consumed seats against that limit and shows utilization so admins know how much capacity remains.</div></details>
+        <details><summary><span>What happens when capacity is reached?</span><span class="pls"></span></summary><div class="ans">The system prevents uncontrolled onboarding. The university can increase capacity commercially or reduce active invited users according to policy.</div></details>
+        <details><summary><span>What are domestic and international buckets?</span><span class="pls"></span></summary><div class="ans">Some tenants may track domestic and international user limits separately. This helps universities manage different intake groups or commercial tiers while still showing total utilization.</div></details>
+        <details><summary><span>What is Profile Review?</span><span class="pls"></span></summary><div class="ans">Profile Review is the admin process for checking completed user profiles, required fields, academic or staff details, missing data, and suspicious or incorrect records before the user is fully trusted operationally.</div></details>
+        <details><summary><span>Can admins suspend users?</span><span class="pls"></span></summary><div class="ans">Yes. Suspension lets the university control access when a user graduates, leaves, changes role, violates policy, or no longer belongs in the tenant.</div></details>
+        <details><summary><span>Does User Management control paid feature access?</span><span class="pls"></span></summary><div class="ans">User Management controls people and seats. Other paid features control module functionality. A user can only access feature-specific tools when both the role and the related module are available.</div></details>
+        <details><summary><span>Can the university see utilization on the Features card?</span><span class="pls"></span></summary><div class="ans">Yes. The User Management card can show total capacity, utilization, invited count, and domestic/international usage where configured. This gives commercial visibility to the University Super Admin.</div></details>
+        <details><summary><span>Why is User Management usually purchased first?</span><span class="pls"></span></summary><div class="ans">Most other modules need people to be invited before they can be used. User Management is the foundation for onboarding students, staff, ambassadors, coordinators, and partner roles.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">User invitation, bulk invite, directory management, profile review, capacity tracking, role onboarding, and access lifecycle surfaces are unavailable for the university.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · User Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+<template id="__bundler_thumbnail" data-bg-color="#0E1623">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0E1623"/><rect x="280" y="240" width="640" height="320" rx="22" fill="none" stroke="#8E76E6" stroke-width="6"/><circle cx="430" cy="390" r="52" fill="none" stroke="#5C95E8" stroke-width="6"/><circle cx="600" cy="390" r="52" fill="none" stroke="#46B07C" stroke-width="6"/><circle cx="770" cy="390" r="52" fill="none" stroke="#E9B949" stroke-width="6"/></svg>
+</template>
+<script src="feature-flow.js"></script>
+</body>
+</html>
