@@ -601,6 +601,43 @@ def ensure_pf_scoped_css(html: str) -> str:
     return html
 
 
+def ensure_flow_visual_css(html: str) -> str:
+    """Shared visual flow diagram styles used by Mobility Program sections."""
+    if ".flow-visual .diagram-title" in html:
+        return html
+    block = """
+  /* Visual flow diagrams */
+  .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
+  .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
+  .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
+  .flow-node-card p{ font-size:14px; line-height:1.42; margin:8px 0 0; color:var(--muted); }
+  .flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+  .flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+  .flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+  .flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+  .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+  .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+  .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:760px; }
+  .flow-lane{ border:1px dashed var(--line); border-radius:16px; padding:14px; background:#fff; }
+  .flow-lane h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 12px; color:var(--muted); }
+  .flow-lane .flow-node-card{ margin-top:10px; min-width:0; }
+  .flow-lane .flow-node-card:first-of-type{ margin-top:0; }
+  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:760px; }
+  .flow-mini-grid .flow-node-card{ min-width:0; }
+  @media (max-width:980px){
+    .flow-visual{ padding:18px; }
+    .flow-track, .flow-branches, .flow-lanes, .flow-mini-grid{ min-width:680px; }
+  }
+"""
+    return html.replace("</style>", block + "</style>", 1)
+
+
 def sync_merged_usa_hub(html: str) -> str:
     """Hub deltas after merging University Admin into University Super Admin."""
     patches = [
@@ -703,6 +740,7 @@ def update_all_in_one() -> str:
     html = ensure_usa_scoped_css(html)
     html = ensure_extamb_scoped_css(html)
     html = ensure_pf_scoped_css(html)
+    html = ensure_flow_visual_css(html)
     html = patch_ambplat_faq(html)
     html = patch_inline_guide_links(html)
     html = ensure_anchor_navigation(html)
@@ -805,6 +843,8 @@ def main() -> None:
     assert 'data-anchor="pf-feat-community"' in html, "hub feature-card anchors missing"
     assert 'data-anchor="pf-feat-mobility"' in html, "mobility feature-card anchor missing"
     assert 'id="mobility-overview"' in html, "mobility guide content missing"
+    assert ".flow-visual .diagram-title" in html, "flow visual styles missing"
+    assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
     assert "Profile review" in html or "Profile Review" in html
