@@ -653,6 +653,10 @@ def ensure_flow_animation_assets(html: str) -> str:
   .flow-story-title{ font-family:var(--font-display); font-size:24px; line-height:1.16; margin:6px 0 0; color:var(--ink); }
   .flow-story-copy{ margin:8px 0 0; font-size:15px; line-height:1.5; color:var(--muted); }
   .flow-story-outcome{ margin:10px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+  .flow-story-details{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+  .flow-detail-card{ border:1px solid var(--line-soft); border-radius:12px; padding:12px; background:#fff; }
+  .flow-detail-card b{ display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .flow-detail-card span{ display:block; font-size:13px; line-height:1.38; color:var(--ink-soft); }
   .flow-progress{ flex:1; height:8px; border-radius:999px; background:var(--line-soft); overflow:hidden; min-width:140px; }
   .flow-progress-bar{ height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg,var(--product),var(--qa),var(--plat)); transition:width .48s ease; }
   .flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
@@ -697,7 +701,7 @@ def ensure_flow_animation_assets(html: str) -> str:
   }
   @media (max-width:980px){
     .flow-controls, .flow-story-panel{ min-width:680px; }
-    .flow-story-panel{ grid-template-columns:1fr; }
+    .flow-story-panel, .flow-story-details{ grid-template-columns:1fr; }
   }
   @media (prefers-reduced-motion:reduce){
     .flow-play{ display:none; }
@@ -709,7 +713,7 @@ def ensure_flow_animation_assets(html: str) -> str:
     .flow-progress-bar{ transition:none; }
   }
 """
-    if ".flow-story-panel" not in html:
+    if ".flow-detail-card" not in html:
         html = html.replace("</style>", css + "</style>", 1)
 
     script = """
@@ -772,9 +776,104 @@ def ensure_flow_animation_assets(html: str) -> str:
     return 'Outcome: the flow advances to the next visible step.';
   }
 
+  function detailFor(item, role){
+    var title = text(item, '.title', '').toLowerCase();
+    var label = text(item, '.label', '').toLowerCase();
+    if (role === 'flow') {
+      return {
+        info:'Status, documents, notes, and selected records move forward.',
+        review:'Next screen uses the previous step as context.',
+        result:'The next actor can continue without re-entering data.'
+      };
+    }
+    if (title.indexOf('application') >= 0 && (title.indexOf('document') >= 0 || label.indexOf('student') >= 0)) {
+      return {
+        info:'Application form, statement of purpose, transcripts, passport or required documents.',
+        review:'System stores the submission and sends it to the admin queue.',
+        result:'Student enters Application stage and waits for review.'
+      };
+    }
+    if (title.indexOf('approval queue') >= 0) {
+      return {
+        info:'Submitted applications, student name, status, GPA, document state, priority badge.',
+        review:'Admin filters pending items and opens the right application for detail review.',
+        result:'Selected application moves into detailed eligibility review.'
+      };
+    }
+    if (title.indexOf('application detail') >= 0 || title.indexOf('review') >= 0) {
+      return {
+        info:'Student profile, GPA, year, major, destination, documents, eligibility, review notes.',
+        review:'Admin checks completeness, GPA threshold, document validity, and program fit.',
+        result:'Admin is ready to approve, reject, or request more information.'
+      };
+    }
+    if (title.indexOf('approve') >= 0 || title.indexOf('decision') >= 0) {
+      return {
+        info:'Decision action, review notes, application status, and eligibility outcome.',
+        review:'Admin confirms whether requirements are met or whether information is missing.',
+        result:'Approve unlocks nomination. Reject stops the path. Request info keeps review open.'
+      };
+    }
+    if (title.indexOf('reject') >= 0) {
+      return {
+        info:'Rejected status, rejection reason, and applicant record.',
+        review:'Admin confirms the application should not proceed to nomination.',
+        result:'Student sees rejected status and nomination remains unavailable.'
+      };
+    }
+    if (title.indexOf('request') >= 0 || title.indexOf('follow') >= 0) {
+      return {
+        info:'Missing detail, document gap, or clarification request.',
+        review:'Admin pauses final decision until the student responds.',
+        result:'Student receives follow-up notification and review stays open.'
+      };
+    }
+    if (title.indexOf('nomination hub') >= 0 || title.indexOf('eligible') >= 0) {
+      return {
+        info:'Approved students, nominated vs pending counts, partner selection, student eligibility.',
+        review:'Admin checks the student is approved and has not already been nominated.',
+        result:'Student is ready for assignment to a partner university.'
+      };
+    }
+    if (title.indexOf('select partner') >= 0 || title.indexOf('partner') >= 0) {
+      return {
+        info:'Partner university, agreement status, active programs, destination context.',
+        review:'Admin chooses the correct receiving university for the approved student.',
+        result:'Partner destination becomes attached to the nomination.'
+      };
+    }
+    if (title.indexOf('nominate') >= 0) {
+      return {
+        info:'Approved student, selected partner university, nomination action.',
+        review:'Admin confirms the assignment before sending the nomination.',
+        result:'Student journey updates to Nomination and awaits partner acceptance.'
+      };
+    }
+    if (title.indexOf('invitation') >= 0 || title.indexOf('accept') >= 0 || title.indexOf('decline') >= 0) {
+      return {
+        info:'Program, university, semester, funding, deadline, housing choices, response.',
+        review:'Student reviews the offer and confirms whether to continue.',
+        result:'Accept starts Pre-Departure. Decline triggers Mobility Office follow-up.'
+      };
+    }
+    if (title.indexOf('metrics') >= 0 || title.indexOf('stats') >= 0 || title.indexOf('reports') >= 0 || title.indexOf('dashboard') >= 0) {
+      return {
+        info:'Students, pending approvals, programs, partners, budget, completion, satisfaction.',
+        review:'Admins inspect operational health and leadership-level indicators.',
+        result:'Teams can plan follow-up actions and export reporting evidence.'
+      };
+    }
+    return {
+      info:'Relevant record details for this workflow step.',
+      review:'The current actor checks status, completeness, and next action.',
+      result:'The workflow updates and moves to the next step.'
+    };
+  }
+
   function storyFor(diagram, item, index, total){
     var role = roleFor(item);
     var meta = roleMeta[role] || roleMeta.step;
+    var details = detailFor(item, role);
     if (role === 'flow') {
       var items = itemsFor(diagram);
       var previous = nearbyCard(items, index, -1);
@@ -788,7 +887,8 @@ def ensure_flow_animation_assets(html: str) -> str:
         kicker:'Step ' + (index + 1) + ' of ' + total,
         title:'Handoff from ' + from + ' to ' + to,
         copy:'The information created in "' + from + '" becomes the input for "' + to + '".',
-        outcome:outcomeFor(item, role)
+        outcome:outcomeFor(item, role),
+        details:details
       };
     }
     return {
@@ -798,7 +898,8 @@ def ensure_flow_animation_assets(html: str) -> str:
       kicker:text(item, '.label', 'Step ' + (index + 1) + ' of ' + total),
       title:text(item, '.title', 'Workflow step'),
       copy:text(item, 'p', 'This step explains what the user or team does at this point.'),
-      outcome:outcomeFor(item, role)
+      outcome:outcomeFor(item, role),
+      details:details
     };
   }
 
@@ -812,6 +913,9 @@ def ensure_flow_animation_assets(html: str) -> str:
     var copy = diagram.querySelector('.flow-story-copy');
     var outcome = diagram.querySelector('.flow-story-outcome');
     var progress = diagram.querySelector('.flow-progress-bar');
+    var info = diagram.querySelector('.flow-detail-info span');
+    var review = diagram.querySelector('.flow-detail-review span');
+    var result = diagram.querySelector('.flow-detail-result span');
     if (actor) actor.textContent = story.actor;
     if (actorEye) actorEye.textContent = story.badge;
     if (actorNote) actorNote.textContent = story.note;
@@ -820,6 +924,9 @@ def ensure_flow_animation_assets(html: str) -> str:
     if (copy) copy.textContent = story.copy;
     if (outcome) outcome.textContent = story.outcome;
     if (progress) progress.style.width = Math.round(((index + 1) / total) * 100) + '%';
+    if (info) info.textContent = story.details.info;
+    if (review) review.textContent = story.details.review;
+    if (result) result.textContent = story.details.result;
   }
 
   function clearTimers(diagram){
@@ -844,7 +951,7 @@ def ensure_flow_animation_assets(html: str) -> str:
     }
     var panel = document.createElement('div');
     panel.className = 'flow-story-panel';
-    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p></div>';
+    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p><div class="flow-story-details"><div class="flow-detail-card flow-detail-info"><b>Information taken</b><span>Application, student, document, or reporting data needed for this step.</span></div><div class="flow-detail-card flow-detail-review"><b>How it is reviewed</b><span>The actor checks completeness, status, eligibility, and next action.</span></div><div class="flow-detail-card flow-detail-result"><b>Decision / result</b><span>The flow updates and moves to the next person or screen.</span></div></div></div>';
     controls.insertAdjacentElement('afterend', panel);
 
     var button = controls.querySelector('.flow-play');
@@ -947,7 +1054,7 @@ def ensure_flow_animation_assets(html: str) -> str:
 """
     if "window.__intotoFlowAnimations" not in html:
         html = html.replace("</body>", script + "\n</body>", 1)
-    elif "Play Story" not in html:
+    elif "Information taken" not in html:
         html = re.sub(
             r'<script>\s*\(function\(\)\{\s*if \(window\.__intotoFlowAnimations\).*?</script>',
             script.strip(),
@@ -1169,6 +1276,9 @@ def main() -> None:
     assert "window.__intotoFlowAnimations" in html, "flow animation script missing"
     assert "flow-story-panel" in html, "flow story panel styles missing"
     assert "Play Story" in html, "flow story controls missing"
+    assert "Information taken" in html, "flow data explanation missing"
+    assert "How it is reviewed" in html, "flow review explanation missing"
+    assert "Decision / result" in html, "flow decision explanation missing"
     assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html

@@ -219,6 +219,78 @@
     .flow-arrow.flow-active::before{ animation:none; }
     .flow-progress-bar{ transition:none; }
   }
+
+  .flow-visual[data-flow-animated]{ position:relative; }
+  .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:720px; }
+  .flow-story-panel{ display:grid; grid-template-columns:minmax(170px,.35fr) 1fr; gap:16px; min-width:720px; margin:0 0 18px; border:1px solid var(--line); border-radius:16px; padding:16px; background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%); box-shadow:0 18px 48px -36px rgba(22,28,38,.42); }
+  .flow-story-actor{ border-radius:14px; padding:14px; background:var(--bg-dark); color:#fff; }
+  .flow-story-actor .eyebrow{ display:block; color:rgba(255,255,255,.72); font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 8px; }
+  .flow-story-actor strong{ display:block; font-family:var(--font-display); font-size:22px; line-height:1.1; }
+  .flow-story-actor small{ display:block; margin-top:8px; color:rgba(255,255,255,.75); font-size:13px; line-height:1.35; }
+  .flow-story-body{ align-self:center; }
+  .flow-story-kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-story-title{ font-family:var(--font-display); font-size:24px; line-height:1.16; margin:6px 0 0; color:var(--ink); }
+  .flow-story-copy{ margin:8px 0 0; font-size:15px; line-height:1.5; color:var(--muted); }
+  .flow-story-outcome{ margin:10px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+  .flow-story-details{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+  .flow-detail-card{ border:1px solid var(--line-soft); border-radius:12px; padding:12px; background:#fff; }
+  .flow-detail-card b{ display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .flow-detail-card span{ display:block; font-size:13px; line-height:1.38; color:var(--ink-soft); }
+  .flow-progress{ flex:1; height:8px; border-radius:999px; background:var(--line-soft); overflow:hidden; min-width:140px; }
+  .flow-progress-bar{ height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg,var(--product),var(--qa),var(--plat)); transition:width .48s ease; }
+  .flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
+  .flow-legend span{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:var(--surface-2); color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+  .flow-legend span::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); }
+  .flow-legend .student::before{ background:var(--product); }
+  .flow-legend .admin::before{ background:var(--qa); }
+  .flow-legend .university::before{ background:var(--plat); }
+  .flow-legend .decision::before{ background:#E9B949; }
+  .flow-play{ border:0; border-radius:999px; background:var(--bg-dark); color:#fff; padding:10px 16px; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 12px 30px -20px rgba(22,28,38,.65); transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease; white-space:nowrap; }
+  .flow-play:hover{ transform:translateY(-1px); box-shadow:0 18px 34px -22px rgba(22,28,38,.75); }
+  .flow-play:focus-visible{ outline:3px solid var(--product-line); outline-offset:3px; }
+  .flow-visual[data-flow-ready] .flow-node-card,
+  .flow-visual[data-flow-ready] .flow-arrow{ opacity:.36; transform:translateY(10px) scale(.985); filter:saturate(.75); transition:opacity .42s ease, transform .42s ease, filter .42s ease, box-shadow .42s ease, border-color .42s ease; }
+  .flow-visual[data-flow-ready] .flow-node-card.flow-seen,
+  .flow-visual[data-flow-ready] .flow-arrow.flow-seen{ opacity:1; transform:translateY(0) scale(1); filter:saturate(1); }
+  .flow-node-card[data-flow-role-label]::before{ content:attr(data-flow-role-label); display:inline-flex; margin:0 0 10px; border-radius:999px; padding:4px 8px; background:#fff; color:var(--muted); font-family:var(--font-mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; border:1px solid var(--line-soft); }
+  .flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); transform:translateY(-3px) scale(1.015); }
+  .flow-node-card.flow-active::after{ content:""; position:absolute; inset:-4px; border:2px solid rgba(42,111,219,.38); border-radius:18px; pointer-events:none; animation:flowPulse 1s ease-out; }
+  .flow-node-card.admin.flow-active::after{ border-color:rgba(31,138,91,.4); }
+  .flow-node-card.university.flow-active::after{ border-color:rgba(14,124,134,.42); }
+  .flow-node-card.success.flow-active::after{ border-color:rgba(31,138,91,.5); }
+  .flow-node-card.warning.flow-active::after{ border-color:rgba(233,185,73,.58); }
+  .flow-node-card.danger.flow-active::after{ border-color:rgba(224,138,138,.6); }
+  .flow-arrow{ position:relative; }
+  .flow-arrow.flow-active{ animation:flowArrowPulse .75s ease; }
+  .flow-arrow.flow-active::before{ content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:#fff; box-shadow:0 0 0 4px rgba(42,111,219,.22); animation:flowPacket .72s ease; }
+  .flow-visual.flow-complete{ box-shadow:0 24px 60px -48px rgba(42,111,219,.55); }
+  @keyframes flowPulse{
+    0%{ opacity:0; transform:scale(.96); }
+    34%{ opacity:1; }
+    100%{ opacity:0; transform:scale(1.08); }
+  }
+  @keyframes flowArrowPulse{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(0) scale(1.16); box-shadow:0 0 0 8px rgba(14,22,35,.12); }
+  }
+  @keyframes flowPacket{
+    0%{ transform:translateX(-18px) scale(.8); opacity:0; }
+    20%{ opacity:1; }
+    100%{ transform:translateX(18px) scale(1); opacity:0; }
+  }
+  @media (max-width:980px){
+    .flow-controls, .flow-story-panel{ min-width:680px; }
+    .flow-story-panel, .flow-story-details{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .flow-play{ display:none; }
+    .flow-visual[data-flow-ready] .flow-node-card,
+    .flow-visual[data-flow-ready] .flow-arrow{ opacity:1; transform:none; filter:none; transition:none; }
+    .flow-node-card.flow-active::after,
+    .flow-arrow.flow-active,
+    .flow-arrow.flow-active::before{ animation:none; }
+    .flow-progress-bar{ transition:none; }
+  }
 </style>
 <style>
   .guide-view[hidden]{ display:none; }
@@ -5820,9 +5892,104 @@
     return 'Outcome: the flow advances to the next visible step.';
   }
 
+  function detailFor(item, role){
+    var title = text(item, '.title', '').toLowerCase();
+    var label = text(item, '.label', '').toLowerCase();
+    if (role === 'flow') {
+      return {
+        info:'Status, documents, notes, and selected records move forward.',
+        review:'Next screen uses the previous step as context.',
+        result:'The next actor can continue without re-entering data.'
+      };
+    }
+    if (title.indexOf('application') >= 0 && (title.indexOf('document') >= 0 || label.indexOf('student') >= 0)) {
+      return {
+        info:'Application form, statement of purpose, transcripts, passport or required documents.',
+        review:'System stores the submission and sends it to the admin queue.',
+        result:'Student enters Application stage and waits for review.'
+      };
+    }
+    if (title.indexOf('approval queue') >= 0) {
+      return {
+        info:'Submitted applications, student name, status, GPA, document state, priority badge.',
+        review:'Admin filters pending items and opens the right application for detail review.',
+        result:'Selected application moves into detailed eligibility review.'
+      };
+    }
+    if (title.indexOf('application detail') >= 0 || title.indexOf('review') >= 0) {
+      return {
+        info:'Student profile, GPA, year, major, destination, documents, eligibility, review notes.',
+        review:'Admin checks completeness, GPA threshold, document validity, and program fit.',
+        result:'Admin is ready to approve, reject, or request more information.'
+      };
+    }
+    if (title.indexOf('approve') >= 0 || title.indexOf('decision') >= 0) {
+      return {
+        info:'Decision action, review notes, application status, and eligibility outcome.',
+        review:'Admin confirms whether requirements are met or whether information is missing.',
+        result:'Approve unlocks nomination. Reject stops the path. Request info keeps review open.'
+      };
+    }
+    if (title.indexOf('reject') >= 0) {
+      return {
+        info:'Rejected status, rejection reason, and applicant record.',
+        review:'Admin confirms the application should not proceed to nomination.',
+        result:'Student sees rejected status and nomination remains unavailable.'
+      };
+    }
+    if (title.indexOf('request') >= 0 || title.indexOf('follow') >= 0) {
+      return {
+        info:'Missing detail, document gap, or clarification request.',
+        review:'Admin pauses final decision until the student responds.',
+        result:'Student receives follow-up notification and review stays open.'
+      };
+    }
+    if (title.indexOf('nomination hub') >= 0 || title.indexOf('eligible') >= 0) {
+      return {
+        info:'Approved students, nominated vs pending counts, partner selection, student eligibility.',
+        review:'Admin checks the student is approved and has not already been nominated.',
+        result:'Student is ready for assignment to a partner university.'
+      };
+    }
+    if (title.indexOf('select partner') >= 0 || title.indexOf('partner') >= 0) {
+      return {
+        info:'Partner university, agreement status, active programs, destination context.',
+        review:'Admin chooses the correct receiving university for the approved student.',
+        result:'Partner destination becomes attached to the nomination.'
+      };
+    }
+    if (title.indexOf('nominate') >= 0) {
+      return {
+        info:'Approved student, selected partner university, nomination action.',
+        review:'Admin confirms the assignment before sending the nomination.',
+        result:'Student journey updates to Nomination and awaits partner acceptance.'
+      };
+    }
+    if (title.indexOf('invitation') >= 0 || title.indexOf('accept') >= 0 || title.indexOf('decline') >= 0) {
+      return {
+        info:'Program, university, semester, funding, deadline, housing choices, response.',
+        review:'Student reviews the offer and confirms whether to continue.',
+        result:'Accept starts Pre-Departure. Decline triggers Mobility Office follow-up.'
+      };
+    }
+    if (title.indexOf('metrics') >= 0 || title.indexOf('stats') >= 0 || title.indexOf('reports') >= 0 || title.indexOf('dashboard') >= 0) {
+      return {
+        info:'Students, pending approvals, programs, partners, budget, completion, satisfaction.',
+        review:'Admins inspect operational health and leadership-level indicators.',
+        result:'Teams can plan follow-up actions and export reporting evidence.'
+      };
+    }
+    return {
+      info:'Relevant record details for this workflow step.',
+      review:'The current actor checks status, completeness, and next action.',
+      result:'The workflow updates and moves to the next step.'
+    };
+  }
+
   function storyFor(diagram, item, index, total){
     var role = roleFor(item);
     var meta = roleMeta[role] || roleMeta.step;
+    var details = detailFor(item, role);
     if (role === 'flow') {
       var items = itemsFor(diagram);
       var previous = nearbyCard(items, index, -1);
@@ -5836,7 +6003,8 @@
         kicker:'Step ' + (index + 1) + ' of ' + total,
         title:'Handoff from ' + from + ' to ' + to,
         copy:'The information created in "' + from + '" becomes the input for "' + to + '".',
-        outcome:outcomeFor(item, role)
+        outcome:outcomeFor(item, role),
+        details:details
       };
     }
     return {
@@ -5846,7 +6014,8 @@
       kicker:text(item, '.label', 'Step ' + (index + 1) + ' of ' + total),
       title:text(item, '.title', 'Workflow step'),
       copy:text(item, 'p', 'This step explains what the user or team does at this point.'),
-      outcome:outcomeFor(item, role)
+      outcome:outcomeFor(item, role),
+      details:details
     };
   }
 
@@ -5860,6 +6029,9 @@
     var copy = diagram.querySelector('.flow-story-copy');
     var outcome = diagram.querySelector('.flow-story-outcome');
     var progress = diagram.querySelector('.flow-progress-bar');
+    var info = diagram.querySelector('.flow-detail-info span');
+    var review = diagram.querySelector('.flow-detail-review span');
+    var result = diagram.querySelector('.flow-detail-result span');
     if (actor) actor.textContent = story.actor;
     if (actorEye) actorEye.textContent = story.badge;
     if (actorNote) actorNote.textContent = story.note;
@@ -5868,6 +6040,9 @@
     if (copy) copy.textContent = story.copy;
     if (outcome) outcome.textContent = story.outcome;
     if (progress) progress.style.width = Math.round(((index + 1) / total) * 100) + '%';
+    if (info) info.textContent = story.details.info;
+    if (review) review.textContent = story.details.review;
+    if (result) result.textContent = story.details.result;
   }
 
   function clearTimers(diagram){
@@ -5892,7 +6067,7 @@
     }
     var panel = document.createElement('div');
     panel.className = 'flow-story-panel';
-    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p></div>';
+    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p><div class="flow-story-details"><div class="flow-detail-card flow-detail-info"><b>Information taken</b><span>Application, student, document, or reporting data needed for this step.</span></div><div class="flow-detail-card flow-detail-review"><b>How it is reviewed</b><span>The actor checks completeness, status, eligibility, and next action.</span></div><div class="flow-detail-card flow-detail-result"><b>Decision / result</b><span>The flow updates and moves to the next person or screen.</span></div></div></div>';
     controls.insertAdjacentElement('afterend', panel);
 
     var button = controls.querySelector('.flow-play');
