@@ -63,6 +63,20 @@
         <div class="cap-card"><div class="cap-label">Attend</div><h4>QR attendance</h4><p>Event Coordinators scan the QR code at entry so attendance is based on proof, not manual spreadsheets.</p></div>
         <div class="cap-card"><div class="cap-label">Improve</div><h4>Ratings and feedback</h4><p>Completed events collect star ratings, comments, and attendee feedback for future planning.</p></div>
       </div>
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Detailed functionality map</h4>
+      <table>
+        <thead><tr><th>Area</th><th>Detailed functionality</th><th>What the client can explain</th></tr></thead>
+        <tbody>
+          <tr><td><b>Event creation</b></td><td>Name, description, start/end date and time, physical location or virtual link, category, event type, capacity, image, and coordinators.</td><td>Events are structured records, not simple announcements.</td></tr>
+          <tr><td><b>Draft mode</b></td><td>Creator can save incomplete events privately before submitting for approval.</td><td>Teams can prepare events without accidentally publishing them.</td></tr>
+          <tr><td><b>Registration questions</b></td><td>Creators can ask custom questions such as preferences, consent, dietary needs, interests, or expectations.</td><td>Registration collects useful planning information before the event.</td></tr>
+          <tr><td><b>Approval</b></td><td>University Event Coordinator reviews submitted details, timing, audience fit, capacity, safety, and policy alignment.</td><td>Students only see events that have passed review.</td></tr>
+          <tr><td><b>Registration</b></td><td>Users register for approved events, answer required questions, and receive confirmation/QR context.</td><td>Attendance starts with a real registration record.</td></tr>
+          <tr><td><b>QR attendance</b></td><td>Coordinator scans QR code at the venue to mark registered users as attended.</td><td>The university gets proof-based attendance, not guessed headcount.</td></tr>
+          <tr><td><b>Community sharing</b></td><td>Approved event cards can be shared into relevant communities where Community is Active and sharing is allowed.</td><td>Events can reach the right group without duplicate posts.</td></tr>
+          <tr><td><b>Feedback</b></td><td>Completed events can collect ratings, written feedback, and comments for future planning.</td><td>Event quality improves from actual attendee response.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="sec" id="flows">
@@ -117,10 +131,21 @@
       <div class="kicker"><span class="sq"></span>FAQs</div>
       <h2>Event Management questions clients usually ask.</h2>
       <div class="faq">
-        <details><summary><span>Can an event be saved before it is ready?</span><span class="pls"></span></summary><div class="ans">Yes. Save as Draft keeps the event private and editable until the creator submits it for approval.</div></details>
-        <details><summary><span>When does an event appear to students?</span><span class="pls"></span></summary><div class="ans">Only after it is approved. Approved events appear in Upcoming Events and related dashboards.</div></details>
-        <details><summary><span>Can coordinators verify actual attendance?</span><span class="pls"></span></summary><div class="ans">Yes. Registered users receive a QR code and coordinators scan that code to mark attendance.</div></details>
-        <details><summary><span>Can events be shared to communities?</span><span class="pls"></span></summary><div class="ans">Yes, where Community is enabled and sharing is allowed, event details can be shared as event cards into eligible communities.</div></details>
+        <details><summary><span>What is Event Management?</span><span class="pls"></span></summary><div class="ans">Event Management is the paid module for creating, approving, publishing, registering, attending, and reviewing campus events. It turns an event from an announcement into a full operational workflow.</div></details>
+        <details><summary><span>What information is entered when creating an event?</span><span class="pls"></span></summary><div class="ans">Creators enter event name, description, start/end date and time, location or virtual link, category, event type, maximum participants, event image, coordinators, and optional registration questions.</div></details>
+        <details><summary><span>Can an event be saved before it is ready?</span><span class="pls"></span></summary><div class="ans">Yes. Save as Draft keeps the event private and editable until the creator submits it for approval. Drafts do not appear to students as upcoming events.</div></details>
+        <details><summary><span>Who approves events?</span><span class="pls"></span></summary><div class="ans">University Event Coordinators approve or reject submitted events based on details, timing, capacity, safety, audience fit, and university policy. University Super Admins can also provide oversight where configured.</div></details>
+        <details><summary><span>When does an event appear to students?</span><span class="pls"></span></summary><div class="ans">Only after it is approved. Approved events appear in Upcoming Events and related dashboards, while rejected or draft events remain hidden from normal discovery.</div></details>
+        <details><summary><span>Can creators add registration questions?</span><span class="pls"></span></summary><div class="ans">Yes. Creators can add questions for preferences, expectations, consent, dietary notes, eligibility, or planning details. Required questions must be answered before registration completes.</div></details>
+        <details><summary><span>Can users register for events?</span><span class="pls"></span></summary><div class="ans">Yes. Users open approved event details, review timing/location and any questions, then register. The registration creates the basis for attendance tracking.</div></details>
+        <details><summary><span>Can coordinators verify actual attendance?</span><span class="pls"></span></summary><div class="ans">Yes. Registered users receive a QR code, and coordinators scan that code to mark attendance. This gives the university proof-based attendance instead of manual estimates.</div></details>
+        <details><summary><span>What happens if a registered user does not attend?</span><span class="pls"></span></summary><div class="ans">The event can keep registration and attendance as separate states. A user can be registered but not attended if their QR code is not scanned or attendance is not confirmed.</div></details>
+        <details><summary><span>Can events be shared to communities?</span><span class="pls"></span></summary><div class="ans">Yes, where Community is enabled and sharing is allowed, event details can be shared as event cards into eligible communities. This helps promote events to the right audience.</div></details>
+        <details><summary><span>Can events be physical, virtual, or hybrid?</span><span class="pls"></span></summary><div class="ans">Yes. Event type supports physical, virtual, and hybrid models where configured. The event record captures either a physical location, a virtual link, or both.</div></details>
+        <details><summary><span>Can attendees provide feedback?</span><span class="pls"></span></summary><div class="ans">Yes. Completed events can collect ratings and written feedback. Creators and coordinators can review that feedback to improve future planning.</div></details>
+        <details><summary><span>What event statuses are important?</span><span class="pls"></span></summary><div class="ans">Common statuses include Draft, Pending Approval, Approved, Upcoming, Registered, Assigned, Completed, Rejected, and Attended/Not Attended. These states help staff and users understand where the event sits in the lifecycle.</div></details>
+        <details><summary><span>How does Event Management help staff?</span><span class="pls"></span></summary><div class="ans">Staff can manage creation, approval, registration, attendance, and feedback from one place. This avoids separate forms, spreadsheets, QR tools, and post-event survey processes.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Event dashboard, create event, draft flow, approval queue, registration, QR attendance, community event sharing, ratings, feedback, and event reporting surfaces are hidden for that university.</div></details>
       </div>
     </section>
 
