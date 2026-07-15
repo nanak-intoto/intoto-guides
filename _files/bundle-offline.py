@@ -638,6 +638,203 @@ def ensure_flow_visual_css(html: str) -> str:
     return html.replace("</style>", block + "</style>", 1)
 
 
+def ensure_flow_animation_assets(html: str) -> str:
+    """Add animated flow playback styles and controls to generated bundles."""
+    css = """
+  .flow-visual[data-flow-animated]{ position:relative; }
+  .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:720px; }
+  .flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
+  .flow-legend span{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:var(--surface-2); color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+  .flow-legend span::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); }
+  .flow-legend .student::before{ background:var(--product); }
+  .flow-legend .admin::before{ background:var(--qa); }
+  .flow-legend .university::before{ background:var(--plat); }
+  .flow-legend .decision::before{ background:#E9B949; }
+  .flow-play{ border:0; border-radius:999px; background:var(--bg-dark); color:#fff; padding:10px 16px; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 12px 30px -20px rgba(22,28,38,.65); transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease; white-space:nowrap; }
+  .flow-play:hover{ transform:translateY(-1px); box-shadow:0 18px 34px -22px rgba(22,28,38,.75); }
+  .flow-play:focus-visible{ outline:3px solid var(--product-line); outline-offset:3px; }
+  .flow-visual[data-flow-ready] .flow-node-card,
+  .flow-visual[data-flow-ready] .flow-arrow{ opacity:.36; transform:translateY(10px) scale(.985); filter:saturate(.75); transition:opacity .42s ease, transform .42s ease, filter .42s ease, box-shadow .42s ease, border-color .42s ease; }
+  .flow-visual[data-flow-ready] .flow-node-card.flow-seen,
+  .flow-visual[data-flow-ready] .flow-arrow.flow-seen{ opacity:1; transform:translateY(0) scale(1); filter:saturate(1); }
+  .flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); }
+  .flow-node-card.flow-active::after{ content:""; position:absolute; inset:-4px; border:2px solid rgba(42,111,219,.38); border-radius:18px; pointer-events:none; animation:flowPulse 1s ease-out; }
+  .flow-node-card.admin.flow-active::after{ border-color:rgba(31,138,91,.4); }
+  .flow-node-card.university.flow-active::after{ border-color:rgba(14,124,134,.42); }
+  .flow-node-card.success.flow-active::after{ border-color:rgba(31,138,91,.5); }
+  .flow-node-card.warning.flow-active::after{ border-color:rgba(233,185,73,.58); }
+  .flow-node-card.danger.flow-active::after{ border-color:rgba(224,138,138,.6); }
+  .flow-arrow.flow-active{ animation:flowArrowPulse .75s ease; }
+  .flow-visual.flow-complete{ box-shadow:0 24px 60px -48px rgba(42,111,219,.55); }
+  @keyframes flowPulse{
+    0%{ opacity:0; transform:scale(.96); }
+    34%{ opacity:1; }
+    100%{ opacity:0; transform:scale(1.08); }
+  }
+  @keyframes flowArrowPulse{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(0) scale(1.16); box-shadow:0 0 0 8px rgba(14,22,35,.12); }
+  }
+  @media (max-width:980px){
+    .flow-controls{ min-width:680px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .flow-play{ display:none; }
+    .flow-visual[data-flow-ready] .flow-node-card,
+    .flow-visual[data-flow-ready] .flow-arrow{ opacity:1; transform:none; filter:none; transition:none; }
+    .flow-node-card.flow-active::after,
+    .flow-arrow.flow-active{ animation:none; }
+  }
+"""
+    if ".flow-controls" not in html:
+        html = html.replace("</style>", css + "</style>", 1)
+
+    script = """
+<script>
+(function(){
+  if (window.__intotoFlowAnimations) return;
+  window.__intotoFlowAnimations = true;
+
+  var reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches:false };
+  var timerMap = new WeakMap();
+
+  function itemsFor(diagram){
+    return Array.prototype.slice.call(diagram.querySelectorAll('.flow-node-card, .flow-arrow'));
+  }
+
+  function roleFor(item){
+    if (item.classList.contains('flow-arrow')) return 'flow';
+    if (item.classList.contains('student')) return 'student';
+    if (item.classList.contains('admin')) return 'admin';
+    if (item.classList.contains('university')) return 'university';
+    if (item.classList.contains('success') || item.classList.contains('warning') || item.classList.contains('danger')) return 'decision';
+    return 'step';
+  }
+
+  function labelFor(item, role){
+    if (role === 'flow') return 'Flow moves to the next step';
+    var title = item.querySelector('.title');
+    var label = item.querySelector('.label');
+    return (label ? label.textContent + ': ' : '') + (title ? title.textContent : 'Workflow step');
+  }
+
+  function clearTimers(diagram){
+    var timers = timerMap.get(diagram) || [];
+    timers.forEach(function(timer){ window.clearTimeout(timer); });
+    timerMap.set(diagram, []);
+  }
+
+  function prepare(diagram){
+    if (diagram.dataset.flowPrepared === 'true') return;
+    diagram.dataset.flowPrepared = 'true';
+    diagram.dataset.flowReady = 'true';
+
+    var title = diagram.querySelector('.diagram-title');
+    var controls = document.createElement('div');
+    controls.className = 'flow-controls';
+    controls.innerHTML = '<div class="flow-legend" aria-label="Flow role legend"><span class="student">Student</span><span class="admin">Mobility Admin</span><span class="university">University Admin</span><span class="decision">Decision</span></div><button class="flow-play" type="button">Play Flow</button>';
+    if (title) {
+      title.insertAdjacentElement('afterend', controls);
+    } else {
+      diagram.insertBefore(controls, diagram.firstChild);
+    }
+
+    var button = controls.querySelector('.flow-play');
+    button.addEventListener('click', function(){ play(diagram, true); });
+
+    itemsFor(diagram).forEach(function(item, index){
+      var role = roleFor(item);
+      item.dataset.flowStep = String(index + 1);
+      item.dataset.flowRole = role;
+      item.setAttribute('aria-label', labelFor(item, role));
+      item.classList.add('flow-seen');
+    });
+  }
+
+  function finish(diagram){
+    diagram.dataset.flowPlaying = 'false';
+    diagram.classList.add('flow-complete');
+    var button = diagram.querySelector('.flow-play');
+    if (button) {
+      button.disabled = false;
+      button.textContent = 'Replay Flow';
+    }
+  }
+
+  function play(diagram, manual){
+    prepare(diagram);
+    clearTimers(diagram);
+
+    var items = itemsFor(diagram);
+    var button = diagram.querySelector('.flow-play');
+    diagram.classList.remove('flow-complete');
+    diagram.dataset.flowPlaying = 'true';
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Playing...';
+    }
+
+    items.forEach(function(item){
+      item.classList.remove('flow-seen', 'flow-active');
+    });
+
+    if (reducedMotion.matches) {
+      items.forEach(function(item){ item.classList.add('flow-seen'); });
+      finish(diagram);
+      return;
+    }
+
+    var timers = [];
+    items.forEach(function(item, index){
+      timers.push(window.setTimeout(function(){
+        items.forEach(function(other){ other.classList.remove('flow-active'); });
+        item.classList.add('flow-seen', 'flow-active');
+      }, 180 + index * 520));
+    });
+    timers.push(window.setTimeout(function(){
+      items.forEach(function(item){ item.classList.remove('flow-active'); });
+      finish(diagram);
+    }, 520 + items.length * 520));
+    timerMap.set(diagram, timers);
+
+    if (manual) {
+      diagram.scrollIntoView({ block:'nearest', behavior:reducedMotion.matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  function init(){
+    var diagrams = Array.prototype.slice.call(document.querySelectorAll('.flow-visual[data-flow-animated]'));
+    diagrams.forEach(prepare);
+
+    if (!('IntersectionObserver' in window)) {
+      diagrams.forEach(function(diagram){ play(diagram, false); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting || entry.target.dataset.flowAutoplayed === 'true') return;
+        entry.target.dataset.flowAutoplayed = 'true';
+        play(entry.target, false);
+      });
+    }, { threshold:.35 });
+
+    diagrams.forEach(function(diagram){ observer.observe(diagram); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+"""
+    if "window.__intotoFlowAnimations" not in html:
+        html = html.replace("</body>", script + "\n</body>", 1)
+    return html
+
+
 def sync_merged_usa_hub(html: str) -> str:
     """Hub deltas after merging University Admin into University Super Admin."""
     patches = [
@@ -741,6 +938,7 @@ def update_all_in_one() -> str:
     html = ensure_extamb_scoped_css(html)
     html = ensure_pf_scoped_css(html)
     html = ensure_flow_visual_css(html)
+    html = ensure_flow_animation_assets(html)
     html = patch_ambplat_faq(html)
     html = patch_inline_guide_links(html)
     html = ensure_anchor_navigation(html)
@@ -844,6 +1042,8 @@ def main() -> None:
     assert 'data-anchor="pf-feat-mobility"' in html, "mobility feature-card anchor missing"
     assert 'id="mobility-overview"' in html, "mobility guide content missing"
     assert ".flow-visual .diagram-title" in html, "flow visual styles missing"
+    assert 'data-flow-animated' in html, "animated flow markers missing"
+    assert "window.__intotoFlowAnimations" in html, "flow animation script missing"
     assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
