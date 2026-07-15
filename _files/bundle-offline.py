@@ -371,6 +371,10 @@ def patch_hub_for_all_in_one(html: str) -> str:
             '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-usermgmt">',
         ),
         (
+            '<a class="fact module-link" href="Intoto%20Paid%20Features%20Guide.html#feat-mobility">',
+            '<a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-mobility">',
+        ),
+        (
             '<a class="role-card" data-group="platform" href="Intoto%20Intoto%20Admin%20Feature%20%26%20Flow%20Guide.html">',
             '<a class="role-card" data-group="platform" href="javascript:void(0)" data-guide="admin">',
         ),
@@ -393,6 +397,10 @@ def patch_hub_for_all_in_one(html: str) -> str:
         (
             '<a class="role-card" data-group="staff" href="Intoto%20Event%20Coordinator%20Feature%20%26%20Flow%20Guide.html">',
             '<a class="role-card" data-group="staff" href="javascript:void(0)" data-guide="event">',
+        ),
+        (
+            '<a class="role-card" data-group="staff" href="Intoto%20Mobility%20Program%20Admin%20Feature%20%26%20Flow%20Guide.html">',
+            '<a class="role-card" data-group="staff" href="javascript:void(0)" data-guide="mobility">',
         ),
         (
             '<a class="role-card" data-group="staff" href="Intoto%20University%20Super%20Admin%20Feature%20%26%20Flow%20Guide.html">',
@@ -554,6 +562,20 @@ def ensure_features_section(html: str, features_body: str) -> str:
     return html.replace(marker, block + marker, 1)
 
 
+def ensure_mobility_section(html: str, mobility_body: str) -> str:
+    if 'data-view="mobility"' in html:
+        return replace_section(html, "mobility", mobility_body)
+    block = (
+        '\n<section class="guide-view" data-view="mobility" hidden>\n'
+        '<div class="back-bar"><button data-back>← All role guides</button></div>\n'
+        f'{mobility_body}\n</section>\n'
+    )
+    marker = '\n<section class="guide-view" data-view="community" hidden>'
+    if marker not in html:
+        raise SystemExit("community guide-view marker not found for mobility insert")
+    return html.replace(marker, block + marker, 1)
+
+
 def ensure_pf_scoped_css(html: str) -> str:
     block = """
   /* Paid Features catalog — product purple */
@@ -657,6 +679,9 @@ def update_all_in_one() -> str:
     pf_guide = (BASE / "Intoto Paid Features Guide.html").read_text()
     pf_body = prefix_embed(extract_guide_body(pf_guide), "pf-")
 
+    mobility_guide = (BASE / "Intoto Mobility Program Admin Feature & Flow Guide.html").read_text()
+    mobility_body = prefix_embed(extract_guide_body(mobility_guide), "mobility-")
+
     community_guide = (BASE / "Intoto Community Coordinator Feature & Flow Guide.html").read_text()
     community_body = extract_guide_body(community_guide)
 
@@ -669,6 +694,7 @@ def update_all_in_one() -> str:
     html = patch_hub_for_all_in_one(html)
     html = replace_section(html, "admin", admin_body)
     html = ensure_features_section(html, pf_body)
+    html = ensure_mobility_section(html, mobility_body)
     html = replace_section(html, "community", community_body)
     html = replace_section(html, "extamb", ext_body)
     html = replace_section(html, "usa", usa_body)
@@ -774,8 +800,11 @@ def main() -> None:
     assert 'data-view="univadmin"' not in html, "univadmin section should be removed"
     assert html.count('id="usa-legend"') == 1, "duplicate usa-legend sections"
     assert 'data-view="features"' in html, "features guide-view missing"
+    assert 'data-view="mobility"' in html, "mobility guide-view missing"
     assert 'id="admin-features"' in html, "admin features section missing"
     assert 'data-anchor="pf-feat-community"' in html, "hub feature-card anchors missing"
+    assert 'data-anchor="pf-feat-mobility"' in html, "mobility feature-card anchor missing"
+    assert 'id="mobility-overview"' in html, "mobility guide content missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
     assert "Profile review" in html or "Profile Review" in html
