@@ -63,6 +63,18 @@
         <div class="cap-card"><div class="cap-label">Review</div><h4>Profile review</h4><p>Admins inspect submitted profiles, verify required details, and resolve incomplete or incorrect records.</p></div>
         <div class="cap-card"><div class="cap-label">Suspend</div><h4>Control access lifecycle</h4><p>Admins can suspend or manage users when access should change after intake, graduation, or policy action.</p></div>
       </div>
+      <h4 style="font-family:var(--font-display); font-size:21px; margin:28px 0 0; font-weight:600;">Detailed functionality map</h4>
+      <table>
+        <thead><tr><th>Area</th><th>Detailed functionality</th><th>What the client can explain</th></tr></thead>
+        <tbody>
+          <tr><td><b>Invite data</b></td><td>Name, email, role, campus, student/staff type, domestic/international bucket, and optional cohort/program metadata.</td><td>Every user starts from controlled university-provided data.</td></tr>
+          <tr><td><b>Bulk onboarding</b></td><td>Admins upload or prepare invite batches for large student intakes, staff groups, ambassadors, or coordinators.</td><td>Large universities do not need to invite every user manually.</td></tr>
+          <tr><td><b>Role assignment</b></td><td>Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, Third-Party Coordinator, Mobility Program Admin, University Admin, and related roles where enabled.</td><td>Access is shaped by role, not by one generic user account.</td></tr>
+          <tr><td><b>Capacity enforcement</b></td><td>Total capacity and optional domestic/international limits are checked before inviting or activating more users.</td><td>The university cannot silently exceed the purchased contract.</td></tr>
+          <tr><td><b>Profile review</b></td><td>Admins check completed profiles, missing fields, wrong details, duplicate records, and suspicious or incomplete information.</td><td>Bad records can be corrected before they affect operations.</td></tr>
+          <tr><td><b>Suspension</b></td><td>Admins can suspend access when a user graduates, leaves, changes role, violates policy, or should no longer access the tenant.</td><td>User lifecycle is governed beyond initial invitation.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="sec" id="flows">
@@ -104,9 +116,21 @@
       <div class="kicker"><span class="sq"></span>FAQs</div>
       <h2>User Management questions clients usually ask.</h2>
       <div class="faq">
-        <details><summary><span>Is User Management required to invite users?</span><span class="pls"></span></summary><div class="ans">Yes. It unlocks Manage User, Invite Data, Add User, bulk invite, profile review, and capacity tracking.</div></details>
+        <details><summary><span>What is User Management?</span><span class="pls"></span></summary><div class="ans">User Management is the paid module for inviting users, assigning roles, controlling licensed capacity, reviewing profiles, and managing user access across the university tenant.</div></details>
+        <details><summary><span>Is User Management required to invite users?</span><span class="pls"></span></summary><div class="ans">Yes. It unlocks Manage User, Invite Data, Add User, bulk invite, profile review, and capacity tracking. Without it, the university cannot run normal onboarding inside Intoto.</div></details>
+        <details><summary><span>What information is used for an invite?</span><span class="pls"></span></summary><div class="ans">Invite data can include name, email, role, campus, student/staff type, domestic or international bucket, cohort, and other metadata the university needs for onboarding.</div></details>
+        <details><summary><span>Can admins invite users one by one?</span><span class="pls"></span></summary><div class="ans">Yes. The Add User flow supports inviting individual users when the university needs precise control for a student, staff member, coordinator, or ambassador.</div></details>
+        <details><summary><span>Can admins invite users in bulk?</span><span class="pls"></span></summary><div class="ans">Yes. Bulk invite or Invite Data supports large intake waves, staff groups, or cohort onboarding. This is important for universities that need to invite hundreds or thousands of users.</div></details>
+        <details><summary><span>What roles can be assigned?</span><span class="pls"></span></summary><div class="ans">Roles can include Student, Ambassador, External Ambassador, Community Coordinator, Event Coordinator, Third-Party Coordinator, Third-Party Sub Coordinator, Mobility Program Admin, University Admin, and University Super Admin where the tenant has those modules enabled.</div></details>
+        <details><summary><span>How does capacity work?</span><span class="pls"></span></summary><div class="ans">Capacity is the number of users the university has licensed. The module tracks invited or consumed seats against that limit and shows utilization so admins know how much capacity remains.</div></details>
         <details><summary><span>What happens when capacity is reached?</span><span class="pls"></span></summary><div class="ans">The system prevents uncontrolled onboarding. The university can increase capacity commercially or reduce active invited users according to policy.</div></details>
-        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">User invitation, directory, profile review, and onboarding surfaces are unavailable for the university.</div></details>
+        <details><summary><span>What are domestic and international buckets?</span><span class="pls"></span></summary><div class="ans">Some tenants may track domestic and international user limits separately. This helps universities manage different intake groups or commercial tiers while still showing total utilization.</div></details>
+        <details><summary><span>What is Profile Review?</span><span class="pls"></span></summary><div class="ans">Profile Review is the admin process for checking completed user profiles, required fields, academic or staff details, missing data, and suspicious or incorrect records before the user is fully trusted operationally.</div></details>
+        <details><summary><span>Can admins suspend users?</span><span class="pls"></span></summary><div class="ans">Yes. Suspension lets the university control access when a user graduates, leaves, changes role, violates policy, or no longer belongs in the tenant.</div></details>
+        <details><summary><span>Does User Management control paid feature access?</span><span class="pls"></span></summary><div class="ans">User Management controls people and seats. Other paid features control module functionality. A user can only access feature-specific tools when both the role and the related module are available.</div></details>
+        <details><summary><span>Can the university see utilization on the Features card?</span><span class="pls"></span></summary><div class="ans">Yes. The User Management card can show total capacity, utilization, invited count, and domestic/international usage where configured. This gives commercial visibility to the University Super Admin.</div></details>
+        <details><summary><span>Why is User Management usually purchased first?</span><span class="pls"></span></summary><div class="ans">Most other modules need people to be invited before they can be used. User Management is the foundation for onboarding students, staff, ambassadors, coordinators, and partner roles.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">User invitation, bulk invite, directory management, profile review, capacity tracking, role onboarding, and access lifecycle surfaces are unavailable for the university.</div></details>
       </div>
     </section>
     <footer><span>Intoto · User Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
