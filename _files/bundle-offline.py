@@ -13,10 +13,30 @@ from urllib.request import urlopen
 BASE = Path(__file__).resolve().parent
 DOC_ROOT = BASE.parent
 ALL_IN_ONE = DOC_ROOT / "Intoto All-in-One Guides.html"
+INDEX = DOC_ROOT / "index.html"
 HUB = BASE / "Intoto Feature & Flow Guides.html"
 PORTABLE = BASE / "Intoto Portable Guides (offline).html"
 GUIDE_CSS = BASE / "guide.css"
 CSS_LINK = "_files/guide.css"
+FEATURE_PAGE_CSS = BASE / "feature-page.css"
+FEATURE_PAGES = {
+    "featureambassador": ("Intoto Ambassador Management Paid Feature Guide.html", "fp-ambassador-"),
+    "featuretravel": ("Intoto Travel Plan Paid Feature Guide.html", "fp-travel-"),
+    "featurecommunity": ("Intoto Community Paid Feature Guide.html", "fp-community-"),
+    "featurechat": ("Intoto Chat Paid Feature Guide.html", "fp-chat-"),
+    "featureevents": ("Intoto Event Management Paid Feature Guide.html", "fp-events-"),
+    "featureusermgmt": ("Intoto User Management Paid Feature Guide.html", "fp-usermgmt-"),
+    "featuremobility": ("Intoto Mobility Program Paid Feature Guide.html", "fp-mobility-"),
+}
+FEATURE_LINK_VIEWS = {
+    "Intoto%20Ambassador%20Management%20Paid%20Feature%20Guide.html": "featureambassador",
+    "Intoto%20Travel%20Plan%20Paid%20Feature%20Guide.html": "featuretravel",
+    "Intoto%20Community%20Paid%20Feature%20Guide.html": "featurecommunity",
+    "Intoto%20Chat%20Paid%20Feature%20Guide.html": "featurechat",
+    "Intoto%20Event%20Management%20Paid%20Feature%20Guide.html": "featureevents",
+    "Intoto%20User%20Management%20Paid%20Feature%20Guide.html": "featureusermgmt",
+    "Intoto%20Mobility%20Program%20Paid%20Feature%20Guide.html": "featuremobility",
+}
 
 FONT_CSS_URL = (
     "https://fonts.googleapis.com/css2?"
@@ -435,6 +455,11 @@ def patch_inline_guide_links(html: str) -> str:
         'href="Intoto%20Paid%20Features%20Guide.html"',
         'href="javascript:void(0)" data-guide="features"',
     )
+    for filename, view in FEATURE_LINK_VIEWS.items():
+        html = html.replace(
+            f'href="{filename}"',
+            f'href="javascript:void(0)" data-guide="{view}"',
+        )
     return html
 
 
@@ -576,6 +601,25 @@ def ensure_mobility_section(html: str, mobility_body: str) -> str:
     return html.replace(marker, block + marker, 1)
 
 
+def ensure_feature_detail_sections(html: str, feature_bodies: dict[str, str]) -> str:
+    """Embed standalone paid-feature detail pages as All-in-One guide views."""
+    for view, body in feature_bodies.items():
+        wrapped = f'<div class="feature-page">\n{body}\n</div>'
+        if f'data-view="{view}"' in html:
+            html = replace_section(html, view, wrapped)
+            continue
+        block = (
+            f'\n<section class="guide-view" data-view="{view}" hidden>\n'
+            '<div class="back-bar"><button data-back>← All role guides</button></div>\n'
+            f'{wrapped}\n</section>\n'
+        )
+        marker = '\n<section class="guide-view" data-view="admin" hidden>'
+        if marker not in html:
+            raise SystemExit(f"admin guide-view marker not found for {view} insert")
+        html = html.replace(marker, block + marker, 1)
+    return html
+
+
 def ensure_pf_scoped_css(html: str) -> str:
     block = """
   /* Paid Features catalog — product purple */
@@ -599,6 +643,22 @@ def ensure_pf_scoped_css(html: str) -> str:
             raise SystemExit("CSS insert marker not found for features")
         html = html.replace(marker, marker + block)
     return html
+
+
+def ensure_feature_page_css(html: str) -> str:
+    """Inline shared feature-page styling for embedded feature detail pages."""
+    sentinel = "/* Feature detail pages */"
+    css = FEATURE_PAGE_CSS.read_text()
+    block = f"\n  {sentinel}\n{css}\n"
+    if sentinel in html:
+        return re.sub(
+            r'\n  /\* Feature detail pages \*/\n.*?\n(?=</style>)',
+            block,
+            html,
+            count=1,
+            flags=re.DOTALL,
+        )
+    return html.replace("</style>", block + "</style>", 1)
 
 
 def ensure_flow_visual_css(html: str) -> str:
@@ -779,6 +839,13 @@ def ensure_flow_animation_assets(html: str) -> str:
   function detailFor(item, role){
     var title = text(item, '.title', '').toLowerCase();
     var label = text(item, '.label', '').toLowerCase();
+    if (role !== 'flow' && (item.getAttribute('data-info') || item.getAttribute('data-review') || item.getAttribute('data-result'))) {
+      return {
+        info:item.getAttribute('data-info') || 'The screen captures the details needed for this step.',
+        review:item.getAttribute('data-review') || 'The responsible role checks completeness, eligibility, policy, and status.',
+        result:item.getAttribute('data-result') || 'The workflow updates and the next action becomes visible.'
+      };
+    }
     if (role === 'flow') {
       return {
         info:'Status, documents, notes, and selected records move forward.',
@@ -1143,6 +1210,11 @@ def update_all_in_one() -> str:
     pf_guide = (BASE / "Intoto Paid Features Guide.html").read_text()
     pf_body = prefix_embed(extract_guide_body(pf_guide), "pf-")
 
+    feature_bodies = {
+        view: prefix_embed(extract_guide_body((BASE / filename).read_text()), prefix)
+        for view, (filename, prefix) in FEATURE_PAGES.items()
+    }
+
     mobility_guide = (BASE / "Intoto Mobility Program Admin Feature & Flow Guide.html").read_text()
     mobility_body = prefix_embed(extract_guide_body(mobility_guide), "mobility-")
 
@@ -1158,6 +1230,7 @@ def update_all_in_one() -> str:
     html = patch_hub_for_all_in_one(html)
     html = replace_section(html, "admin", admin_body)
     html = ensure_features_section(html, pf_body)
+    html = ensure_feature_detail_sections(html, feature_bodies)
     html = ensure_mobility_section(html, mobility_body)
     html = replace_section(html, "community", community_body)
     html = replace_section(html, "extamb", ext_body)
@@ -1167,6 +1240,7 @@ def update_all_in_one() -> str:
     html = ensure_usa_scoped_css(html)
     html = ensure_extamb_scoped_css(html)
     html = ensure_pf_scoped_css(html)
+    html = ensure_feature_page_css(html)
     html = ensure_flow_visual_css(html)
     html = ensure_flow_animation_assets(html)
     html = patch_ambplat_faq(html)
@@ -1174,7 +1248,9 @@ def update_all_in_one() -> str:
     html = ensure_anchor_navigation(html)
     html = ensure_share_css_link(html)
     ALL_IN_ONE.write_text(html)
+    INDEX.write_text(html)
     print(f"Updated {ALL_IN_ONE.name}")
+    print(f"Updated {INDEX.name}")
     return html
 
 
@@ -1268,8 +1344,14 @@ def main() -> None:
     assert 'data-view="features"' in html, "features guide-view missing"
     assert 'data-view="mobility"' in html, "mobility guide-view missing"
     assert 'id="admin-features"' in html, "admin features section missing"
-    assert 'data-anchor="pf-feat-community"' in html, "hub feature-card anchors missing"
-    assert 'data-anchor="pf-feat-mobility"' in html, "mobility feature-card anchor missing"
+    assert 'data-guide="featurecommunity"' in html, "community feature-page link missing"
+    assert 'data-guide="featuremobility"' in html, "mobility feature-page link missing"
+    for view in FEATURE_PAGES:
+        assert f'data-view="{view}"' in html, f"{view} guide-view missing"
+    assert "Community: groups, posts, engagement" in html, "community feature page missing"
+    assert "Event Management: create, approve" in html, "events feature page missing"
+    assert "Mobility Program: the exchange lifecycle" in html, "mobility feature page missing"
+    assert "User Management: seats, invites" in html, "user management feature page missing"
     assert 'id="mobility-overview"' in html, "mobility guide content missing"
     assert ".flow-visual .diagram-title" in html, "flow visual styles missing"
     assert 'data-flow-animated' in html, "animated flow markers missing"

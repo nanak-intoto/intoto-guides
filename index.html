@@ -291,6 +291,292 @@
     .flow-arrow.flow-active::before{ animation:none; }
     .flow-progress-bar{ transition:none; }
   }
+
+  /* Feature detail pages */
+.feature-page{
+  --feature-accent:#6A4FD8;
+  --feature-wash:#EFEBFB;
+  --feature-line:#D4C9F4;
+}
+.feature-page .eyebrow{ color:#BCA9F0; }
+.feature-page .eyebrow .sq{ background:#BCA9F0; }
+.feature-page a,
+.feature-page .kicker,
+.feature-page .stat .n,
+.feature-page .feat-num,
+.feature-page .faq details[open] summary{ color:var(--feature-accent); }
+.feature-page nav.toc a:hover{ border-color:var(--feature-accent); color:var(--ink); }
+.feature-page .kicker .sq{ background:var(--feature-accent); }
+.feature-page .faq summary .pls::before,
+.feature-page .faq summary .pls::after{ background:var(--feature-accent); }
+.feature-nav-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:28px;
+  color:#C7D3E2 !important;
+  font-family:var(--font-mono);
+  font-size:13px;
+  letter-spacing:.04em;
+}
+.feature-nav-link:hover{ color:#fff !important; }
+.client-note{
+  margin-top:24px;
+  border:1px solid var(--feature-line);
+  border-radius:16px;
+  padding:24px 28px;
+  background:var(--feature-wash);
+  color:var(--ink-soft);
+}
+.client-note b{ color:var(--ink); }
+.cap-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+.cap-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  padding:22px 24px;
+}
+.cap-card .cap-label{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--feature-accent);
+}
+.cap-card h4{
+  font-family:var(--font-display);
+  font-size:20px;
+  line-height:1.16;
+  margin:10px 0 0;
+}
+.cap-card p{
+  font-size:15px;
+  line-height:1.48;
+  color:var(--muted);
+  margin:10px 0 0;
+}
+.story-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-top:24px;
+}
+.story-list .cap-card{ min-height:160px; }
+.flow-visual{
+  margin-top:26px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  background:var(--surface);
+  overflow-x:auto;
+}
+.flow-visual .diagram-title{
+  font-family:var(--font-display);
+  font-size:20px;
+  font-weight:600;
+  margin:0 0 18px;
+  color:var(--ink);
+}
+.flow-track{ display:flex; align-items:stretch; gap:12px; min-width:780px; }
+.flow-node-card{
+  flex:1;
+  min-width:150px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  background:var(--surface-2);
+  position:relative;
+}
+.flow-node-card .label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.flow-node-card .title{
+  font-family:var(--font-display);
+  font-size:18px;
+  font-weight:600;
+  line-height:1.15;
+  margin-top:8px;
+  color:var(--ink);
+}
+.flow-node-card p{
+  font-size:14px;
+  line-height:1.42;
+  margin:8px 0 0;
+  color:var(--muted);
+}
+.flow-node-card.student{ border-color:var(--product-line); background:var(--product-wash); }
+.flow-node-card.admin{ border-color:var(--qa-line); background:var(--qa-wash); }
+.flow-node-card.university{ border-color:var(--plat-line); background:var(--plat-wash); }
+.flow-node-card.success{ border-color:var(--qa); background:var(--qa-wash); }
+.flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
+.flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
+.flow-arrow{
+  flex:0 0 auto;
+  align-self:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--bg-dark);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-mono);
+  font-size:18px;
+  position:relative;
+}
+.flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:780px; }
+.flow-branches.two{ grid-template-columns:repeat(2,1fr); }
+.flow-visual[data-flow-animated]{ position:relative; }
+.flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:780px; }
+.flow-story-panel{
+  display:grid;
+  grid-template-columns:minmax(170px,.35fr) 1fr;
+  gap:16px;
+  min-width:780px;
+  margin:0 0 18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%);
+  box-shadow:0 18px 48px -36px rgba(22,28,38,.42);
+}
+.flow-story-actor{ border-radius:14px; padding:14px; background:var(--bg-dark); color:#fff; }
+.flow-story-actor .eyebrow{
+  display:block;
+  color:rgba(255,255,255,.72);
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin:0 0 8px;
+}
+.flow-story-actor strong{ display:block; font-family:var(--font-display); font-size:22px; line-height:1.1; }
+.flow-story-actor small{ display:block; margin-top:8px; color:rgba(255,255,255,.75); font-size:13px; line-height:1.35; }
+.flow-story-body{ align-self:center; }
+.flow-story-kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.flow-story-title{ font-family:var(--font-display); font-size:24px; line-height:1.16; margin:6px 0 0; color:var(--ink); }
+.flow-story-copy{ margin:8px 0 0; font-size:15px; line-height:1.5; color:var(--muted); }
+.flow-story-outcome{ margin:10px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+.flow-story-details{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+.flow-detail-card{ border:1px solid var(--line-soft); border-radius:12px; padding:12px; background:#fff; }
+.flow-detail-card b{ display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.flow-detail-card span{ display:block; font-size:13px; line-height:1.38; color:var(--ink-soft); }
+.flow-progress{ flex:1; height:8px; border-radius:999px; background:var(--line-soft); overflow:hidden; min-width:140px; }
+.flow-progress-bar{ height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg,var(--feature-accent),var(--qa),var(--plat)); transition:width .48s ease; }
+.flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
+.flow-legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+  background:var(--surface-2);
+  color:var(--muted);
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.flow-legend span::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); }
+.flow-legend .student::before{ background:var(--product); }
+.flow-legend .admin::before{ background:var(--qa); }
+.flow-legend .university::before{ background:var(--plat); }
+.flow-legend .decision::before{ background:#E9B949; }
+.flow-play{
+  border:0;
+  border-radius:999px;
+  background:var(--bg-dark);
+  color:#fff;
+  padding:10px 16px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 12px 30px -20px rgba(22,28,38,.65);
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  white-space:nowrap;
+}
+.flow-play:hover{ transform:translateY(-1px); box-shadow:0 18px 34px -22px rgba(22,28,38,.75); }
+.flow-play:focus-visible{ outline:3px solid var(--product-line); outline-offset:3px; }
+.flow-visual[data-flow-ready] .flow-node-card,
+.flow-visual[data-flow-ready] .flow-arrow{
+  opacity:.36;
+  transform:translateY(10px) scale(.985);
+  filter:saturate(.75);
+  transition:opacity .42s ease, transform .42s ease, filter .42s ease, box-shadow .42s ease, border-color .42s ease;
+}
+.flow-visual[data-flow-ready] .flow-node-card.flow-seen,
+.flow-visual[data-flow-ready] .flow-arrow.flow-seen{ opacity:1; transform:translateY(0) scale(1); filter:saturate(1); }
+.flow-node-card[data-flow-role-label]::before{
+  content:attr(data-flow-role-label);
+  display:inline-flex;
+  margin:0 0 10px;
+  border-radius:999px;
+  padding:4px 8px;
+  background:#fff;
+  color:var(--muted);
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  border:1px solid var(--line-soft);
+}
+.flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); transform:translateY(-3px) scale(1.015); }
+.flow-node-card.flow-active::after{ content:""; position:absolute; inset:-4px; border:2px solid rgba(42,111,219,.38); border-radius:18px; pointer-events:none; animation:flowPulse 1s ease-out; }
+.flow-node-card.admin.flow-active::after{ border-color:rgba(31,138,91,.4); }
+.flow-node-card.university.flow-active::after{ border-color:rgba(14,124,134,.42); }
+.flow-node-card.success.flow-active::after{ border-color:rgba(31,138,91,.5); }
+.flow-node-card.warning.flow-active::after{ border-color:rgba(233,185,73,.58); }
+.flow-node-card.danger.flow-active::after{ border-color:rgba(224,138,138,.6); }
+.flow-arrow.flow-active{ animation:flowArrowPulse .75s ease; }
+.flow-arrow.flow-active::before{ content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:#fff; box-shadow:0 0 0 4px rgba(42,111,219,.22); animation:flowPacket .72s ease; }
+.flow-visual.flow-complete{ box-shadow:0 24px 60px -48px rgba(42,111,219,.55); }
+@keyframes flowPulse{
+  0%{ opacity:0; transform:scale(.96); }
+  34%{ opacity:1; }
+  100%{ opacity:0; transform:scale(1.08); }
+}
+@keyframes flowArrowPulse{
+  0%,100%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(0) scale(1.16); box-shadow:0 0 0 8px rgba(14,22,35,.12); }
+}
+@keyframes flowPacket{
+  0%{ transform:translateX(-18px) scale(.8); opacity:0; }
+  20%{ opacity:1; }
+  100%{ transform:translateX(18px) scale(1); opacity:0; }
+}
+@media (max-width:980px){
+  .cap-grid,.story-list{ grid-template-columns:1fr 1fr; }
+  .flow-visual{ padding:18px; }
+  .flow-track,.flow-branches,.flow-controls,.flow-story-panel{ min-width:680px; }
+  .flow-story-panel,.flow-story-details{ grid-template-columns:1fr; }
+}
+@media (max-width:600px){
+  .cap-grid,.story-list{ grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion:reduce){
+  .flow-play{ display:none; }
+  .flow-visual[data-flow-ready] .flow-node-card,
+  .flow-visual[data-flow-ready] .flow-arrow{ opacity:1; transform:none; filter:none; transition:none; }
+  .flow-node-card.flow-active::after,
+  .flow-arrow.flow-active,
+  .flow-arrow.flow-active::before{ animation:none; }
+  .flow-progress-bar{ transition:none; }
+}
+
 </style>
 <style>
   .guide-view[hidden]{ display:none; }
@@ -484,13 +770,13 @@
     <h2>What Intoto provides to universities</h2>
     <p>Intoto is not sold as a single all-or-nothing license. Each university subscribes to a custom mix of <b>seven standalone paid modules</b> — provisioned by Intoto Admin and visible to the University Super Admin on <b>My University → Features</b>.</p>
     <div class="mod-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;">
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-ambassador"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-travel"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-community"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-chat"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-events"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-usermgmt"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p><span class="open">Open details →</span></a>
-      <a class="fact module-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-mobility"><div class="ft">07</div><div class="fd">Mobility Program</div><p>Academic exchange applications, approvals, nominations, programs, partners, and reports.</p><span class="open">Open details →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featureambassador"><div class="ft">01</div><div class="fd">Ambassador Management</div><p>Connect students with ambassadors — internal mentors and external partners.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featuretravel"><div class="ft">02</div><div class="fd">Travel Plan</div><p>Manage student travel arrangements and arrival status.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featurecommunity"><div class="ft">03</div><div class="fd">Community</div><p>Student connections, groups, and moderation.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featurechat"><div class="ft">04</div><div class="fd">Chat</div><p>Direct messaging between students, staff, and ambassadors.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featureevents"><div class="ft">05</div><div class="fd">Event Management</div><p>Create, publish, and track campus events.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featureusermgmt"><div class="ft">06</div><div class="fd">User Management</div><p>Licensed seats, invitations, and profile review.</p><span class="open">Open feature page →</span></a>
+      <a class="fact module-link" href="javascript:void(0)" data-guide="featuremobility"><div class="ft">07</div><div class="fd">Mobility Program</div><p>Academic exchange applications, approvals, nominations, programs, partners, and reports.</p><span class="open">Open feature page →</span></a>
     </div>
     <div class="more" style="margin-top:32px;">
       <div><div class="mt">Paid Features — full product catalog</div><p>Every module explained in detail — what it unlocks, who provisions it, capacity rules, and FAQs for sales and demos.</p></div>
@@ -751,15 +1037,15 @@
     <section class="sec" id="pf-catalog">
       <div class="kicker"><span class="sq"></span>Quick reference</div>
       <h2>All seven paid modules</h2>
-      <p>Tap a module below to jump to its full description, or scroll through sections 01–07.</p>
+      <p>Tap a module below to open its full client-facing feature page, or scroll through sections 01–07 for the catalog summary.</p>
       <div class="mod-grid">
-        <a class="mod-card" href="#pf-feat-ambassador"><h4>Ambassador Management</h4><p class="tagline">Connect students with ambassadors.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-travel"><h4>Travel Plan</h4><p class="tagline">Manage student travel arrangements.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-community"><h4>Community</h4><p class="tagline">Student connections &amp; groups.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-chat"><h4>Chat</h4><p class="tagline">Direct messaging between users.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-events"><h4>Event Management</h4><p class="tagline">Create and manage campus events.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-usermgmt"><h4>User Management</h4><p class="tagline">Control user limits &amp; invitations.</p><span class="read-more">Read more →</span></a>
-        <a class="mod-card" href="#pf-feat-mobility"><h4>Mobility Program</h4><p class="tagline">Manage academic exchange lifecycle.</p><span class="read-more">Read more →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featureambassador"><h4>Ambassador Management</h4><p class="tagline">Connect students with ambassadors.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featuretravel"><h4>Travel Plan</h4><p class="tagline">Manage student travel arrangements.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featurecommunity"><h4>Community</h4><p class="tagline">Student connections &amp; groups.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featurechat"><h4>Chat</h4><p class="tagline">Direct messaging between users.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featureevents"><h4>Event Management</h4><p class="tagline">Create and manage campus events.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featureusermgmt"><h4>User Management</h4><p class="tagline">Control user limits &amp; invitations.</p><span class="read-more">Open feature page →</span></a>
+        <a class="mod-card" href="javascript:void(0)" data-guide="featuremobility"><h4>Mobility Program</h4><p class="tagline">Manage academic exchange lifecycle.</p><span class="read-more">Open feature page →</span></a>
       </div>
       <table>
         <thead><tr><th>Module</th><th>Primary audience</th><th>Key surfaces when Active</th></tr></thead>
@@ -1283,6 +1569,755 @@
     <span>Intoto · Paid Features Product Catalog · v1.0</span>
     <span>For Product, QA, Sales &amp; Marketing</span>
   </footer>
+</div>
+</section>
+
+<section class="guide-view" data-view="featureambassador" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · AMBASSADOR MANAGEMENT</div>
+    <h1>Ambassador Management: peer guidance before and after arrival.</h1>
+    <p class="sub">A structured ambassador program for internal student mentors and external ambassadors, helping prospects and incoming students connect with trusted people instead of searching alone.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Ambassadors · External Ambassadors</div>
+      <div><b>Admin owner</b>University Super Admin / Ambassador team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-ambassador">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Ambassadors</div>
+    <a href="#fp-ambassador-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-ambassador-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-ambassador-flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#fp-ambassador-faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="fp-ambassador-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Turn student experience into a guided support network.</h2>
+      <p class="sec-lead">Ambassador Management lets a university invite, manage, and showcase ambassadors. Students discover mentors in the mobile app, while external ambassador flows support web-based prospect engagement where configured.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks ambassador dashboard cards, sidebar lists, invite flows, ambassador detail profiles, mobile ambassador carousel, and external ambassador discovery where enabled. When inactive, ambassador tools and discovery surfaces are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">2</div><div class="l">Ambassador types: internal and external</div></div>
+          <div class="stat"><div class="n">1:1</div><div class="l">Guidance path from student to mentor</div></div>
+          <div class="stat"><div class="n">360</div><div class="l">Profile context: campus, course, language, interests</div></div>
+          <div class="stat"><div class="n">On</div><div class="l">Discovery only when the module is Active</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> Universities can show prospects and incoming students real people who can answer practical questions about campus life, admissions, culture, housing, and onboarding.</p>
+    </section>
+
+    <section class="sec" id="fp-ambassador-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Ambassador programs become visible, searchable, and governable.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Invite</div><h4>Add ambassadors</h4><p>Admins invite student ambassadors or external ambassadors depending on the university's package and operating model.</p></div>
+        <div class="cap-card"><div class="cap-label">Profile</div><h4>Maintain mentor profiles</h4><p>Ambassador profiles show useful matching context such as program, campus, interests, languages, and introduction details.</p></div>
+        <div class="cap-card"><div class="cap-label">Discover</div><h4>Student discovery carousel</h4><p>Students browse ambassador cards in the mobile experience and open profiles to choose a relevant mentor.</p></div>
+        <div class="cap-card"><div class="cap-label">Connect</div><h4>Start a conversation</h4><p>Where Chat is Active, students can reach ambassadors directly without sharing personal phone numbers.</p></div>
+        <div class="cap-card"><div class="cap-label">External</div><h4>Prospect-facing ambassadors</h4><p>External ambassador surfaces support recruitment conversations before students are fully enrolled in the app.</p></div>
+        <div class="cap-card"><div class="cap-label">Control</div><h4>Govern visibility</h4><p>Admins can keep ambassador visibility tied to entitlement, role assignment, and university policies.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-ambassador-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How a student finds and connects with an ambassador.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Ambassador setup and discovery flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card university" data-actor="University Super Admin" data-info="Ambassador name, email, role type, campus, program, language, interests, and capacity context." data-review="Admin confirms the person should represent the university and has the right role." data-result="Ambassador invitation is sent and the record is created."><div class="label">Setup</div><div class="title">Invite ambassador</div><p>Admin adds internal or external ambassadors.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Ambassador" data-info="Profile photo, bio, program, experience, languages, interests, and availability details." data-review="Profile details make the ambassador useful for matching and discovery." data-result="Ambassador profile becomes ready for student/prospect discovery."><div class="label">Profile</div><div class="title">Complete profile</div><p>Ambassador adds context students need.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Student" data-info="Carousel card, profile details, shared interests, program/campus fit, and contact option." data-review="Student compares ambassadors and chooses the most relevant person." data-result="Student opens a profile and can connect where messaging is enabled."><div class="label">Discover</div><div class="title">Browse ambassador carousel</div><p>Students find the right mentor.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Student and Ambassador" data-info="Selected ambassador, student question, chat or contact context, and conversation history." data-review="Conversation gives practical support while keeping context inside Intoto." data-result="Student receives guidance and the university improves onboarding confidence."><div class="label">Connect</div><div class="title">Ask questions</div><p>Mentor relationship starts inside the platform.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-ambassador-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Ambassador Management questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is this only for enrolled students?</span><span class="pls"></span></summary><div class="ans">No. Internal ambassadors support enrolled or incoming students in the app, while external ambassador surfaces can support prospect engagement where enabled.</div></details>
+        <details><summary><span>Does Chat need to be active?</span><span class="pls"></span></summary><div class="ans">Ambassador discovery can exist as a module, but direct messaging uses the Chat module when the university wants in-product conversations.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Ambassador menus, invite paths, profiles, carousel discovery, and external ambassador access are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Ambassador Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featuretravel" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · TRAVEL PLAN</div>
+    <h1>Travel Plan: know who is arriving, in transit, and on campus.</h1>
+    <p class="sub">A travel and arrival visibility module for international intake teams. Students submit arrival details; university staff monitor travel status and prepare support before students reach campus.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Incoming students · Arrival coordinators</div>
+      <div><b>Admin owner</b>University Super Admin / coordinator team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-travel">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Travel</div>
+    <a href="#fp-travel-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-travel-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-travel-flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#fp-travel-faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="fp-travel-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Arrival operations without spreadsheet chasing.</h2>
+      <p class="sec-lead">Travel Plan gives universities a clean view of student arrival details, travel timelines, and campus arrival status. Staff can see who has submitted details, who is in transit, and who needs follow-up.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks Travel Plan dashboard cards, sidebar navigation, campus travel lists, status filters, student travel records, and arrival monitoring. When inactive, travel screens and campus travel tabs are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">3</div><div class="l">Typical states: not submitted, in transit, arrived</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Campus travel view for arrival teams</div></div>
+          <div class="stat"><div class="n">0</div><div class="l">Need for separate intake spreadsheets</div></div>
+          <div class="stat"><div class="n">Live</div><div class="l">Status visibility during arrival window</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-travel-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Travel details become operational data.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Student</div><h4>Submit travel information</h4><p>Students enter arrival date, time, airport/station, transport mode, flight/train details, and emergency notes where required.</p></div>
+        <div class="cap-card"><div class="cap-label">Status</div><h4>Track travel states</h4><p>Staff can distinguish missing details, submitted plans, in-transit students, and arrived students.</p></div>
+        <div class="cap-card"><div class="cap-label">Campus</div><h4>Campus travel tab</h4><p>Travel data can be viewed by campus so local teams know who is arriving to their location.</p></div>
+        <div class="cap-card"><div class="cap-label">Follow up</div><h4>Identify gaps</h4><p>Students with missing or incomplete travel plans can be contacted before the arrival rush.</p></div>
+        <div class="cap-card"><div class="cap-label">Prepare</div><h4>Coordinate arrival support</h4><p>Arrival teams can plan pickups, check-in staffing, orientation support, or emergency response based on expected arrival windows.</p></div>
+        <div class="cap-card"><div class="cap-label">Report</div><h4>See intake readiness</h4><p>Travel status gives leadership an intake readiness signal before the semester starts.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-travel-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How arrival information is collected and reviewed.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Travel plan submission and arrival tracking flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student" data-info="Arrival date/time, destination campus, airport or station, flight/train number, transport mode, accommodation/check-in notes, and emergency contact." data-review="App checks required fields and saves the student's latest travel plan." data-result="Travel plan status changes from missing to submitted."><div class="label">Submit</div><div class="title">Enter travel details</div><p>Student provides arrival information before travel.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Arrival coordinator" data-info="Student name, program, campus, arrival date/time, transport details, missing fields, and risk notes." data-review="Coordinator checks completeness, arrival window, campus ownership, and whether follow-up is needed." data-result="Coordinator can plan support or contact the student for corrections."><div class="label">Review</div><div class="title">Travel list check</div><p>Staff review incoming student plans.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card warning" data-actor="Arrival coordinator" data-info="Incomplete travel fields, delayed arrival, missing contact, or unclear destination." data-review="Coordinator identifies records that could create arrival-day confusion." data-result="Student receives follow-up before travel day."><div class="label">Follow up</div><div class="title">Fix missing details</div><p>Incomplete plans are resolved before arrival.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Arrival coordinator" data-info="Arrival confirmation, timestamp, campus destination, and student status." data-review="Staff confirm the student has reached campus or completed the arrival checkpoint." data-result="Travel status changes to arrived and intake tracking is complete."><div class="label">Arrive</div><div class="title">Mark arrived</div><p>Campus team closes the arrival loop.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-travel-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Travel Plan questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>What information does the student provide?</span><span class="pls"></span></summary><div class="ans">Typical travel details include arrival date/time, campus, airport or station, flight/train number, transport mode, accommodation or check-in notes, and emergency contact information.</div></details>
+        <details><summary><span>Can staff see students who have not submitted plans?</span><span class="pls"></span></summary><div class="ans">Yes. The value of the module is visibility into both submitted plans and missing plans, so teams can follow up early.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Travel Plan cards, sidebar entries, travel lists, campus travel tabs, and arrival-status workflows are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Travel Plan Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featurecommunity" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · COMMUNITY</div>
+    <h1>Community: groups, posts, engagement, and safe moderation.</h1>
+    <p class="sub">Client-facing feature page explaining exactly what users can do inside Community: create or request groups, join approved spaces, publish posts with text, images, video, and documents, comment, reply, share, report, and keep the experience governed by coordinators.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Community Coordinators · Third-Party Coordinators</div>
+      <div><b>Admin owner</b>Community Coordinator / University Super Admin</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-community">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Community</div>
+    <a href="#fp-community-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-community-capabilities"><span class="toc-num">02</span>What users can do</a>
+    <a href="#fp-community-flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#fp-community-governance"><span class="toc-num">04</span>Governance</a>
+    <a href="#fp-community-faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+
+  <main>
+    <section class="sec" id="fp-community-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>A university-owned social layer for campus groups.</h2>
+      <p class="sec-lead">Community gives the university a governed place for students, staff, and third-party partners to discover groups, join discussions, share useful content, and build belonging without moving conversations to unmanaged public channels.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Community is Active, the app unlocks Feed, Explore, My Community, community profiles, community creation, pending request review, post creation, likes, comments, replies, sharing, report handling, and notifications. When inactive, those surfaces are hidden from students and staff.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">3</div><div class="l">Core sections: Feed, Explore, My Community</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Post formats: text, image, video, document</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Creation paths: instant staff create or user request</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Moderated campus-owned community space</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> Community helps the university sell belonging. Students do not just receive announcements; they join real groups, ask questions, post media, reply to peers, and build a campus network inside Intoto.</p>
+    </section>
+
+    <section class="sec" id="fp-community-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Every visible action in the Community feature.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Discover</div><h4>Explore approved communities</h4><p>Users browse available university communities, open community profiles, read descriptions and rules, view member counts, and join relevant groups.</p></div>
+        <div class="cap-card"><div class="cap-label">Create</div><h4>Create or request a community</h4><p>Coordinators and Super Admins can publish communities instantly. Students and Third-Party Coordinators submit requests that wait for approval.</p></div>
+        <div class="cap-card"><div class="cap-label">Post</div><h4>Publish content in joined groups</h4><p>Members can create text posts, image posts, video posts, document posts, and event-style share cards inside active communities.</p></div>
+        <div class="cap-card"><div class="cap-label">Engage</div><h4>Like, comment, and reply</h4><p>Users like posts, open like lists, comment, like comments, reply to comments, like replies, and continue discussions inside the community thread.</p></div>
+        <div class="cap-card"><div class="cap-label">Share</div><h4>Share posts and community content</h4><p>Content can be shared to eligible community or chat contexts where sharing is available, helping useful posts travel without losing source context.</p></div>
+        <div class="cap-card"><div class="cap-label">Protect</div><h4>Report and moderate content</h4><p>Users can report posts from the three-dot menu. Coordinators review reports, remove inappropriate content, and keep community standards clear.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-community-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How Community works from request to engagement.</h2>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Community creation and approval flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student or Third-Party Coordinator" data-info="Community name, topic/category, description, audience, rules, and reason for creating the group." data-review="The request is checked for duplication, relevance to campus life, policy fit, and safety risk." data-result="A pending community request is created and routed to the coordinator/admin queue."><div class="label">User request</div><div class="title">Submit community request</div><p>A non-staff user proposes a new community from My Community.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Community Coordinator" data-info="Requested title, description, creator profile, intended members, rules, and university policy context." data-review="Coordinator checks whether the group is appropriate, unique, useful, and safe for students." data-result="Coordinator can approve, reject, or ask the requester to revise details."><div class="label">Admin queue</div><div class="title">Review pending request</div><p>The request waits in the approval queue until a coordinator acts.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Coordinator decision" data-info="Approval action, optional notes, visibility settings, and requester notification." data-review="Approval confirms the community can become discoverable to relevant users." data-result="The community becomes Active, appears in Explore, and can be joined by users."><div class="label">Approve</div><div class="title">Publish community</div><p>Approved communities become visible and joinable.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Student" data-info="Community listing, profile details, member count, rules, and join action." data-review="The user reviews whether the community matches their interest before joining." data-result="Joined-community posts start appearing in Feed."><div class="label">Engagement</div><div class="title">Join and follow posts</div><p>Users join the group and start seeing community content.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card admin" data-actor="Coordinator / Super Admin" data-info="Community title, description, category, rules, cover content, and visibility." data-review="Trusted staff creation is treated as already approved because the creator owns governance." data-result="Community publishes instantly without the pending request step."><div class="label">Staff path</div><div class="title">Instant staff-created community</div><p>Official communities can be created immediately by authorized staff.</p></div>
+          <div class="flow-node-card danger" data-actor="Coordinator decision" data-info="Rejection reason and policy or duplication note." data-review="Coordinator confirms why the community should not go live." data-result="Requester receives rejection notification; the community remains unavailable to others."><div class="label">Reject path</div><div class="title">Do not publish</div><p>Rejected requests stay hidden and cannot be joined.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Post, media, comments, replies, and moderation flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Community member" data-info="Post text, selected community, optional image, video, document, or shared event card." data-review="App checks the user is a member of an Active community and has attached supported content." data-result="The post is published in the community feed with media or document preview."><div class="label">Create post</div><div class="title">Text, image, video, or document</div><p>Members publish useful content inside joined communities.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Community members" data-info="Like tap, comment text, image-in-comment where supported, reply text, and reply like action." data-review="The thread stores engagement under the original post so context is not lost." data-result="Likes, comments, replies, and reply likes update the visible discussion."><div class="label">Engage</div><div class="title">Like, comment, and reply</div><p>Discussions grow around the original post.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Community member" data-info="Share target, source post, and the destination context such as chat or another eligible community." data-review="The app keeps the shared item tied to the original post context." data-result="The content reaches more users without copying it into unmanaged channels."><div class="label">Share</div><div class="title">Share post onward</div><p>Useful content can be reused in other eligible contexts.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Community Coordinator" data-info="Report reason, reported post/comment, reporter, creator, timestamp, and community rules." data-review="Coordinator checks whether content violates policy or requires no action." data-result="Content is removed, left visible, or followed up with the creator depending on the review."><div class="label">Moderate</div><div class="title">Review reports</div><p>Reported content is triaged by the coordinator/admin team.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-community-governance">
+      <div class="kicker"><span class="sq"></span>Governance</div>
+      <h2>Clear ownership keeps community safe.</h2>
+      <table>
+        <thead><tr><th>Role</th><th>Responsibility</th><th>Important boundary</th></tr></thead>
+        <tbody>
+          <tr><td><b>Student</b></td><td>Join communities, request new communities, post, like, comment, reply, share, report.</td><td>Student-created communities require approval before becoming visible.</td></tr>
+          <tr><td><b>Third-Party Coordinator</b></td><td>Request communities, join relevant groups, post and engage, receive suggestions.</td><td>Creation requests follow the same approval path as students.</td></tr>
+          <tr><td><b>Community Coordinator</b></td><td>Create official communities, approve/reject requests, moderate content, review reports, delete/archive where needed.</td><td>Owns day-to-day safety and engagement health.</td></tr>
+          <tr><td><b>University Super Admin</b></td><td>University-wide oversight, official creation, request clearing, moderation authority.</td><td>Can supervise the full tenant experience.</td></tr>
+        </tbody>
+      </table>
+      <div class="lens-row">
+        <div class="lens product"><div class="lt"><span class="d"></span>Product</div><p>Community combines social engagement with approval gates, so universities get student-led energy without losing control.</p></div>
+        <div class="lens qa"><div class="lt"><span class="d"></span>QA focus</div><p>Active module exposes Community surfaces; pending groups remain hidden; approved groups are joinable; post actions work only in active/joined communities.</p></div>
+        <div class="lens mktg"><div class="lt"><span class="d"></span>Marketing</div><p>"A safe campus social network where students create belonging and staff keep it healthy."</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-community-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Community questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Can students create their own communities?</span><span class="pls"></span></summary><div class="ans">Yes. Students can submit a community creation request. The community is not visible to others until a Community Coordinator or University Super Admin approves it.</div></details>
+        <details><summary><span>Can staff create official groups instantly?</span><span class="pls"></span></summary><div class="ans">Yes. Community Coordinators and University Super Admins can create official communities directly because those roles are trusted governance owners.</div></details>
+        <details><summary><span>What types of posts are supported?</span><span class="pls"></span></summary><div class="ans">Community supports text posts plus media and attachment-style posts such as images, videos, documents, and shareable event cards where event sharing is enabled.</div></details>
+        <details><summary><span>Can users comment and reply?</span><span class="pls"></span></summary><div class="ans">Yes. Users can comment on posts, reply to comments, like comments, like replies, and keep discussions attached to the original post.</div></details>
+        <details><summary><span>What happens when the Community module is inactive?</span><span class="pls"></span></summary><div class="ans">Community navigation, group discovery, create/join flows, feeds, posting, reporting, and moderation surfaces are hidden for that university.</div></details>
+      </div>
+    </section>
+
+    <footer>
+      <span>Intoto · Community Paid Feature Guide</span>
+      <span>Client-facing feature detail</span>
+    </footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featurechat" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · CHAT</div>
+    <h1>Chat: one secure inbox for students, mentors, and staff.</h1>
+    <p class="sub">A communication layer for 1:1 and group messaging across students, ambassadors, coordinators, and university staff, keeping support conversations inside the Intoto ecosystem.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Staff · Ambassadors · Coordinators</div>
+      <div><b>Admin owner</b>University Super Admin / support team</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-chat">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Chat</div>
+    <a href="#fp-chat-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-chat-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-chat-flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#fp-chat-faq"><span class="toc-num">04</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="fp-chat-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Support conversations without personal phone numbers.</h2>
+      <p class="sec-lead">Chat gives universities controlled messaging across their Intoto community. Students can contact the right person, staff can create groups, and conversations stay attached to university roles instead of scattered across personal apps.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, Chat unlocks mobile Chats tab, web Chat sidebar, direct messaging, group creation, inboxes, message threads, read/unread states, and contextual sharing where other modules allow it. When inactive, chat surfaces are hidden.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">1:1</div><div class="l">Direct support conversations</div></div>
+          <div class="stat"><div class="n">Group</div><div class="l">Staff-created or role-based group messaging</div></div>
+          <div class="stat"><div class="n">Live</div><div class="l">Conversation history in one product</div></div>
+          <div class="stat"><div class="n">Safe</div><div class="l">No need for personal contact sharing</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-chat-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Chat supports the conversations around every other feature.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Inbox</div><h4>View conversations</h4><p>Users open a Chats tab or sidebar to see conversations, unread badges, participants, and recent messages.</p></div>
+        <div class="cap-card"><div class="cap-label">Message</div><h4>Send direct messages</h4><p>Students, staff, ambassadors, and coordinators can send role-appropriate messages where permissions allow.</p></div>
+        <div class="cap-card"><div class="cap-label">Groups</div><h4>Create group conversations</h4><p>Web users can create groups for cohorts, events, support teams, ambassador groups, or operational follow-up.</p></div>
+        <div class="cap-card"><div class="cap-label">Context</div><h4>Share module content</h4><p>Community posts, events, or support context can be shared into conversations where those modules allow sharing.</p></div>
+        <div class="cap-card"><div class="cap-label">Support</div><h4>Centralize help</h4><p>Students get one place for support, academic questions, buddy conversations, financial aid, or group updates.</p></div>
+        <div class="cap-card"><div class="cap-label">Control</div><h4>Entitlement-based access</h4><p>If Chat is not Active, messaging routes and tabs are hidden even if another feature references people or profiles.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-chat-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How a conversation starts and stays inside Intoto.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Direct and group chat flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student or staff user" data-info="Selected contact or group, sender identity, recipient role, message text, attachment/share context where available." data-review="App checks Chat entitlement and whether the sender can message the target." data-result="Message draft is sent into the correct conversation thread."><div class="label">Compose</div><div class="title">Write message</div><p>User starts a message from inbox, profile, or shared context.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Chat system" data-info="Message body, sender, recipients, timestamp, read/unread state, and conversation ID." data-review="System stores the message and updates inbox ordering and unread indicators." data-result="Recipient sees the conversation and unread state."><div class="label">Deliver</div><div class="title">Update inbox</div><p>The message appears in the recipient inbox.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Recipient" data-info="Thread history, participant details, latest message, shared context, and reply box." data-review="Recipient reviews context and writes the next response." data-result="Conversation continues with history preserved."><div class="label">Reply</div><div class="title">Continue thread</div><p>Both sides keep context in one place.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="University staff" data-info="Group name, participants, roles, cohort/event/community context, and purpose." data-review="Staff confirms the right people are included before creating or using the group." data-result="Group chat supports broadcast and coordination without external channels."><div class="label">Group</div><div class="title">Coordinate at scale</div><p>Groups support cohorts, events, or support teams.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-chat-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Chat questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is Chat required for Community or Ambassador conversations?</span><span class="pls"></span></summary><div class="ans">Those modules can expose people and profiles, but in-product messaging requires Chat to be Active.</div></details>
+        <details><summary><span>Can staff create group conversations?</span><span class="pls"></span></summary><div class="ans">Yes. Web chat supports group creation for relevant users and operational groups where permitted.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">Chat sidebar, mobile Chats tab, compose paths, inboxes, group creation, and in-product messaging are hidden.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · Chat Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featureevents" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · EVENT MANAGEMENT</div>
+    <h1>Event Management: create, approve, register, attend, and learn from events.</h1>
+    <p class="sub">A complete campus event lifecycle: draft events, approval, discovery, registration questions, QR attendance, community sharing, ratings, and post-event feedback.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Students · Event Creators · Event Coordinators</div>
+      <div><b>Admin owner</b>University Event Coordinator</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-events">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Events</div>
+    <a href="#fp-events-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-events-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-events-flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#fp-events-roles"><span class="toc-num">04</span>Roles</a>
+    <a href="#fp-events-faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+
+  <main>
+    <section class="sec" id="fp-events-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>From event idea to attendance proof.</h2>
+      <p class="sec-lead">Event Management lets a university run student-facing events in one place. Staff can create events, route them for approval, publish them to students, collect registrations, scan QR codes at entry, and review attendance and feedback after completion.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks the Event dashboard, My Events, Registered Events, Upcoming Events, Pending Events, Create Event, draft handling, approval flow, registration questions, QR attendance, ratings, feedback, and community sharing.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">6</div><div class="l">Dashboard sections for event status</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Event types: physical, virtual, hybrid</div></div>
+          <div class="stat"><div class="n">QR</div><div class="l">Attendance verification on event day</div></div>
+          <div class="stat"><div class="n">360</div><div class="l">Lifecycle view from draft to feedback</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-events-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>Events are managed as a full workflow, not a simple listing.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Create</div><h4>Build event details</h4><p>Add title, description, date/time, location or link, category, type, maximum participants, image, and coordinators.</p></div>
+        <div class="cap-card"><div class="cap-label">Questions</div><h4>Ask registration questions</h4><p>Collect required answers such as preferences, expectations, consent, dietary notes, or eligibility checks before registration completes.</p></div>
+        <div class="cap-card"><div class="cap-label">Approve</div><h4>Review before publishing</h4><p>University Event Coordinators approve, reject, or request changes before events appear in Upcoming Events.</p></div>
+        <div class="cap-card"><div class="cap-label">Register</div><h4>Student registration</h4><p>Users browse approved events, open details, answer questions, register, and receive a QR code for attendance.</p></div>
+        <div class="cap-card"><div class="cap-label">Attend</div><h4>QR attendance</h4><p>Event Coordinators scan the QR code at entry so attendance is based on proof, not manual spreadsheets.</p></div>
+        <div class="cap-card"><div class="cap-label">Improve</div><h4>Ratings and feedback</h4><p>Completed events collect star ratings, comments, and attendee feedback for future planning.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-events-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How event information is created, reviewed, and approved.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Create, review, and publish event flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin" data-actor="Event Creator" data-info="Event name, description, date/time, category, event type, location/link, capacity, image, coordinators, and optional questions." data-review="The form checks required event details and keeps drafts private until submission." data-result="Creator can save as Draft or submit the event for approval."><div class="label">Create</div><div class="title">Enter event details</div><p>Creator prepares a complete event record.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card warning" data-actor="Event Creator" data-info="Draft status, incomplete data, and editable event record." data-review="Creator can reopen and complete missing details before submission." data-result="Draft remains creator-only and does not appear to students."><div class="label">Optional</div><div class="title">Save as Draft</div><p>Event stays private until submitted.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="University Event Coordinator" data-info="Submitted event details, creator profile, assigned coordinators, registration questions, capacity, and safety context." data-review="Coordinator checks quality, timing, audience fit, capacity, and policy compliance." data-result="Coordinator approves, rejects, or requests corrections."><div class="label">Review</div><div class="title">Approval queue</div><p>Coordinator validates the event before publication.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Coordinator decision" data-info="Approval status, event visibility, schedule, and notification context." data-review="Approval confirms the event is ready for student discovery." data-result="Event becomes Active and appears in Upcoming Events and relevant dashboards."><div class="label">Approve</div><div class="title">Publish to students</div><p>Approved event becomes discoverable and registerable.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card danger" data-actor="Coordinator decision" data-info="Rejection reason or change request notes." data-review="Coordinator confirms event should not publish in its current state." data-result="Creator receives feedback; students cannot see the event."><div class="label">Reject / changes</div><div class="title">Send back</div><p>Event remains unpublished until corrected.</p></div>
+          <div class="flow-node-card university" data-actor="University Super Admin" data-info="Event counts, status distribution, coordinator activity, registrations, and attendance results." data-review="Leadership reviews adoption and operational health across the tenant." data-result="University can plan engagement strategy and improve future events."><div class="label">Oversight</div><div class="title">Track event health</div><p>Reporting shows what events are working.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Registration, QR attendance, and feedback flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student" data-info="Event detail, date/time, location/link, capacity, registration questions, and consent answers." data-review="App checks required answers and confirms registration availability." data-result="Student is registered and receives event confirmation."><div class="label">Register</div><div class="title">Answer questions</div><p>Student registers for an approved event.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Student" data-info="QR code tied to event registration and student record." data-review="The code represents a valid registration for that event." data-result="Student can show QR code at the venue."><div class="label">Ticket</div><div class="title">Receive QR code</div><p>QR becomes the attendance proof.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Event Coordinator" data-info="QR scan result, event ID, student registration ID, and timestamp." data-review="Coordinator scans and validates the QR code against registered attendees." data-result="Attendance status changes to Attended."><div class="label">Attend</div><div class="title">Scan attendance</div><p>Coordinator marks attendance with QR verification.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Attendee" data-info="Rating score, written feedback, attendee identity where allowed, and submission timestamp." data-review="Feedback is attached to the completed event for creator review." data-result="Creator sees ratings and comments after event completion."><div class="label">After event</div><div class="title">Submit feedback</div><p>Feedback improves the next event.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-events-roles">
+      <div class="kicker"><span class="sq"></span>Roles and boundaries</div>
+      <h2>Who does what in Event Management.</h2>
+      <table>
+        <thead><tr><th>Role</th><th>Can do</th><th>Boundary</th></tr></thead>
+        <tbody>
+          <tr><td><b>Regular user</b></td><td>Browse approved events, register, answer questions, show QR code, submit feedback.</td><td>Cannot publish or approve events.</td></tr>
+          <tr><td><b>Event Creator</b></td><td>Create drafts, submit events, assign coordinators, see registrations and ratings.</td><td>Submitted events require approval before becoming public.</td></tr>
+          <tr><td><b>Event Coordinator</b></td><td>Approve/reject events, manage assigned execution, scan attendance, review event operations.</td><td>Owns event readiness and on-ground validity.</td></tr>
+          <tr><td><b>University Super Admin</b></td><td>University-wide oversight and governance where configured.</td><td>Uses event data for tenant-level reporting.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="fp-events-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Event Management questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Can an event be saved before it is ready?</span><span class="pls"></span></summary><div class="ans">Yes. Save as Draft keeps the event private and editable until the creator submits it for approval.</div></details>
+        <details><summary><span>When does an event appear to students?</span><span class="pls"></span></summary><div class="ans">Only after it is approved. Approved events appear in Upcoming Events and related dashboards.</div></details>
+        <details><summary><span>Can coordinators verify actual attendance?</span><span class="pls"></span></summary><div class="ans">Yes. Registered users receive a QR code and coordinators scan that code to mark attendance.</div></details>
+        <details><summary><span>Can events be shared to communities?</span><span class="pls"></span></summary><div class="ans">Yes, where Community is enabled and sharing is allowed, event details can be shared as event cards into eligible communities.</div></details>
+      </div>
+    </section>
+
+    <footer><span>Intoto · Event Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featureusermgmt" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · USER MANAGEMENT</div>
+    <h1>User Management: seats, invites, roles, and profile review.</h1>
+    <p class="sub">The foundation module for onboarding people into Intoto. It controls licensed capacity, invitation flows, user directories, role assignment, profile review, and utilization visibility.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>University Super Admin · All invited users</div>
+      <div><b>Admin owner</b>University Super Admin</div>
+      <div><b>Commercial model</b>Standalone seat-based module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-usermgmt">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Users</div>
+    <a href="#fp-usermgmt-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-usermgmt-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-usermgmt-flows"><span class="toc-num">03</span>Animated flow</a>
+    <a href="#fp-usermgmt-capacity"><span class="toc-num">04</span>Capacity</a>
+    <a href="#fp-usermgmt-faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+  <main>
+    <section class="sec" id="fp-usermgmt-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>The module every tenant needs before inviting people.</h2>
+      <p class="sec-lead">User Management lets a university control who enters Intoto and how many users are allowed under the contract. It supports individual invites, bulk invite/import, role assignment, profile review, suspension, and utilization reporting.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks Manage User, Invite Data, Profile Review, Add User, bulk invites, capacity tracking, domestic/international split where configured, and dashboard people counts. When inactive, user onboarding tools are unavailable.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">5k</div><div class="l">Example total licensed capacity</div></div>
+          <div class="stat"><div class="n">20%</div><div class="l">Example utilization visibility</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">Optional domestic and international buckets</div></div>
+          <div class="stat"><div class="n">All</div><div class="l">Roles depend on invite and seat control</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> User Management is the commercial control point. It lets the university see exactly how much of the purchased capacity is used and prevents uncontrolled onboarding beyond the contract.</p>
+    </section>
+
+    <section class="sec" id="fp-usermgmt-capabilities">
+      <div class="kicker"><span class="sq"></span>What admins can do</div>
+      <h2>Every invitation and role begins here.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Invite</div><h4>Add one user</h4><p>Admins invite a person with email, name, role, campus, student/staff type, and required profile fields.</p></div>
+        <div class="cap-card"><div class="cap-label">Bulk</div><h4>Upload invite data</h4><p>Bulk invite supports intake waves so universities can onboard large cohorts without manual entry.</p></div>
+        <div class="cap-card"><div class="cap-label">Roles</div><h4>Assign correct access</h4><p>Users receive role-specific access such as Student, Ambassador, Coordinator, Third-Party Coordinator, or admin roles.</p></div>
+        <div class="cap-card"><div class="cap-label">Capacity</div><h4>Enforce seat limits</h4><p>The system tracks invited users against purchased capacity and can block or warn when the limit is reached.</p></div>
+        <div class="cap-card"><div class="cap-label">Review</div><h4>Profile review</h4><p>Admins inspect submitted profiles, verify required details, and resolve incomplete or incorrect records.</p></div>
+        <div class="cap-card"><div class="cap-label">Suspend</div><h4>Control access lifecycle</h4><p>Admins can suspend or manage users when access should change after intake, graduation, or policy action.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-usermgmt-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How user information is checked before access is granted.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Invite, capacity, and profile review flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card university" data-actor="University Super Admin" data-info="User name, email, role, campus, user type, domestic/international bucket, and invite source." data-review="Admin confirms the person belongs to the university and chooses the correct role." data-result="Invite is ready for capacity validation."><div class="label">Invite</div><div class="title">Prepare user invite</div><p>Admin creates an individual or bulk invite.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="User Management system" data-info="Total capacity, current invited count, domestic count, international count, role, and contract entitlement." data-review="System compares the new invite against purchased limits and configured buckets." data-result="Invite proceeds if capacity remains; otherwise it is blocked or requires contract update."><div class="label">Check</div><div class="title">Validate capacity</div><p>Seat usage is checked before onboarding continues.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card student" data-actor="Invited user" data-info="Invite email, profile fields, identity details, academic or staff information, and consent where required." data-review="User completes onboarding information requested by the university." data-result="Profile enters review or becomes available depending on configured process."><div class="label">Onboard</div><div class="title">Complete profile</div><p>User fills required details after receiving the invite.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="University Super Admin" data-info="Completed profile, role, campus, required fields, status, and verification notes." data-review="Admin checks profile correctness and resolves incomplete or suspicious records." data-result="Approved user receives the correct role access in Intoto."><div class="label">Approve</div><div class="title">Profile review</div><p>Admin validates user data before full operational use.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card warning" data-actor="University Super Admin" data-info="Missing field, invalid data, duplicate email, or unclear role." data-review="Admin checks what is missing and asks the user or intake owner to correct it." data-result="Profile remains pending until corrected."><div class="label">Incomplete</div><div class="title">Request correction</div><p>Bad records are fixed before approval.</p></div>
+          <div class="flow-node-card danger" data-actor="System / Admin" data-info="Current utilization, purchased capacity, and attempted invite count." data-review="System detects the university has reached the licensed limit." data-result="Invite is blocked until capacity is increased or users are removed/suspended per policy."><div class="label">Limit</div><div class="title">Capacity reached</div><p>Over-inviting is prevented.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-usermgmt-capacity">
+      <div class="kicker"><span class="sq"></span>Capacity model</div>
+      <h2>What the Features card shows.</h2>
+      <table>
+        <thead><tr><th>Field</th><th>Meaning</th><th>Client value</th></tr></thead>
+        <tbody>
+          <tr><td><b>Total Capacity</b></td><td>Maximum number of licensed users.</td><td>Commercial clarity before large intake periods.</td></tr>
+          <tr><td><b>Utilization</b></td><td>How many users have been invited or consumed.</td><td>Admins know remaining capacity instantly.</td></tr>
+          <tr><td><b>Domestic users</b></td><td>Bucket for domestic user allocation where configured.</td><td>Supports split pricing or operational segmentation.</td></tr>
+          <tr><td><b>International users</b></td><td>Bucket for international user allocation where configured.</td><td>Useful for universities with distinct intake groups.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sec" id="fp-usermgmt-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>User Management questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is User Management required to invite users?</span><span class="pls"></span></summary><div class="ans">Yes. It unlocks Manage User, Invite Data, Add User, bulk invite, profile review, and capacity tracking.</div></details>
+        <details><summary><span>What happens when capacity is reached?</span><span class="pls"></span></summary><div class="ans">The system prevents uncontrolled onboarding. The university can increase capacity commercially or reduce active invited users according to policy.</div></details>
+        <details><summary><span>What happens when inactive?</span><span class="pls"></span></summary><div class="ans">User invitation, directory, profile review, and onboarding surfaces are unavailable for the university.</div></details>
+      </div>
+    </section>
+    <footer><span>Intoto · User Management Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
+</div>
+</section>
+
+<section class="guide-view" data-view="featuremobility" hidden>
+<div class="back-bar"><button data-back>← All role guides</button></div>
+<div class="feature-page">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="sq"></span>PAID FEATURE · MOBILITY PROGRAM</div>
+    <h1>Mobility Program: the exchange lifecycle from application to reports.</h1>
+    <p class="sub">A mobile-first academic mobility workspace for Mobility Offices: applications, document review, approval decisions, nominations to partner universities, programs, partners, tasks, reports, and institutional oversight.</p>
+    <div class="hero-meta">
+      <div><b>Primary users</b>Mobility Program Admins · Students · University Admins</div>
+      <div><b>Admin owner</b>Mobility Office</div>
+      <div><b>Commercial model</b>Standalone paid module</div>
+    </div>
+    <a class="feature-nav-link" href="javascript:void(0)" data-guide="features" data-anchor="pf-feat-mobility">&larr; Back to Paid Features catalog</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-h">Mobility</div>
+    <a href="#fp-mobility-overview"><span class="toc-num">01</span>Overview</a>
+    <a href="#fp-mobility-capabilities"><span class="toc-num">02</span>Capabilities</a>
+    <a href="#fp-mobility-flows"><span class="toc-num">03</span>Animated flows</a>
+    <a href="#fp-mobility-lifecycle"><span class="toc-num">04</span>Lifecycle</a>
+    <a href="#fp-mobility-faq"><span class="toc-num">05</span>FAQs</a>
+  </nav>
+
+  <main>
+    <section class="sec" id="fp-mobility-overview">
+      <div class="kicker"><span class="sq"></span>Feature overview</div>
+      <h2>Replace email threads and spreadsheets with one governed mobility flow.</h2>
+      <p class="sec-lead">Mobility Program digitizes exchange operations. Students submit and track their journey, Mobility Program Admins review applications and nominate approved students, and University Admins monitor partner network, budget, programs, users, and reports.</p>
+      <div class="tldr">
+        <h3>What the client gets</h3>
+        <p>When Active, the module unlocks a Mobility Program Admin role, command center, student directory, approval queue, application detail, nomination hub, program catalog, partner university directory, documents, reports, settings, notifications, and university-level oversight surfaces.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">5</div><div class="l">Lifecycle stages from application to in-mobility</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Roles: Student, Mobility Admin, University Admin</div></div>
+          <div class="stat"><div class="n">17</div><div class="l">Mobility Admin operating screens</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Single source of truth for exchange decisions</div></div>
+        </div>
+      </div>
+      <p class="client-note"><b>Sales story:</b> Mobility Program is for universities that want to professionalize international-office operations. The team can show how every student record moves from submitted application to approved nomination and reporting evidence.</p>
+    </section>
+
+    <section class="sec" id="fp-mobility-capabilities">
+      <div class="kicker"><span class="sq"></span>What users can do</div>
+      <h2>The module supports the full mobility office operating model.</h2>
+      <div class="cap-grid">
+        <div class="cap-card"><div class="cap-label">Student</div><h4>Apply and track journey</h4><p>Students follow a 5-stage journey, complete tasks, upload documents, read notifications, chat with support, and view status.</p></div>
+        <div class="cap-card"><div class="cap-label">Review</div><h4>Approval queue</h4><p>Admins filter applications, open detail pages, inspect GPA, eligibility, documents, notes, and choose approve, reject, or request info.</p></div>
+        <div class="cap-card"><div class="cap-label">Nominate</div><h4>Partner assignment</h4><p>Approved students appear in Nomination Hub; admins select a partner university and nominate the student for acceptance.</p></div>
+        <div class="cap-card"><div class="cap-label">Programs</div><h4>Program catalog</h4><p>Admins manage exchange programs, durations, funding information, partners, enrollment stats, status, and detail pages.</p></div>
+        <div class="cap-card"><div class="cap-label">Partners</div><h4>Partner universities</h4><p>Search partner universities, review agreement status, student counts, active programs, rankings, and destination details.</p></div>
+        <div class="cap-card"><div class="cap-label">Report</div><h4>Operational and institutional reports</h4><p>Generate annual, quarterly, evaluation, survey, and financial reports with metrics, summaries, and export actions.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-mobility-flows">
+      <div class="kicker"><span class="sq"></span>Animated explanation</div>
+      <h2>How information is taken, reviewed, approved, and nominated.</h2>
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Application submission and approval flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card student" data-actor="Student" data-info="Application form, program choice, statement of purpose, transcripts, passport/identity files, and required mobility documents." data-review="The app stores the submission, marks application stage, and sends the record to the admin queue." data-result="Student sees application submitted and waits for review."><div class="label">Submit</div><div class="title">Application + documents</div><p>Student sends the mobility application package.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Mobility Program Admin" data-info="Student profile, GPA, major, year, selected program, destination, uploaded documents, and review notes." data-review="Admin validates completeness, eligibility, GPA, document quality, and program fit." data-result="Admin can approve, reject, or request more information."><div class="label">Review</div><div class="title">Application Detail</div><p>Admin reviews the application in depth.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Mobility Program Admin" data-info="Decision action, approval notes, application status, and eligibility outcome." data-review="Admin confirms the student meets mobility requirements." data-result="Approved status unlocks the nomination path."><div class="label">Approve</div><div class="title">Approve application</div><p>Approved students become eligible for nomination.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Mobility Program Admin" data-info="Approved student, partner university list, agreement status, active program fit, and destination context." data-review="Admin selects the correct partner university and confirms the nomination action." data-result="Student journey updates to Nomination and waits for partner acceptance."><div class="label">Nominate</div><div class="title">Partner nomination</div><p>Admin assigns the approved student to a partner university.</p></div>
+        </div>
+        <div class="flow-branches two">
+          <div class="flow-node-card warning" data-actor="Mobility Program Admin" data-info="Missing document, unclear detail, or eligibility question." data-review="Admin pauses the final decision until the student responds." data-result="Student receives request; review remains open."><div class="label">More info</div><div class="title">Ask for missing details</div><p>Review pauses until the student completes the gap.</p></div>
+          <div class="flow-node-card danger" data-actor="Mobility Program Admin" data-info="Rejection reason, decision note, and application record." data-review="Admin confirms requirements are not met or program fit is invalid." data-result="Student sees rejected status and nomination remains unavailable."><div class="label">Reject</div><div class="title">Stop application</div><p>The application does not continue to nomination.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-visual" data-flow-animated>
+        <div class="diagram-title">Command center and reporting flow</div>
+        <div class="flow-track">
+          <div class="flow-node-card admin" data-actor="Mobility Program Admin" data-info="Total students, pending approvals, active programs, partners, activity feed, and quick actions." data-review="Admin scans operational pressure and chooses what to handle next." data-result="Admin jumps to approvals, nominations, programs, partners, or reports."><div class="label">Command</div><div class="title">Command Center</div><p>Daily operating dashboard for mobility staff.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card admin" data-actor="Mobility Program Admin" data-info="Program records, partner data, student statuses, document summaries, and decision history." data-review="Admin checks operational data before generating a report." data-result="Report source data is ready for export."><div class="label">Prepare</div><div class="title">Collect report inputs</div><p>Operational data is gathered from the mobility module.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card success" data-actor="Mobility Program Admin" data-info="Report type, date range, key metrics, summary, and export format." data-review="Admin confirms the report matches the audience and reporting period." data-result="PDF/CSV report can be downloaded, shared, or finalized."><div class="label">Report</div><div class="title">Generate report</div><p>Reports support operational review.</p></div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node-card university" data-actor="University Admin" data-info="Campus network, partner agreements, budget utilization, mobility student counts, completion rate, and satisfaction." data-review="Leadership reviews mobility health at institutional level." data-result="University can plan budget, partnerships, and program strategy."><div class="label">Oversight</div><div class="title">Institutional dashboard</div><p>University leadership sees high-level outcomes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fp-mobility-lifecycle">
+      <div class="kicker"><span class="sq"></span>Lifecycle</div>
+      <h2>The five stages clients can present easily.</h2>
+      <table>
+        <thead><tr><th>Stage</th><th>Who acts</th><th>What happens</th><th>Exit criteria</th></tr></thead>
+        <tbody>
+          <tr><td><b>Application</b></td><td>Student</td><td>Submits form, statement, transcripts, and documents.</td><td>Required documents submitted.</td></tr>
+          <tr><td><b>Review</b></td><td>Mobility Admin</td><td>Checks GPA, documents, eligibility, and program fit.</td><td>Approved, rejected, or more info requested.</td></tr>
+          <tr><td><b>Nomination</b></td><td>Mobility Admin</td><td>Nominates approved student to partner university.</td><td>Partner acceptance received.</td></tr>
+          <tr><td><b>Pre-Departure</b></td><td>Student with admin support</td><td>Completes visa, orientation, passport, housing, insurance.</td><td>Pre-departure tasks complete.</td></tr>
+          <tr><td><b>In Mobility</b></td><td>Student monitored by admins</td><td>Arrives, enrolls, studies, and completes semester.</td><td>Semester completed and student returns.</td></tr>
+        </tbody>
+      </table>
+      <p class="client-note"><b>Important scope note:</b> This feature page explains the module and admin workflow. The current documentation update intentionally does not add new Student Flow content beyond the module explanation already requested.</p>
+    </section>
+
+    <section class="sec" id="fp-mobility-faq">
+      <div class="kicker"><span class="sq"></span>FAQs</div>
+      <h2>Mobility Program questions clients usually ask.</h2>
+      <div class="faq">
+        <details><summary><span>Is Mobility Program separate from normal User Management?</span><span class="pls"></span></summary><div class="ans">Yes. User Management controls invited users and seats. Mobility Program adds the specialized exchange workflow: applications, approvals, nominations, programs, partners, documents, and reports.</div></details>
+        <details><summary><span>Who approves applications?</span><span class="pls"></span></summary><div class="ans">Mobility Program Admins review applications and decide approve, reject, or request more information.</div></details>
+        <details><summary><span>What does nomination mean?</span><span class="pls"></span></summary><div class="ans">After approval, the admin selects a partner university and nominates the student. The student then waits for the partner university acceptance stage.</div></details>
+        <details><summary><span>What happens when the module is inactive?</span><span class="pls"></span></summary><div class="ans">The Mobility Program Admin role, command center, approvals, nominations, programs, partners, mobility documents, and mobility reporting surfaces are hidden.</div></details>
+      </div>
+    </section>
+
+    <footer><span>Intoto · Mobility Program Paid Feature Guide</span><span>Client-facing feature detail</span></footer>
+  </main>
+</div>
 </div>
 </section>
 
