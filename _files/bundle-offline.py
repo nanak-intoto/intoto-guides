@@ -643,6 +643,18 @@ def ensure_flow_animation_assets(html: str) -> str:
     css = """
   .flow-visual[data-flow-animated]{ position:relative; }
   .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:720px; }
+  .flow-story-panel{ display:grid; grid-template-columns:minmax(170px,.35fr) 1fr; gap:16px; min-width:720px; margin:0 0 18px; border:1px solid var(--line); border-radius:16px; padding:16px; background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%); box-shadow:0 18px 48px -36px rgba(22,28,38,.42); }
+  .flow-story-actor{ border-radius:14px; padding:14px; background:var(--bg-dark); color:#fff; }
+  .flow-story-actor .eyebrow{ display:block; color:rgba(255,255,255,.72); font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 8px; }
+  .flow-story-actor strong{ display:block; font-family:var(--font-display); font-size:22px; line-height:1.1; }
+  .flow-story-actor small{ display:block; margin-top:8px; color:rgba(255,255,255,.75); font-size:13px; line-height:1.35; }
+  .flow-story-body{ align-self:center; }
+  .flow-story-kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .flow-story-title{ font-family:var(--font-display); font-size:24px; line-height:1.16; margin:6px 0 0; color:var(--ink); }
+  .flow-story-copy{ margin:8px 0 0; font-size:15px; line-height:1.5; color:var(--muted); }
+  .flow-story-outcome{ margin:10px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+  .flow-progress{ flex:1; height:8px; border-radius:999px; background:var(--line-soft); overflow:hidden; min-width:140px; }
+  .flow-progress-bar{ height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg,var(--product),var(--qa),var(--plat)); transition:width .48s ease; }
   .flow-legend{ display:flex; flex-wrap:wrap; gap:8px; }
   .flow-legend span{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:6px 10px; background:var(--surface-2); color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
   .flow-legend span::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); }
@@ -657,14 +669,17 @@ def ensure_flow_animation_assets(html: str) -> str:
   .flow-visual[data-flow-ready] .flow-arrow{ opacity:.36; transform:translateY(10px) scale(.985); filter:saturate(.75); transition:opacity .42s ease, transform .42s ease, filter .42s ease, box-shadow .42s ease, border-color .42s ease; }
   .flow-visual[data-flow-ready] .flow-node-card.flow-seen,
   .flow-visual[data-flow-ready] .flow-arrow.flow-seen{ opacity:1; transform:translateY(0) scale(1); filter:saturate(1); }
-  .flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); }
+  .flow-node-card[data-flow-role-label]::before{ content:attr(data-flow-role-label); display:inline-flex; margin:0 0 10px; border-radius:999px; padding:4px 8px; background:#fff; color:var(--muted); font-family:var(--font-mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; border:1px solid var(--line-soft); }
+  .flow-node-card.flow-active{ z-index:2; box-shadow:0 20px 48px -28px rgba(22,28,38,.58); transform:translateY(-3px) scale(1.015); }
   .flow-node-card.flow-active::after{ content:""; position:absolute; inset:-4px; border:2px solid rgba(42,111,219,.38); border-radius:18px; pointer-events:none; animation:flowPulse 1s ease-out; }
   .flow-node-card.admin.flow-active::after{ border-color:rgba(31,138,91,.4); }
   .flow-node-card.university.flow-active::after{ border-color:rgba(14,124,134,.42); }
   .flow-node-card.success.flow-active::after{ border-color:rgba(31,138,91,.5); }
   .flow-node-card.warning.flow-active::after{ border-color:rgba(233,185,73,.58); }
   .flow-node-card.danger.flow-active::after{ border-color:rgba(224,138,138,.6); }
+  .flow-arrow{ position:relative; }
   .flow-arrow.flow-active{ animation:flowArrowPulse .75s ease; }
+  .flow-arrow.flow-active::before{ content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:#fff; box-shadow:0 0 0 4px rgba(42,111,219,.22); animation:flowPacket .72s ease; }
   .flow-visual.flow-complete{ box-shadow:0 24px 60px -48px rgba(42,111,219,.55); }
   @keyframes flowPulse{
     0%{ opacity:0; transform:scale(.96); }
@@ -675,18 +690,26 @@ def ensure_flow_animation_assets(html: str) -> str:
     0%,100%{ transform:translateY(0) scale(1); }
     50%{ transform:translateY(0) scale(1.16); box-shadow:0 0 0 8px rgba(14,22,35,.12); }
   }
+  @keyframes flowPacket{
+    0%{ transform:translateX(-18px) scale(.8); opacity:0; }
+    20%{ opacity:1; }
+    100%{ transform:translateX(18px) scale(1); opacity:0; }
+  }
   @media (max-width:980px){
-    .flow-controls{ min-width:680px; }
+    .flow-controls, .flow-story-panel{ min-width:680px; }
+    .flow-story-panel{ grid-template-columns:1fr; }
   }
   @media (prefers-reduced-motion:reduce){
     .flow-play{ display:none; }
     .flow-visual[data-flow-ready] .flow-node-card,
     .flow-visual[data-flow-ready] .flow-arrow{ opacity:1; transform:none; filter:none; transition:none; }
     .flow-node-card.flow-active::after,
-    .flow-arrow.flow-active{ animation:none; }
+    .flow-arrow.flow-active,
+    .flow-arrow.flow-active::before{ animation:none; }
+    .flow-progress-bar{ transition:none; }
   }
 """
-    if ".flow-controls" not in html:
+    if ".flow-story-panel" not in html:
         html = html.replace("</style>", css + "</style>", 1)
 
     script = """
@@ -697,6 +720,14 @@ def ensure_flow_animation_assets(html: str) -> str:
 
   var reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches:false };
   var timerMap = new WeakMap();
+  var roleMeta = {
+    student:{ actor:'Student', badge:'Student action', note:'User-facing step in the student journey.' },
+    admin:{ actor:'Mobility Admin', badge:'Admin action', note:'Operational step handled by Mobility Office staff.' },
+    university:{ actor:'University Admin', badge:'Oversight action', note:'Institutional monitoring and reporting layer.' },
+    decision:{ actor:'Decision Point', badge:'Decision path', note:'The workflow branches based on this outcome.' },
+    flow:{ actor:'System Handoff', badge:'Information moves', note:'The output from one step becomes input for the next.' },
+    step:{ actor:'Workflow Step', badge:'Process step', note:'Part of the end-to-end mobility flow.' }
+  };
 
   function itemsFor(diagram){
     return Array.prototype.slice.call(diagram.querySelectorAll('.flow-node-card, .flow-arrow'));
@@ -712,10 +743,83 @@ def ensure_flow_animation_assets(html: str) -> str:
   }
 
   function labelFor(item, role){
-    if (role === 'flow') return 'Flow moves to the next step';
+    if (role === 'flow') return 'Information moves to the next step';
     var title = item.querySelector('.title');
     var label = item.querySelector('.label');
     return (label ? label.textContent + ': ' : '') + (title ? title.textContent : 'Workflow step');
+  }
+
+  function text(item, selector, fallback){
+    var found = item ? item.querySelector(selector) : null;
+    return found && found.textContent ? found.textContent.trim() : fallback;
+  }
+
+  function nearbyCard(items, index, direction){
+    for (var i = index + direction; i >= 0 && i < items.length; i += direction) {
+      if (items[i].classList.contains('flow-node-card')) return items[i];
+    }
+    return null;
+  }
+
+  function outcomeFor(item, role){
+    if (item.classList.contains('success')) return 'Outcome: the approved path continues and the next action becomes available.';
+    if (item.classList.contains('danger')) return 'Outcome: the workflow stops here or requires a restart outside this path.';
+    if (item.classList.contains('warning')) return 'Outcome: the team waits for missing details, a draft action, or follow-up.';
+    if (role === 'student') return 'Outcome: the student record, journey stage, or visible app status changes.';
+    if (role === 'admin') return 'Outcome: the admin action updates the operational mobility record.';
+    if (role === 'university') return 'Outcome: leadership sees the effect in dashboards, reports, or oversight views.';
+    if (role === 'flow') return 'Outcome: the next person or screen receives the information needed to continue.';
+    return 'Outcome: the flow advances to the next visible step.';
+  }
+
+  function storyFor(diagram, item, index, total){
+    var role = roleFor(item);
+    var meta = roleMeta[role] || roleMeta.step;
+    if (role === 'flow') {
+      var items = itemsFor(diagram);
+      var previous = nearbyCard(items, index, -1);
+      var next = nearbyCard(items, index, 1);
+      var from = text(previous, '.title', 'previous step');
+      var to = text(next, '.title', 'next step');
+      return {
+        actor:meta.actor,
+        badge:meta.badge,
+        note:meta.note,
+        kicker:'Step ' + (index + 1) + ' of ' + total,
+        title:'Handoff from ' + from + ' to ' + to,
+        copy:'The information created in "' + from + '" becomes the input for "' + to + '".',
+        outcome:outcomeFor(item, role)
+      };
+    }
+    return {
+      actor:meta.actor,
+      badge:meta.badge,
+      note:meta.note,
+      kicker:text(item, '.label', 'Step ' + (index + 1) + ' of ' + total),
+      title:text(item, '.title', 'Workflow step'),
+      copy:text(item, 'p', 'This step explains what the user or team does at this point.'),
+      outcome:outcomeFor(item, role)
+    };
+  }
+
+  function updateStory(diagram, item, index, total){
+    var story = storyFor(diagram, item, index, total);
+    var actor = diagram.querySelector('.flow-story-actor strong');
+    var actorNote = diagram.querySelector('.flow-story-actor small');
+    var actorEye = diagram.querySelector('.flow-story-actor .eyebrow');
+    var kicker = diagram.querySelector('.flow-story-kicker');
+    var title = diagram.querySelector('.flow-story-title');
+    var copy = diagram.querySelector('.flow-story-copy');
+    var outcome = diagram.querySelector('.flow-story-outcome');
+    var progress = diagram.querySelector('.flow-progress-bar');
+    if (actor) actor.textContent = story.actor;
+    if (actorEye) actorEye.textContent = story.badge;
+    if (actorNote) actorNote.textContent = story.note;
+    if (kicker) kicker.textContent = story.kicker;
+    if (title) title.textContent = story.title;
+    if (copy) copy.textContent = story.copy;
+    if (outcome) outcome.textContent = story.outcome;
+    if (progress) progress.style.width = Math.round(((index + 1) / total) * 100) + '%';
   }
 
   function clearTimers(diagram){
@@ -732,23 +836,31 @@ def ensure_flow_animation_assets(html: str) -> str:
     var title = diagram.querySelector('.diagram-title');
     var controls = document.createElement('div');
     controls.className = 'flow-controls';
-    controls.innerHTML = '<div class="flow-legend" aria-label="Flow role legend"><span class="student">Student</span><span class="admin">Mobility Admin</span><span class="university">University Admin</span><span class="decision">Decision</span></div><button class="flow-play" type="button">Play Flow</button>';
+    controls.innerHTML = '<div class="flow-legend" aria-label="Flow role legend"><span class="student">Student</span><span class="admin">Mobility Admin</span><span class="university">University Admin</span><span class="decision">Decision</span></div><div class="flow-progress" aria-hidden="true"><div class="flow-progress-bar"></div></div><button class="flow-play" type="button">Play Story</button>';
     if (title) {
       title.insertAdjacentElement('afterend', controls);
     } else {
       diagram.insertBefore(controls, diagram.firstChild);
     }
+    var panel = document.createElement('div');
+    panel.className = 'flow-story-panel';
+    panel.innerHTML = '<div class="flow-story-actor"><span class="eyebrow">Story mode</span><strong>Ready</strong><small>Press Play Story to walk through who does what.</small></div><div class="flow-story-body"><div class="flow-story-kicker">Guided walkthrough</div><div class="flow-story-title">Watch the workflow step by step</div><p class="flow-story-copy">The animation explains the current actor, their action, and the outcome for the next screen or team.</p><p class="flow-story-outcome">Outcome: the team can present this as a clear user journey.</p></div>';
+    controls.insertAdjacentElement('afterend', panel);
 
     var button = controls.querySelector('.flow-play');
     button.addEventListener('click', function(){ play(diagram, true); });
 
     itemsFor(diagram).forEach(function(item, index){
       var role = roleFor(item);
+      var meta = roleMeta[role] || roleMeta.step;
       item.dataset.flowStep = String(index + 1);
       item.dataset.flowRole = role;
+      if (!item.classList.contains('flow-arrow')) item.dataset.flowRoleLabel = meta.badge;
       item.setAttribute('aria-label', labelFor(item, role));
       item.classList.add('flow-seen');
     });
+    var first = itemsFor(diagram)[0];
+    if (first) updateStory(diagram, first, 0, itemsFor(diagram).length);
   }
 
   function finish(diagram){
@@ -757,7 +869,7 @@ def ensure_flow_animation_assets(html: str) -> str:
     var button = diagram.querySelector('.flow-play');
     if (button) {
       button.disabled = false;
-      button.textContent = 'Replay Flow';
+      button.textContent = 'Replay Story';
     }
   }
 
@@ -767,11 +879,13 @@ def ensure_flow_animation_assets(html: str) -> str:
 
     var items = itemsFor(diagram);
     var button = diagram.querySelector('.flow-play');
+    var progress = diagram.querySelector('.flow-progress-bar');
     diagram.classList.remove('flow-complete');
     diagram.dataset.flowPlaying = 'true';
+    if (progress) progress.style.width = '0%';
     if (button) {
       button.disabled = true;
-      button.textContent = 'Playing...';
+      button.textContent = 'Playing Story...';
     }
 
     items.forEach(function(item){
@@ -789,6 +903,7 @@ def ensure_flow_animation_assets(html: str) -> str:
       timers.push(window.setTimeout(function(){
         items.forEach(function(other){ other.classList.remove('flow-active'); });
         item.classList.add('flow-seen', 'flow-active');
+        updateStory(diagram, item, index, items.length);
       }, 180 + index * 520));
     });
     timers.push(window.setTimeout(function(){
@@ -832,6 +947,14 @@ def ensure_flow_animation_assets(html: str) -> str:
 """
     if "window.__intotoFlowAnimations" not in html:
         html = html.replace("</body>", script + "\n</body>", 1)
+    elif "Play Story" not in html:
+        html = re.sub(
+            r'<script>\s*\(function\(\)\{\s*if \(window\.__intotoFlowAnimations\).*?</script>',
+            script.strip(),
+            html,
+            count=1,
+            flags=re.DOTALL,
+        )
     return html
 
 
@@ -1044,6 +1167,8 @@ def main() -> None:
     assert ".flow-visual .diagram-title" in html, "flow visual styles missing"
     assert 'data-flow-animated' in html, "animated flow markers missing"
     assert "window.__intotoFlowAnimations" in html, "flow animation script missing"
+    assert "flow-story-panel" in html, "flow story panel styles missing"
+    assert "Play Story" in html, "flow story controls missing"
     assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
