@@ -28,6 +28,44 @@ FEATURE_PAGES = {
     "featureusermgmt": ("Intoto User Management Paid Feature Guide.html", "fp-usermgmt-"),
     "featuremobility": ("Intoto Mobility Program Paid Feature Guide.html", "fp-mobility-"),
 }
+FEATURE_SHARE = {
+    "featureambassador": {
+        "slug": "ambassador",
+        "title": "Ambassador Management",
+        "tagline": "Connect students with ambassadors.",
+    },
+    "featuretravel": {
+        "slug": "travel",
+        "title": "Travel Plan",
+        "tagline": "Manage student travel arrangements.",
+    },
+    "featurecommunity": {
+        "slug": "community",
+        "title": "Community",
+        "tagline": "Student connections and groups.",
+    },
+    "featurechat": {
+        "slug": "chat",
+        "title": "Chat",
+        "tagline": "Direct messaging between users.",
+    },
+    "featureevents": {
+        "slug": "events",
+        "title": "Event Management",
+        "tagline": "Create and manage campus events.",
+    },
+    "featureusermgmt": {
+        "slug": "user-management",
+        "title": "User Management",
+        "tagline": "Control user limits and invitations.",
+    },
+    "featuremobility": {
+        "slug": "mobility",
+        "title": "Mobility Program",
+        "tagline": "Manage academic exchange lifecycle.",
+    },
+}
+FEATURES_DIR = DOC_ROOT / "features"
 FEATURE_LINK_VIEWS = {
     "Intoto%20Ambassador%20Management%20Paid%20Feature%20Guide.html": "featureambassador",
     "Intoto%20Travel%20Plan%20Paid%20Feature%20Guide.html": "featuretravel",
@@ -460,6 +498,11 @@ def patch_inline_guide_links(html: str) -> str:
             f'href="{filename}"',
             f'href="javascript:void(0)" data-guide="{view}"',
         )
+    for view, meta in FEATURE_SHARE.items():
+        html = html.replace(
+            f'href="../features/{meta["slug"]}/"',
+            f'href="javascript:void(0)" data-guide="{view}"',
+        )
     return html
 
 
@@ -711,6 +754,89 @@ def refresh_flow_diagram_widths(html: str) -> str:
         html,
     )
     return html
+
+
+def adapt_feature_for_share(html: str, *, asset_prefix: str) -> str:
+    """Standalone share page: fix asset paths and remove links to other guides."""
+    html = html.replace('href="guide.css"', f'href="{asset_prefix}guide.css"')
+    html = html.replace('href="feature-page.css"', f'href="{asset_prefix}feature-page.css"')
+    html = html.replace('src="feature-flow.js"', f'src="{asset_prefix}feature-flow.js"')
+    html = re.sub(
+        r'\s*<a class="feature-nav-link"[^>]*>.*?</a>\s*',
+        "\n",
+        html,
+        flags=re.DOTALL,
+    )
+    return html
+
+
+def generate_feature_share_pages() -> None:
+    """Publish one URL per paid feature — isolated pages for client sharing."""
+    for view, (filename, _prefix) in FEATURE_PAGES.items():
+        meta = FEATURE_SHARE[view]
+        slug = meta["slug"]
+        src = (BASE / filename).read_text()
+        html = adapt_feature_for_share(src, asset_prefix="../../_files/")
+        out_dir = FEATURES_DIR / slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "index.html").write_text(html)
+        print(f"Wrote features/{slug}/index.html")
+
+
+def generate_features_index() -> None:
+    """Optional catalog landing for all paid feature share URLs."""
+    cards = "\n".join(
+        f'        <a class="share-card" href="{meta["slug"]}/">'
+        f'<h3>{meta["title"]}</h3>'
+        f'<p>{meta["tagline"]}</p>'
+        f'<span class="open">Open feature guide →</span></a>'
+        for meta in FEATURE_SHARE.values()
+    )
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intoto · Paid Features</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="../_files/guide.css" rel="stylesheet">
+<style>
+  .share-hero{{ background:var(--bg-dark); color:#EAF0F7; padding:72px var(--page-padding) 56px; }}
+  .share-hero-inner{{ width:100%; max-width:var(--layout-max); margin:0 auto; }}
+  .share-hero h1{{ font-family:var(--font-display); font-size:clamp(34px,4vw,52px); line-height:1.08; margin:18px 0 0; max-width:18ch; }}
+  .share-hero p{{ color:#A8B4C4; font-size:18px; line-height:1.55; max-width:52ch; margin:16px 0 0; }}
+  .share-grid-wrap{{ width:100%; max-width:var(--layout-max); margin:0 auto; padding:48px var(--page-padding) 96px; }}
+  .share-grid{{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }}
+  .share-card{{ display:flex; flex-direction:column; border:1px solid var(--line); border-left:4px solid var(--mktg); border-radius:16px; padding:24px 26px; background:var(--surface); color:var(--ink); min-height:180px; transition:transform .16s ease, box-shadow .16s ease; }}
+  .share-card:hover{{ transform:translateY(-3px); box-shadow:0 18px 40px -22px rgba(22,28,38,.45); }}
+  .share-card h3{{ font-family:var(--font-display); font-size:24px; margin:0; }}
+  .share-card p{{ color:var(--muted); font-size:15px; line-height:1.5; margin:10px 0 0; }}
+  .share-card .open{{ margin-top:auto; padding-top:18px; font-family:var(--font-mono); font-size:13px; color:var(--mktg); }}
+  @media (max-width:980px){{ .share-grid{{ grid-template-columns:repeat(2,minmax(0,1fr)); }} }}
+  @media (max-width:600px){{ .share-grid{{ grid-template-columns:1fr; }} }}
+</style>
+</head>
+<body>
+<header class="share-hero">
+  <div class="share-hero-inner">
+    <div class="eyebrow"><span class="sq"></span>INTOTO · PAID FEATURES</div>
+    <h1>Feature guides for client sharing.</h1>
+    <p>Each link below opens one paid feature only — no hub, no role guides, no other modules.</p>
+  </div>
+</header>
+<main class="share-grid-wrap">
+  <div class="share-grid">
+{cards}
+  </div>
+</main>
+</body>
+</html>
+"""
+    FEATURES_DIR.mkdir(parents=True, exist_ok=True)
+    (FEATURES_DIR / "index.html").write_text(html)
+    print("Wrote features/index.html")
 
 
 def ensure_flow_visual_css(html: str) -> str:
@@ -1374,6 +1500,8 @@ def build_portable(allinone_html: str) -> None:
 
 def main() -> None:
     html = update_all_in_one()
+    generate_feature_share_pages()
+    generate_features_index()
     build_portable(html)
     # sanity checks
     portable = PORTABLE.read_text()
@@ -1416,6 +1544,13 @@ def main() -> None:
     assert "Application submission &amp; approval" in html, "mobility flow diagram missing"
     assert "function applyRoleFilter(filter)" in html, "hub role filters missing"
     assert "Paid Features" in html
+    for meta in FEATURE_SHARE.values():
+        share_page = FEATURES_DIR / meta["slug"] / "index.html"
+        assert share_page.is_file(), f"missing share page: {share_page}"
+        share_html = share_page.read_text()
+        assert "feature-nav-link" not in share_html, f"back link leaked in {meta['slug']}"
+        assert "../../_files/guide.css" in share_html, f"asset path missing in {meta['slug']}"
+    assert (FEATURES_DIR / "index.html").is_file(), "features index missing"
     assert "Profile review" in html or "Profile Review" in html
     assert "topic-based discussions" in html or "Community feature" in html
     print("Sanity checks passed.")
