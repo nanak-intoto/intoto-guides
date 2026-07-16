@@ -14,7 +14,7 @@
   .hub-meta .n{ font-family:var(--font-display); font-size:30px; font-weight:600; color:#F6F9FD; line-height:1; }
   .hub-meta .l{ display:block; margin-top:8px; letter-spacing:.06em; text-transform:uppercase; font-size:12px; color:#7E8B9C; }
 
-  .wrap{ max-width:1180px; margin:0 auto; padding:0 48px; }
+  .wrap{ width:100%; max-width:var(--layout-max); margin:0 auto; padding:0 var(--page-padding); }
 
   /* About facts */
   .facts{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:34px; }
@@ -83,9 +83,11 @@
   .faq-group:first-of-type{ margin-top:34px; }
 
   @media (max-width:980px){
-    .wrap{ padding:0 28px; }
     .facts{ grid-template-columns:1fr 1fr; }
     .roles{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (min-width:1400px){
+    .roles{ grid-template-columns:repeat(4,1fr); }
   }
   @media (max-width:600px){
     .roles{ grid-template-columns:1fr; }
@@ -251,7 +253,7 @@
 
   </section>
 
-  <section class="sec" id="faqs" style="max-width:900px;">
+  <section class="sec" id="faqs">
     <div class="kicker"><span class="sq"></span>Common questions</div>
     <h2>FAQs across every role</h2>
     <p>Feature- and flow-level questions spanning the whole platform — grouped by who they're about. For role-specific detail, open that role's guide above.</p>
