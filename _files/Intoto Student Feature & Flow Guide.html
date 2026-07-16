@@ -27,6 +27,9 @@
     --font-display:'Space Grotesk',sans-serif;
     --font-body:'IBM Plex Sans',sans-serif;
     --font-mono:'IBM Plex Mono',monospace;
+    --page-padding:clamp(24px, 2.5vw, 48px);
+    --layout-max:min(1720px, calc(100vw - (var(--page-padding) * 2)));
+    --prose-max:72ch;
   }
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; scroll-padding-top:30px; }
@@ -39,8 +42,8 @@
   .mono{ font-family:var(--font-mono); }
 
   /* ---------- HERO ---------- */
-  .hero{ background:var(--bg-dark); color:#EAF0F7; padding:84px 48px 72px; }
-  .hero-inner{ max-width:1180px; margin:0 auto; }
+  .hero{ background:var(--bg-dark); color:#EAF0F7; padding:84px var(--page-padding) 72px; }
+  .hero-inner{ width:100%; max-width:var(--layout-max); margin:0 auto; }
   .eyebrow{ font-family:var(--font-mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#6FA4EE; display:flex; gap:12px; align-items:center; }
   .eyebrow .sq{ width:9px; height:9px; background:#6FA4EE; border-radius:2px; }
   .hero h1{ font-family:var(--font-display); font-weight:600; font-size:58px; line-height:1.04; letter-spacing:-0.02em; margin:24px 0 0; color:#F6F9FD; max-width:920px; text-wrap:balance; }
@@ -55,14 +58,14 @@
   .badge.b-mktg{ color:#BCA9F0; border-color:#3B3261; } .badge.b-mktg .dot{ background:#8E76E6; }
 
   /* ---------- LAYOUT ---------- */
-  .shell{ max-width:1180px; margin:0 auto; padding:0 48px; display:grid; grid-template-columns:240px 1fr; gap:56px; align-items:start; }
+  .shell{ width:100%; max-width:var(--layout-max); margin:0 auto; padding:0 var(--page-padding); display:grid; grid-template-columns:minmax(220px, 280px) minmax(0, 1fr); gap:clamp(32px, 4vw, 72px); align-items:start; }
   nav.toc{ position:sticky; top:30px; padding-top:56px; font-size:15px; }
   nav.toc .toc-h{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-bottom:16px; }
   nav.toc a{ display:block; color:var(--muted); padding:7px 0 7px 16px; border-left:2px solid var(--line); transition:.15s; }
   nav.toc a:hover{ color:var(--ink); border-color:var(--product); }
   nav.toc .toc-num{ font-family:var(--font-mono); font-size:12px; color:var(--faint); margin-right:8px; }
 
-  main{ padding-top:56px; padding-bottom:120px; min-width:0; max-width:860px; }
+  main{ padding-top:56px; padding-bottom:120px; min-width:0; width:100%; max-width:none; }
 
   /* ---------- SECTIONS ---------- */
   .sec{ margin-top:72px; scroll-margin-top:30px; }
@@ -149,10 +152,10 @@
   footer{ border-top:1px solid var(--line); margin-top:90px; padding:40px 0 0; font-family:var(--font-mono); font-size:13px; color:var(--faint); letter-spacing:.04em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
 
   @media (max-width:980px){
-    .shell{ grid-template-columns:1fr; gap:0; padding:0 28px; }
+    .shell{ grid-template-columns:1fr; gap:0; padding:0 var(--page-padding); }
     nav.toc{ display:none; }
-    main{ padding-top:40px; max-width:100%; }
-    .hero{ padding:60px 28px 52px; } .hero h1{ font-size:42px; }
+    main{ padding-top:40px; max-width:none; }
+    .hero{ padding:60px var(--page-padding) 52px; } .hero h1{ font-size:42px; }
     .tldr .stat-row, .legend, .lens-row, .ia{ grid-template-columns:1fr 1fr; }
   }
   @media print{

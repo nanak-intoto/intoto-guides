@@ -661,6 +661,58 @@ def ensure_feature_page_css(html: str) -> str:
     return html.replace("</style>", block + "</style>", 1)
 
 
+def sync_hub_styles(allinone: str, hub: str) -> str:
+    """Keep All-in-One hub layout CSS in sync with the standalone hub page."""
+    marker = "/* ---- Hub-specific styles (build on guide.css tokens) ---- */"
+    flow_marker = "/* Visual flow diagrams */"
+    if marker not in allinone or marker not in hub:
+        return allinone
+    hub_start = hub.index(marker)
+    hub_end = hub.index("</style>", hub_start)
+    hub_styles = hub[hub_start:hub_end].strip()
+    return re.sub(
+        re.escape(marker) + r".*?(?=\n  " + re.escape(flow_marker) + r")",
+        hub_styles,
+        allinone,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+
+def refresh_flow_diagram_widths(html: str) -> str:
+    """Widen embedded flow diagrams so they use available content width."""
+    rules = (
+        "flow-track",
+        "flow-branches",
+        "flow-lanes",
+        "flow-mini-grid",
+        "flow-controls",
+        "flow-story-panel",
+    )
+    for rule in rules:
+        html = re.sub(
+            rf"(\.{rule}\{{[^}}]*?)min-width:\d+px",
+            r"\1min-width:0; width:100%",
+            html,
+        )
+    html = re.sub(
+        r"\.flow-track,\s*\.flow-branches,\s*\.flow-lanes,\s*\.flow-mini-grid,\s*\.flow-controls,\s*\.flow-story-panel\{\s*min-width:\d+px;\s*\}",
+        "",
+        html,
+    )
+    html = re.sub(
+        r"\.flow-track,\s*\.flow-branches,\s*\.flow-controls,\s*\.flow-story-panel\{\s*min-width:\d+px;\s*\}",
+        "",
+        html,
+    )
+    html = re.sub(
+        r"\.flow-controls,\s*\.flow-story-panel\{\s*min-width:\d+px;\s*\}",
+        "",
+        html,
+    )
+    return html
+
+
 def ensure_flow_visual_css(html: str) -> str:
     """Shared visual flow diagram styles used by Mobility Program sections."""
     if ".flow-visual .diagram-title" in html:
@@ -669,7 +721,7 @@ def ensure_flow_visual_css(html: str) -> str:
   /* Visual flow diagrams */
   .flow-visual{ margin-top:26px; border:1px solid var(--line); border-radius:18px; padding:24px; background:var(--surface); overflow-x:auto; }
   .flow-visual .diagram-title{ font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 18px; color:var(--ink); }
-  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:720px; }
+  .flow-track{ display:flex; align-items:stretch; gap:12px; min-width:0; width:100%; }
   .flow-node-card{ flex:1; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--surface-2); position:relative; }
   .flow-node-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
   .flow-node-card .title{ font-family:var(--font-display); font-size:18px; font-weight:600; line-height:1.15; margin-top:8px; color:var(--ink); }
@@ -681,18 +733,17 @@ def ensure_flow_visual_css(html: str) -> str:
   .flow-node-card.warning{ border-color:#E9B949; background:#FFF8E5; }
   .flow-node-card.danger{ border-color:#E08A8A; background:#FFF0F0; }
   .flow-arrow{ flex:0 0 auto; align-self:center; width:34px; height:34px; border-radius:50%; background:var(--bg-dark); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; }
-  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:720px; }
+  .flow-branches{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; min-width:0; width:100%; }
   .flow-branches.two{ grid-template-columns:repeat(2,1fr); }
-  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:760px; }
+  .flow-lanes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; min-width:0; width:100%; }
   .flow-lane{ border:1px dashed var(--line); border-radius:16px; padding:14px; background:#fff; }
   .flow-lane h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 12px; color:var(--muted); }
   .flow-lane .flow-node-card{ margin-top:10px; min-width:0; }
   .flow-lane .flow-node-card:first-of-type{ margin-top:0; }
-  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:760px; }
+  .flow-mini-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; min-width:0; width:100%; }
   .flow-mini-grid .flow-node-card{ min-width:0; }
   @media (max-width:980px){
     .flow-visual{ padding:18px; }
-    .flow-track, .flow-branches, .flow-lanes, .flow-mini-grid{ min-width:680px; }
   }
 """
     return html.replace("</style>", block + "</style>", 1)
@@ -702,8 +753,8 @@ def ensure_flow_animation_assets(html: str) -> str:
     """Add animated flow playback styles and controls to generated bundles."""
     css = """
   .flow-visual[data-flow-animated]{ position:relative; }
-  .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:720px; }
-  .flow-story-panel{ display:grid; grid-template-columns:minmax(170px,.35fr) 1fr; gap:16px; min-width:720px; margin:0 0 18px; border:1px solid var(--line); border-radius:16px; padding:16px; background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%); box-shadow:0 18px 48px -36px rgba(22,28,38,.42); }
+  .flow-controls{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-4px 0 18px; min-width:0; width:100%; }
+  .flow-story-panel{ display:grid; grid-template-columns:minmax(170px,.35fr) 1fr; gap:16px; min-width:0; width:100%; margin:0 0 18px; border:1px solid var(--line); border-radius:16px; padding:16px; background:linear-gradient(135deg,#fff 0%,var(--surface-2) 100%); box-shadow:0 18px 48px -36px rgba(22,28,38,.42); }
   .flow-story-actor{ border-radius:14px; padding:14px; background:var(--bg-dark); color:#fff; }
   .flow-story-actor .eyebrow{ display:block; color:rgba(255,255,255,.72); font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 8px; }
   .flow-story-actor strong{ display:block; font-family:var(--font-display); font-size:22px; line-height:1.1; }
@@ -760,7 +811,6 @@ def ensure_flow_animation_assets(html: str) -> str:
     100%{ transform:translateX(18px) scale(1); opacity:0; }
   }
   @media (max-width:980px){
-    .flow-controls, .flow-story-panel{ min-width:680px; }
     .flow-story-panel, .flow-story-details{ grid-template-columns:1fr; }
   }
   @media (prefers-reduced-motion:reduce){
@@ -1236,6 +1286,7 @@ def update_all_in_one() -> str:
     html = replace_section(html, "extamb", ext_body)
     html = replace_section(html, "usa", usa_body)
     html = sync_hub_patches(html, HUB.read_text())
+    html = sync_hub_styles(html, HUB.read_text())
     html = sync_merged_usa_hub(html)
     html = ensure_usa_scoped_css(html)
     html = ensure_extamb_scoped_css(html)
@@ -1243,6 +1294,7 @@ def update_all_in_one() -> str:
     html = ensure_feature_page_css(html)
     html = ensure_flow_visual_css(html)
     html = ensure_flow_animation_assets(html)
+    html = refresh_flow_diagram_widths(html)
     html = patch_ambplat_faq(html)
     html = patch_inline_guide_links(html)
     html = ensure_anchor_navigation(html)
